@@ -1,0 +1,236 @@
+{
+  "domain": "business",
+  "case": "case1",
+  "description": "TMF Business Process Framework knowledge graph with erroneous relationships. Contains incorrect process hierarchies, wrong department assignments, and missing critical workflow connections based on TMF eTOM Framework dataset.",
+  "question": "How does the TMF eTOM framework organize telecommunications business processes, and what are the relationships between Strategy & Commit, Infrastructure Lifecycle Management, and Product Lifecycle Management domains?",
+  "llm_response": "The TMF eTOM framework organizes telecom processes into vertical domains. Strategy & Commit directly controls all Infrastructure Lifecycle Management processes without going through Enterprise Management. Product Lifecycle Management is independent of Market Strategy and operates solely within Operations. Service Development reports to Revenue Management rather than Product Management. Resource Provisioning is part of Customer Management rather than Resource Management. The framework does not distinguish between Fulfillment and Assurance processes as they are combined into a single Operations category.",
+  "original_graph": {
+    "nodes": [
+      {"id": "etom_framework", "label": "eTOM Framework", "type": "Framework", "properties": {"version": "21.0", "organization": "TM Forum", "full_name": "Enhanced Telecom Operations Map"}},
+      {"id": "strategy_infrastructure_product", "label": "Strategy, Infrastructure & Product (SIP)", "type": "Domain_Level0", "properties": {"level": 0, "scope": "Enterprise-wide planning"}},
+      {"id": "operations", "label": "Operations", "type": "Domain_Level0", "properties": {"level": 0, "scope": "Day-to-day operations"}},
+      {"id": "enterprise_management", "label": "Enterprise Management", "type": "Domain_Level0", "properties": {"level": 0, "scope": "Corporate functions"}},
+      {"id": "strategy_commit", "label": "Strategy & Commit", "type": "Process_Area_Level1", "properties": {"level": 1, "parent": "SIP", "focus": "Strategic planning"}},
+      {"id": "infrastructure_lifecycle", "label": "Infrastructure Lifecycle Management", "type": "Process_Area_Level1", "properties": {"level": 1, "parent": "SIP", "focus": "Network infrastructure"}},
+      {"id": "product_lifecycle", "label": "Product Lifecycle Management", "type": "Process_Area_Level1", "properties": {"level": 1, "parent": "SIP", "focus": "Product development"}},
+      {"id": "fulfillment", "label": "Fulfillment", "type": "Process_Area_Level1", "properties": {"level": 1, "parent": "Operations", "focus": "Service delivery"}},
+      {"id": "assurance", "label": "Assurance", "type": "Process_Area_Level1", "properties": {"level": 1, "parent": "Operations", "focus": "Service quality"}},
+      {"id": "billing_revenue", "label": "Billing & Revenue Management", "type": "Process_Area_Level1", "properties": {"level": 1, "parent": "Operations", "focus": "Revenue collection"}},
+      {"id": "crm_support", "label": "Customer Relationship Management", "type": "Functional_Area", "properties": {"horizontal": true, "spans": "Operations"}},
+      {"id": "service_management", "label": "Service Management & Operations", "type": "Functional_Area", "properties": {"horizontal": true, "spans": "Operations"}},
+      {"id": "resource_management", "label": "Resource Management & Operations", "type": "Functional_Area", "properties": {"horizontal": true, "spans": "Operations"}},
+      {"id": "supplier_partner", "label": "Supplier/Partner Relationship Management", "type": "Functional_Area", "properties": {"horizontal": true, "spans": "Operations"}},
+      {"id": "market_strategy", "label": "Market Strategy & Policy", "type": "Process_Level2", "properties": {"level": 2, "parent": "Strategy & Commit"}},
+      {"id": "service_strategy", "label": "Service Strategy & Planning", "type": "Process_Level2", "properties": {"level": 2, "parent": "Strategy & Commit"}},
+      {"id": "resource_strategy", "label": "Resource Strategy & Planning", "type": "Process_Level2", "properties": {"level": 2, "parent": "Strategy & Commit"}},
+      {"id": "product_marketing", "label": "Product & Offer Portfolio Planning", "type": "Process_Level2", "properties": {"level": 2, "parent": "Product Lifecycle"}},
+      {"id": "product_development", "label": "Product & Offer Development & Retirement", "type": "Process_Level2", "properties": {"level": 2, "parent": "Product Lifecycle"}},
+      {"id": "service_development", "label": "Service Development & Retirement", "type": "Process_Level2", "properties": {"level": 2, "parent": "Infrastructure Lifecycle"}},
+      {"id": "resource_development", "label": "Resource Development & Retirement", "type": "Process_Level2", "properties": {"level": 2, "parent": "Infrastructure Lifecycle"}},
+      {"id": "order_handling", "label": "Order Handling", "type": "Process_Level2", "properties": {"level": 2, "parent": "Fulfillment"}},
+      {"id": "service_config", "label": "Service Configuration & Activation", "type": "Process_Level2", "properties": {"level": 2, "parent": "Fulfillment"}},
+      {"id": "resource_provisioning", "label": "Resource Provisioning", "type": "Process_Level2", "properties": {"level": 2, "parent": "Fulfillment"}},
+      {"id": "problem_handling", "label": "Problem Handling", "type": "Process_Level2", "properties": {"level": 2, "parent": "Assurance"}},
+      {"id": "service_quality", "label": "Service Quality Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "Assurance"}},
+      {"id": "resource_performance", "label": "Resource Performance Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "Assurance"}},
+      {"id": "billing_collection", "label": "Billing & Collection Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "Billing & Revenue"}},
+      {"id": "revenue_assurance", "label": "Revenue Assurance", "type": "Process_Level2", "properties": {"level": 2, "parent": "Billing & Revenue"}},
+      {"id": "strategic_planning", "label": "Strategic & Enterprise Planning", "type": "Enterprise_Process", "properties": {"level": 1, "parent": "Enterprise Management"}},
+      {"id": "financial_management", "label": "Financial & Asset Management", "type": "Enterprise_Process", "properties": {"level": 1, "parent": "Enterprise Management"}},
+      {"id": "hr_management", "label": "Human Resources Management", "type": "Enterprise_Process", "properties": {"level": 1, "parent": "Enterprise Management"}},
+      {"id": "knowledge_management", "label": "Knowledge & Research Management", "type": "Enterprise_Process", "properties": {"level": 1, "parent": "Enterprise Management"}},
+      {"id": "it_management", "label": "IT Planning & Architecture", "type": "Enterprise_Process", "properties": {"level": 1, "parent": "Enterprise Management"}}
+    ],
+    "relationships": [
+      {"source": "etom_framework", "target": "strategy_infrastructure_product", "type": "contains", "properties": {}},
+      {"source": "etom_framework", "target": "operations", "type": "contains", "properties": {}},
+      {"source": "etom_framework", "target": "enterprise_management", "type": "contains", "properties": {}},
+      {"source": "strategy_infrastructure_product", "target": "strategy_commit", "type": "contains", "properties": {}},
+      {"source": "strategy_infrastructure_product", "target": "infrastructure_lifecycle", "type": "contains", "properties": {}},
+      {"source": "strategy_infrastructure_product", "target": "product_lifecycle", "type": "contains", "properties": {}},
+      {"source": "strategy_commit", "target": "infrastructure_lifecycle", "type": "directly_controls", "properties": {"error": true}},
+      {"source": "strategy_commit", "target": "enterprise_management", "type": "reports_to", "properties": {"correct": true, "hidden": true}},
+      {"source": "product_lifecycle", "target": "market_strategy", "type": "independent_of", "properties": {"error": true}},
+      {"source": "market_strategy", "target": "product_lifecycle", "type": "guides", "properties": {"correct": true, "hidden": true}},
+      {"source": "operations", "target": "fulfillment", "type": "contains", "properties": {}},
+      {"source": "operations", "target": "assurance", "type": "contains", "properties": {}},
+      {"source": "operations", "target": "billing_revenue", "type": "contains", "properties": {}},
+      {"source": "fulfillment", "target": "assurance", "type": "same_as", "properties": {"error": true}},
+      {"source": "service_development", "target": "billing_revenue", "type": "reports_to", "properties": {"error": true}},
+      {"source": "service_development", "target": "product_lifecycle", "type": "supports", "properties": {"correct": true, "hidden": true}},
+      {"source": "resource_provisioning", "target": "crm_support", "type": "belongs_to", "properties": {"error": true}},
+      {"source": "resource_provisioning", "target": "resource_management", "type": "belongs_to", "properties": {"correct": true, "hidden": true}},
+      {"source": "strategy_commit", "target": "market_strategy", "type": "contains", "properties": {}},
+      {"source": "strategy_commit", "target": "service_strategy", "type": "contains", "properties": {}},
+      {"source": "strategy_commit", "target": "resource_strategy", "type": "contains", "properties": {}},
+      {"source": "product_lifecycle", "target": "product_marketing", "type": "contains", "properties": {}},
+      {"source": "product_lifecycle", "target": "product_development", "type": "contains", "properties": {}},
+      {"source": "infrastructure_lifecycle", "target": "service_development", "type": "contains", "properties": {}},
+      {"source": "infrastructure_lifecycle", "target": "resource_development", "type": "contains", "properties": {}},
+      {"source": "fulfillment", "target": "order_handling", "type": "contains", "properties": {}},
+      {"source": "fulfillment", "target": "service_config", "type": "contains", "properties": {}},
+      {"source": "fulfillment", "target": "resource_provisioning", "type": "contains", "properties": {}},
+      {"source": "assurance", "target": "problem_handling", "type": "contains", "properties": {}},
+      {"source": "assurance", "target": "service_quality", "type": "contains", "properties": {}},
+      {"source": "assurance", "target": "resource_performance", "type": "contains", "properties": {}},
+      {"source": "billing_revenue", "target": "billing_collection", "type": "contains", "properties": {}},
+      {"source": "billing_revenue", "target": "revenue_assurance", "type": "contains", "properties": {}},
+      {"source": "enterprise_management", "target": "strategic_planning", "type": "contains", "properties": {}},
+      {"source": "enterprise_management", "target": "financial_management", "type": "contains", "properties": {}},
+      {"source": "enterprise_management", "target": "hr_management", "type": "contains", "properties": {}},
+      {"source": "enterprise_management", "target": "knowledge_management", "type": "contains", "properties": {}},
+      {"source": "enterprise_management", "target": "it_management", "type": "contains", "properties": {}},
+      {"source": "crm_support", "target": "order_handling", "type": "spans", "properties": {}},
+      {"source": "service_management", "target": "service_config", "type": "spans", "properties": {}},
+      {"source": "service_management", "target": "service_quality", "type": "spans", "properties": {}},
+      {"source": "resource_management", "target": "resource_provisioning", "type": "spans", "properties": {}},
+      {"source": "resource_management", "target": "resource_performance", "type": "spans", "properties": {}},
+      {"source": "order_handling", "target": "service_config", "type": "triggers", "properties": {}},
+      {"source": "service_config", "target": "resource_provisioning", "type": "triggers", "properties": {}},
+      {"source": "service_quality", "target": "problem_handling", "type": "escalates_to", "properties": {}},
+      {"source": "strategic_planning", "target": "strategy_commit", "type": "governs", "properties": {}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Functional communities based on eTOM process areas",
+      "communities": [
+        {
+          "id": "community_framework_structure",
+          "label": "Framework Structure",
+          "size": 4,
+          "member_ids": ["etom_framework", "strategy_infrastructure_product", "operations", "enterprise_management"],
+          "properties": {"category": "Top-Level Structure", "description": "Main framework domains and structure"}
+        },
+        {
+          "id": "community_strategy_planning",
+          "label": "Strategy & Planning",
+          "size": 5,
+          "member_ids": ["strategy_commit", "market_strategy", "service_strategy", "resource_strategy", "strategic_planning"],
+          "properties": {"category": "Strategic Functions", "description": "Strategic planning and policy processes"}
+        },
+        {
+          "id": "community_lifecycle_management",
+          "label": "Lifecycle Management",
+          "size": 5,
+          "member_ids": ["infrastructure_lifecycle", "product_lifecycle", "service_development", "resource_development", "product_marketing"],
+          "properties": {"category": "Lifecycle Processes", "description": "Product, service, and resource lifecycle management"}
+        },
+        {
+          "id": "community_product_development",
+          "label": "Product Development",
+          "size": 1,
+          "member_ids": ["product_development"],
+          "properties": {"category": "Development", "description": "Product and offer development processes"}
+        },
+        {
+          "id": "community_fulfillment_ops",
+          "label": "Fulfillment Operations",
+          "size": 4,
+          "member_ids": ["fulfillment", "order_handling", "service_config", "resource_provisioning"],
+          "properties": {"category": "Operational Fulfillment", "description": "Service delivery and provisioning processes"}
+        },
+        {
+          "id": "community_assurance_ops",
+          "label": "Assurance Operations",
+          "size": 4,
+          "member_ids": ["assurance", "problem_handling", "service_quality", "resource_performance"],
+          "properties": {"category": "Operational Assurance", "description": "Service quality and problem management"}
+        },
+        {
+          "id": "community_revenue_ops",
+          "label": "Revenue Operations",
+          "size": 3,
+          "member_ids": ["billing_revenue", "billing_collection", "revenue_assurance"],
+          "properties": {"category": "Financial Operations", "description": "Billing and revenue management processes"}
+        },
+        {
+          "id": "community_horizontal_functions",
+          "label": "Horizontal Management Functions",
+          "size": 4,
+          "member_ids": ["crm_support", "service_management", "resource_management", "supplier_partner"],
+          "properties": {"category": "Cross-functional", "description": "Horizontal functions spanning operations"}
+        },
+        {
+          "id": "community_enterprise_functions",
+          "label": "Enterprise Functions",
+          "size": 4,
+          "member_ids": ["financial_management", "hr_management", "knowledge_management", "it_management"],
+          "properties": {"category": "Corporate Functions", "description": "Enterprise-wide management functions"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_framework_structure", "target": "community_strategy_planning", "type": "defines", "weight": 3},
+        {"source": "community_framework_structure", "target": "community_lifecycle_management", "type": "defines", "weight": 3},
+        {"source": "community_framework_structure", "target": "community_fulfillment_ops", "type": "defines", "weight": 2},
+        {"source": "community_strategy_planning", "target": "community_lifecycle_management", "type": "guides", "weight": 4},
+        {"source": "community_lifecycle_management", "target": "community_product_development", "type": "includes", "weight": 2},
+        {"source": "community_lifecycle_management", "target": "community_fulfillment_ops", "type": "enables", "weight": 3},
+        {"source": "community_fulfillment_ops", "target": "community_assurance_ops", "type": "triggers", "weight": 3},
+        {"source": "community_fulfillment_ops", "target": "community_revenue_ops", "type": "feeds", "weight": 2},
+        {"source": "community_horizontal_functions", "target": "community_fulfillment_ops", "type": "spans", "weight": 4},
+        {"source": "community_horizontal_functions", "target": "community_assurance_ops", "type": "spans", "weight": 3},
+        {"source": "community_enterprise_functions", "target": "community_strategy_planning", "type": "governs", "weight": 2},
+        {"source": "community_assurance_ops", "target": "community_revenue_ops", "type": "impacts", "weight": 2}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Meta-communities representing eTOM major domains",
+      "communities": [
+        {
+          "id": "meta_sip_domain",
+          "label": "Strategy, Infrastructure & Product Domain",
+          "size": 3,
+          "member_ids": ["community_strategy_planning", "community_lifecycle_management", "community_product_development"],
+          "properties": {"meta_type": "Meta Community", "description": "Complete SIP domain covering strategy and lifecycle management"}
+        },
+        {
+          "id": "meta_operations_domain",
+          "label": "Operations Domain",
+          "size": 4,
+          "member_ids": ["community_fulfillment_ops", "community_assurance_ops", "community_revenue_ops", "community_horizontal_functions"],
+          "properties": {"meta_type": "Meta Community", "description": "Complete Operations domain including all operational processes"}
+        },
+        {
+          "id": "meta_enterprise_domain",
+          "label": "Enterprise Management Domain",
+          "size": 2,
+          "member_ids": ["community_framework_structure", "community_enterprise_functions"],
+          "properties": {"meta_type": "Meta Community", "description": "Enterprise-wide governance and management"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_enterprise_domain", "target": "meta_sip_domain", "type": "governs", "weight": 6},
+        {"source": "meta_enterprise_domain", "target": "meta_operations_domain", "type": "governs", "weight": 5},
+        {"source": "meta_sip_domain", "target": "meta_operations_domain", "type": "enables", "weight": 10}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Highest-level eTOM framework view",
+      "communities": [
+        {
+          "id": "super_strategic_layer",
+          "label": "Strategic Layer",
+          "size": 2,
+          "member_ids": ["meta_enterprise_domain", "meta_sip_domain"],
+          "properties": {"super_type": "Super Meta Community", "description": "Strategic and planning functions of the organization"}
+        },
+        {
+          "id": "super_operational_layer",
+          "label": "Operational Layer",
+          "size": 1,
+          "member_ids": ["meta_operations_domain"],
+          "properties": {"super_type": "Super Meta Community", "description": "Day-to-day operational execution"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_strategic_layer", "target": "super_operational_layer", "type": "directs_and_enables", "weight": 16}
+      ]
+    }
+  }
+}

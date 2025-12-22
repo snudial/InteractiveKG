@@ -1,0 +1,241 @@
+{
+  "domain": "nlp",
+  "case": "case1",
+  "description": "NLP knowledge graph with erroneous relationships. Contains incorrect model architectures, wrong training techniques, and missing critical connections based on NLP Knowledge Graph dataset.",
+  "question": "What is the architecture evolution from traditional NLP to modern large language models, and how do different components like attention mechanisms and pretraining strategies contribute to model performance?",
+  "llm_response": "The evolution of NLP began with Recurrent Neural Networks (RNNs), which were replaced by Transformers. However, Transformers use convolutional attention instead of self-attention. BERT uses autoregressive pretraining to predict the next word, while GPT uses masked language modeling. The attention mechanism in Transformers calculates similarity using dot product between queries and values directly. Large language models like GPT-4 primarily rely on supervised learning with labeled datasets rather than self-supervised pretraining. Word2Vec is a transformer-based model that generates contextual embeddings.",
+  "original_graph": {
+    "nodes": [
+      {"id": "transformer", "label": "Transformer", "type": "Architecture", "properties": {"year": 2017, "paper": "Attention Is All You Need", "authors": "Vaswani et al."}},
+      {"id": "self_attention", "label": "Self-Attention", "type": "Mechanism", "properties": {"complexity": "O(n²)", "parallelizable": true}},
+      {"id": "multi_head_attention", "label": "Multi-Head Attention", "type": "Mechanism", "properties": {"heads": "8-96", "enables": "Multiple representation subspaces"}},
+      {"id": "positional_encoding", "label": "Positional Encoding", "type": "Component", "properties": {"variant": "Sinusoidal/Learned", "purpose": "Sequence order information"}},
+      {"id": "feed_forward", "label": "Feed-Forward Network", "type": "Component", "properties": {"activation": "ReLU/GELU", "hidden_dim": "4x model dim"}},
+      {"id": "layer_norm", "label": "Layer Normalization", "type": "Component", "properties": {"placement": "Pre-LN or Post-LN", "stability": "Training stabilization"}},
+      {"id": "residual_connection", "label": "Residual Connection", "type": "Component", "properties": {"purpose": "Gradient flow", "origin": "ResNet"}},
+      {"id": "bert", "label": "BERT", "type": "Model", "properties": {"year": 2018, "parameters": "110M-340M", "organization": "Google"}},
+      {"id": "gpt", "label": "GPT", "type": "Model", "properties": {"year": 2018, "organization": "OpenAI", "architecture": "Decoder-only"}},
+      {"id": "gpt2", "label": "GPT-2", "type": "Model", "properties": {"year": 2019, "parameters": "1.5B", "organization": "OpenAI"}},
+      {"id": "gpt3", "label": "GPT-3", "type": "Model", "properties": {"year": 2020, "parameters": "175B", "organization": "OpenAI"}},
+      {"id": "gpt4", "label": "GPT-4", "type": "Model", "properties": {"year": 2023, "organization": "OpenAI", "multimodal": true}},
+      {"id": "t5", "label": "T5", "type": "Model", "properties": {"year": 2019, "architecture": "Encoder-Decoder", "organization": "Google"}},
+      {"id": "roberta", "label": "RoBERTa", "type": "Model", "properties": {"year": 2019, "organization": "Facebook AI", "improvement": "Optimized BERT training"}},
+      {"id": "xlnet", "label": "XLNet", "type": "Model", "properties": {"year": 2019, "objective": "Permutation LM", "organization": "Google/CMU"}},
+      {"id": "llama", "label": "LLaMA", "type": "Model", "properties": {"year": 2023, "organization": "Meta", "open_weights": true}},
+      {"id": "claude", "label": "Claude", "type": "Model", "properties": {"organization": "Anthropic", "focus": "Safety and helpfulness"}},
+      {"id": "palm", "label": "PaLM", "type": "Model", "properties": {"year": 2022, "parameters": "540B", "organization": "Google"}},
+      {"id": "rnn", "label": "Recurrent Neural Network", "type": "Architecture", "properties": {"sequential": true, "vanishing_gradient": true}},
+      {"id": "lstm", "label": "LSTM", "type": "Architecture", "properties": {"year": 1997, "gates": "Input, Forget, Output", "long_term_memory": true}},
+      {"id": "gru", "label": "GRU", "type": "Architecture", "properties": {"year": 2014, "gates": "Reset, Update", "simpler_than_lstm": true}},
+      {"id": "word2vec", "label": "Word2Vec", "type": "Embedding", "properties": {"year": 2013, "methods": "CBOW, Skip-gram", "static": true}},
+      {"id": "glove", "label": "GloVe", "type": "Embedding", "properties": {"year": 2014, "method": "Co-occurrence matrix", "organization": "Stanford"}},
+      {"id": "elmo", "label": "ELMo", "type": "Embedding", "properties": {"year": 2018, "contextual": true, "architecture": "BiLSTM"}},
+      {"id": "mlm", "label": "Masked Language Modeling", "type": "Training_Objective", "properties": {"mask_rate": "15%", "bidirectional": true}},
+      {"id": "clm", "label": "Causal Language Modeling", "type": "Training_Objective", "properties": {"autoregressive": true, "left_to_right": true}},
+      {"id": "nsp", "label": "Next Sentence Prediction", "type": "Training_Objective", "properties": {"binary_classification": true, "used_in": "BERT"}},
+      {"id": "contrastive_learning", "label": "Contrastive Learning", "type": "Training_Objective", "properties": {"positive_negative_pairs": true, "used_in": "SimCLR, CLIP"}},
+      {"id": "rlhf", "label": "RLHF", "type": "Training_Technique", "properties": {"full_name": "Reinforcement Learning from Human Feedback", "stages": 3}},
+      {"id": "instruction_tuning", "label": "Instruction Tuning", "type": "Training_Technique", "properties": {"dataset": "Diverse instructions", "generalization": true}},
+      {"id": "few_shot_learning", "label": "Few-Shot Learning", "type": "Capability", "properties": {"in_context": true, "no_gradient_update": true}},
+      {"id": "zero_shot_learning", "label": "Zero-Shot Learning", "type": "Capability", "properties": {"no_examples": true, "task_description_only": true}},
+      {"id": "chain_of_thought", "label": "Chain-of-Thought", "type": "Prompting_Technique", "properties": {"step_by_step": true, "reasoning": true}},
+      {"id": "tokenization", "label": "Tokenization", "type": "Preprocessing", "properties": {"methods": "BPE, WordPiece, SentencePiece"}},
+      {"id": "bpe", "label": "Byte Pair Encoding", "type": "Tokenization_Method", "properties": {"subword": true, "vocabulary_size": "Configurable"}}
+    ],
+    "relationships": [
+      {"source": "transformer", "target": "self_attention", "type": "uses", "properties": {}},
+      {"source": "self_attention", "target": "multi_head_attention", "type": "extended_to", "properties": {}},
+      {"source": "transformer", "target": "positional_encoding", "type": "requires", "properties": {}},
+      {"source": "transformer", "target": "feed_forward", "type": "contains", "properties": {}},
+      {"source": "transformer", "target": "layer_norm", "type": "uses", "properties": {}},
+      {"source": "transformer", "target": "residual_connection", "type": "uses", "properties": {}},
+      {"source": "transformer", "target": "rnn", "type": "evolved_from", "properties": {"error": true}},
+      {"source": "self_attention", "target": "word2vec", "type": "based_on", "properties": {"error": true}},
+      {"source": "bert", "target": "transformer", "type": "based_on", "properties": {}},
+      {"source": "bert", "target": "clm", "type": "uses", "properties": {"error": true}},
+      {"source": "bert", "target": "mlm", "type": "uses", "properties": {"correct": true, "hidden": true}},
+      {"source": "bert", "target": "nsp", "type": "uses", "properties": {}},
+      {"source": "gpt", "target": "transformer", "type": "based_on", "properties": {}},
+      {"source": "gpt", "target": "mlm", "type": "uses", "properties": {"error": true}},
+      {"source": "gpt", "target": "clm", "type": "uses", "properties": {"correct": true, "hidden": true}},
+      {"source": "gpt", "target": "gpt2", "type": "evolved_to", "properties": {}},
+      {"source": "gpt2", "target": "gpt3", "type": "evolved_to", "properties": {}},
+      {"source": "gpt3", "target": "gpt4", "type": "evolved_to", "properties": {}},
+      {"source": "gpt3", "target": "few_shot_learning", "type": "enables", "properties": {}},
+      {"source": "gpt4", "target": "rlhf", "type": "trained_with", "properties": {}},
+      {"source": "word2vec", "target": "transformer", "type": "is_type_of", "properties": {"error": true}},
+      {"source": "word2vec", "target": "elmo", "type": "replaced_by", "properties": {}},
+      {"source": "elmo", "target": "bert", "type": "replaced_by", "properties": {}},
+      {"source": "roberta", "target": "bert", "type": "improves", "properties": {}},
+      {"source": "xlnet", "target": "bert", "type": "improves", "properties": {}},
+      {"source": "t5", "target": "transformer", "type": "based_on", "properties": {}},
+      {"source": "llama", "target": "transformer", "type": "based_on", "properties": {}},
+      {"source": "claude", "target": "rlhf", "type": "trained_with", "properties": {}},
+      {"source": "palm", "target": "transformer", "type": "based_on", "properties": {}},
+      {"source": "rnn", "target": "lstm", "type": "evolved_to", "properties": {}},
+      {"source": "lstm", "target": "gru", "type": "simplified_to", "properties": {}},
+      {"source": "lstm", "target": "elmo", "type": "used_in", "properties": {}},
+      {"source": "instruction_tuning", "target": "zero_shot_learning", "type": "improves", "properties": {}},
+      {"source": "chain_of_thought", "target": "few_shot_learning", "type": "enhances", "properties": {}},
+      {"source": "tokenization", "target": "bpe", "type": "includes", "properties": {}},
+      {"source": "bpe", "target": "gpt", "type": "used_by", "properties": {}},
+      {"source": "contrastive_learning", "target": "roberta", "type": "used_in", "properties": {}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Functional communities identified by Leiden algorithm",
+      "communities": [
+        {
+          "id": "community_transformer_core",
+          "label": "Transformer Core Components",
+          "size": 7,
+          "member_ids": ["transformer", "self_attention", "multi_head_attention", "positional_encoding", "feed_forward", "layer_norm", "residual_connection"],
+          "properties": {"category": "Architecture Components", "description": "Core building blocks of the Transformer architecture"}
+        },
+        {
+          "id": "community_encoder_models",
+          "label": "Encoder-Based Models",
+          "size": 4,
+          "member_ids": ["bert", "roberta", "xlnet", "elmo"],
+          "properties": {"category": "Bidirectional Models", "description": "Models using bidirectional context encoding"}
+        },
+        {
+          "id": "community_decoder_models",
+          "label": "Decoder-Based LLMs",
+          "size": 7,
+          "member_ids": ["gpt", "gpt2", "gpt3", "gpt4", "llama", "claude", "palm"],
+          "properties": {"category": "Autoregressive Models", "description": "Large language models using causal/autoregressive generation"}
+        },
+        {
+          "id": "community_seq2seq",
+          "label": "Sequence-to-Sequence Models",
+          "size": 1,
+          "member_ids": ["t5"],
+          "properties": {"category": "Encoder-Decoder", "description": "Models with both encoder and decoder components"}
+        },
+        {
+          "id": "community_recurrent",
+          "label": "Recurrent Architectures",
+          "size": 3,
+          "member_ids": ["rnn", "lstm", "gru"],
+          "properties": {"category": "Sequential Models", "description": "Pre-transformer sequential processing architectures"}
+        },
+        {
+          "id": "community_static_embeddings",
+          "label": "Static Word Embeddings",
+          "size": 2,
+          "member_ids": ["word2vec", "glove"],
+          "properties": {"category": "Word Representations", "description": "Non-contextual word embedding methods"}
+        },
+        {
+          "id": "community_pretraining_objectives",
+          "label": "Pretraining Objectives",
+          "size": 4,
+          "member_ids": ["mlm", "clm", "nsp", "contrastive_learning"],
+          "properties": {"category": "Training Methods", "description": "Self-supervised pretraining objectives"}
+        },
+        {
+          "id": "community_alignment_techniques",
+          "label": "Alignment & Fine-tuning",
+          "size": 2,
+          "member_ids": ["rlhf", "instruction_tuning"],
+          "properties": {"category": "Post-training", "description": "Techniques for aligning models with human preferences"}
+        },
+        {
+          "id": "community_capabilities",
+          "label": "Emergent Capabilities",
+          "size": 3,
+          "member_ids": ["few_shot_learning", "zero_shot_learning", "chain_of_thought"],
+          "properties": {"category": "Model Abilities", "description": "Capabilities emerging from scale and training"}
+        },
+        {
+          "id": "community_tokenization",
+          "label": "Tokenization Methods",
+          "size": 2,
+          "member_ids": ["tokenization", "bpe"],
+          "properties": {"category": "Preprocessing", "description": "Text preprocessing and tokenization techniques"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_transformer_core", "target": "community_encoder_models", "type": "enables", "weight": 4},
+        {"source": "community_transformer_core", "target": "community_decoder_models", "type": "enables", "weight": 7},
+        {"source": "community_transformer_core", "target": "community_seq2seq", "type": "enables", "weight": 1},
+        {"source": "community_recurrent", "target": "community_encoder_models", "type": "precedes", "weight": 1},
+        {"source": "community_static_embeddings", "target": "community_encoder_models", "type": "evolved_to", "weight": 1},
+        {"source": "community_pretraining_objectives", "target": "community_encoder_models", "type": "trains", "weight": 3},
+        {"source": "community_pretraining_objectives", "target": "community_decoder_models", "type": "trains", "weight": 2},
+        {"source": "community_alignment_techniques", "target": "community_decoder_models", "type": "refines", "weight": 3},
+        {"source": "community_decoder_models", "target": "community_capabilities", "type": "exhibits", "weight": 5},
+        {"source": "community_tokenization", "target": "community_decoder_models", "type": "preprocesses_for", "weight": 2},
+        {"source": "community_capabilities", "target": "community_alignment_techniques", "type": "improved_by", "weight": 2}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Meta-communities representing major paradigm shifts",
+      "communities": [
+        {
+          "id": "meta_transformer_paradigm",
+          "label": "Transformer Paradigm",
+          "size": 4,
+          "member_ids": ["community_transformer_core", "community_encoder_models", "community_decoder_models", "community_seq2seq"],
+          "properties": {"meta_type": "Meta Community", "description": "The complete transformer-based NLP ecosystem"}
+        },
+        {
+          "id": "meta_pre_transformer",
+          "label": "Pre-Transformer Era",
+          "size": 2,
+          "member_ids": ["community_recurrent", "community_static_embeddings"],
+          "properties": {"meta_type": "Meta Community", "description": "Traditional NLP approaches before transformers"}
+        },
+        {
+          "id": "meta_training_methodology",
+          "label": "Training Methodology",
+          "size": 3,
+          "member_ids": ["community_pretraining_objectives", "community_alignment_techniques", "community_tokenization"],
+          "properties": {"meta_type": "Meta Community", "description": "Complete training pipeline and methods"}
+        },
+        {
+          "id": "meta_model_capabilities",
+          "label": "Model Capabilities",
+          "size": 1,
+          "member_ids": ["community_capabilities"],
+          "properties": {"meta_type": "Meta Community", "description": "Emergent abilities and prompting techniques"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_pre_transformer", "target": "meta_transformer_paradigm", "type": "evolved_to", "weight": 5},
+        {"source": "meta_training_methodology", "target": "meta_transformer_paradigm", "type": "enables", "weight": 10},
+        {"source": "meta_transformer_paradigm", "target": "meta_model_capabilities", "type": "exhibits", "weight": 8},
+        {"source": "meta_training_methodology", "target": "meta_model_capabilities", "type": "unlocks", "weight": 5}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Highest-level NLP evolution model",
+      "communities": [
+        {
+          "id": "super_nlp_evolution",
+          "label": "NLP Architecture Evolution",
+          "size": 2,
+          "member_ids": ["meta_pre_transformer", "meta_transformer_paradigm"],
+          "properties": {"super_type": "Super Meta Community", "description": "Complete evolution of NLP architectures from RNNs to LLMs"}
+        },
+        {
+          "id": "super_learning_paradigm",
+          "label": "Learning & Capability Paradigm",
+          "size": 2,
+          "member_ids": ["meta_training_methodology", "meta_model_capabilities"],
+          "properties": {"super_type": "Super Meta Community", "description": "Training approaches and resulting model capabilities"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_nlp_evolution", "target": "super_learning_paradigm", "type": "enables_and_shapes", "weight": 18}
+      ]
+    }
+  }
+}

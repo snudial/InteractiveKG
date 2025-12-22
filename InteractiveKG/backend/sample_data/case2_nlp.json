@@ -1,0 +1,228 @@
+{
+  "domain": "nlp",
+  "case": "case2",
+  "description": "NLP knowledge graph with correct relationships. Accurate model architectures, training techniques, and evolutionary connections based on NLP Knowledge Graph dataset.",
+  "question": "How do different tokenization strategies and vocabulary sizes affect the performance of large language models across different languages and domains?",
+  "llm_response": "Tokenization is fundamental to LLM performance. Byte Pair Encoding (BPE), used by GPT models, iteratively merges frequent character pairs to create subword tokens, balancing vocabulary size with sequence length. WordPiece, used by BERT, similarly creates subwords but uses likelihood-based merging. SentencePiece, used by T5 and LLaMA, operates on raw text without pre-tokenization, making it language-agnostic. Larger vocabularies reduce sequence length but increase embedding parameters; GPT-2 uses 50K tokens while LLaMA uses 32K. For multilingual models, larger vocabularies help represent diverse scripts, but over-segmentation of non-English text remains a challenge. Domain-specific tokenizers trained on specialized corpora (medical, legal) can significantly improve performance in those domains.",
+  "original_graph": {
+    "nodes": [
+      {"id": "tokenization", "label": "Tokenization", "type": "Preprocessing", "properties": {"purpose": "Text to tokens conversion", "critical_for": "Model input"}},
+      {"id": "bpe", "label": "Byte Pair Encoding (BPE)", "type": "Tokenization_Method", "properties": {"year": 2015, "origin": "Data compression", "approach": "Merge frequent pairs"}},
+      {"id": "wordpiece", "label": "WordPiece", "type": "Tokenization_Method", "properties": {"used_by": "BERT, DistilBERT", "approach": "Likelihood-based merging"}},
+      {"id": "sentencepiece", "label": "SentencePiece", "type": "Tokenization_Method", "properties": {"year": 2018, "language_agnostic": true, "raw_text": true}},
+      {"id": "unigram_lm", "label": "Unigram Language Model", "type": "Tokenization_Method", "properties": {"used_by": "SentencePiece, T5", "probabilistic": true}},
+      {"id": "tiktoken", "label": "Tiktoken", "type": "Tokenization_Library", "properties": {"organization": "OpenAI", "optimized_for": "GPT models"}},
+      {"id": "vocabulary", "label": "Vocabulary", "type": "Component", "properties": {"trade_off": "Size vs sequence length"}},
+      {"id": "special_tokens", "label": "Special Tokens", "type": "Component", "properties": {"examples": "[CLS], [SEP], [PAD], [MASK]", "purpose": "Task-specific signals"}},
+      {"id": "gpt2_tokenizer", "label": "GPT-2 Tokenizer", "type": "Tokenizer_Instance", "properties": {"vocab_size": 50257, "method": "BPE"}},
+      {"id": "bert_tokenizer", "label": "BERT Tokenizer", "type": "Tokenizer_Instance", "properties": {"vocab_size": 30522, "method": "WordPiece"}},
+      {"id": "llama_tokenizer", "label": "LLaMA Tokenizer", "type": "Tokenizer_Instance", "properties": {"vocab_size": 32000, "method": "SentencePiece BPE"}},
+      {"id": "t5_tokenizer", "label": "T5 Tokenizer", "type": "Tokenizer_Instance", "properties": {"vocab_size": 32100, "method": "SentencePiece"}},
+      {"id": "gpt4_tokenizer", "label": "GPT-4 Tokenizer", "type": "Tokenizer_Instance", "properties": {"vocab_size": 100000, "method": "BPE", "improved_multilingual": true}},
+      {"id": "bert", "label": "BERT", "type": "Model", "properties": {"year": 2018, "architecture": "Encoder-only", "organization": "Google"}},
+      {"id": "gpt2", "label": "GPT-2", "type": "Model", "properties": {"year": 2019, "architecture": "Decoder-only", "parameters": "1.5B"}},
+      {"id": "gpt4", "label": "GPT-4", "type": "Model", "properties": {"year": 2023, "architecture": "Decoder-only", "multimodal": true}},
+      {"id": "t5", "label": "T5", "type": "Model", "properties": {"year": 2019, "architecture": "Encoder-Decoder", "organization": "Google"}},
+      {"id": "llama", "label": "LLaMA", "type": "Model", "properties": {"year": 2023, "architecture": "Decoder-only", "organization": "Meta"}},
+      {"id": "llama2", "label": "LLaMA 2", "type": "Model", "properties": {"year": 2023, "architecture": "Decoder-only", "context_length": 4096}},
+      {"id": "mbert", "label": "Multilingual BERT", "type": "Model", "properties": {"languages": 104, "vocab_size": 119547}},
+      {"id": "xlm_roberta", "label": "XLM-RoBERTa", "type": "Model", "properties": {"languages": 100, "vocab_size": 250002, "organization": "Facebook"}},
+      {"id": "bloom", "label": "BLOOM", "type": "Model", "properties": {"year": 2022, "languages": 46, "vocab_size": 250680, "organization": "BigScience"}},
+      {"id": "sequence_length", "label": "Sequence Length", "type": "Metric", "properties": {"impact": "Memory, computation", "context_window": true}},
+      {"id": "oov_rate", "label": "Out-of-Vocabulary Rate", "type": "Metric", "properties": {"lower_is_better": true, "subword_advantage": true}},
+      {"id": "fertility", "label": "Tokenization Fertility", "type": "Metric", "properties": {"definition": "Tokens per word", "language_dependent": true}},
+      {"id": "compression_ratio", "label": "Compression Ratio", "type": "Metric", "properties": {"definition": "Characters per token", "efficiency_measure": true}},
+      {"id": "multilingual_nlp", "label": "Multilingual NLP", "type": "Task_Category", "properties": {"challenges": "Script diversity, morphology"}},
+      {"id": "domain_adaptation", "label": "Domain Adaptation", "type": "Task_Category", "properties": {"domains": "Medical, Legal, Scientific"}},
+      {"id": "code_tokenization", "label": "Code Tokenization", "type": "Specialization", "properties": {"challenges": "Syntax, identifiers", "models": "Codex, CodeLLaMA"}},
+      {"id": "medical_tokenization", "label": "Medical Tokenization", "type": "Specialization", "properties": {"vocabulary": "Clinical terms, drugs", "models": "BioBERT, PubMedBERT"}},
+      {"id": "embedding_layer", "label": "Embedding Layer", "type": "Component", "properties": {"dimension": "768-4096", "learned": true}},
+      {"id": "subword_regularization", "label": "Subword Regularization", "type": "Technique", "properties": {"methods": "BPE-dropout, UnigramLM sampling", "robustness": true}},
+      {"id": "pretokenization", "label": "Pre-tokenization", "type": "Preprocessing", "properties": {"methods": "Whitespace, punctuation", "language_specific": true}},
+      {"id": "normalization", "label": "Text Normalization", "type": "Preprocessing", "properties": {"methods": "NFKC, lowercase", "before_tokenization": true}}
+    ],
+    "relationships": [
+      {"source": "tokenization", "target": "bpe", "type": "includes_method", "properties": {"correct": true}},
+      {"source": "tokenization", "target": "wordpiece", "type": "includes_method", "properties": {"correct": true}},
+      {"source": "tokenization", "target": "sentencepiece", "type": "includes_method", "properties": {"correct": true}},
+      {"source": "tokenization", "target": "unigram_lm", "type": "includes_method", "properties": {"correct": true}},
+      {"source": "sentencepiece", "target": "bpe", "type": "implements", "properties": {"correct": true}},
+      {"source": "sentencepiece", "target": "unigram_lm", "type": "implements", "properties": {"correct": true}},
+      {"source": "tiktoken", "target": "bpe", "type": "implements", "properties": {"correct": true}},
+      {"source": "bpe", "target": "gpt2_tokenizer", "type": "used_by", "properties": {"correct": true}},
+      {"source": "wordpiece", "target": "bert_tokenizer", "type": "used_by", "properties": {"correct": true}},
+      {"source": "sentencepiece", "target": "llama_tokenizer", "type": "used_by", "properties": {"correct": true}},
+      {"source": "sentencepiece", "target": "t5_tokenizer", "type": "used_by", "properties": {"correct": true}},
+      {"source": "bpe", "target": "gpt4_tokenizer", "type": "used_by", "properties": {"correct": true}},
+      {"source": "bert_tokenizer", "target": "bert", "type": "tokenizes_for", "properties": {"correct": true}},
+      {"source": "gpt2_tokenizer", "target": "gpt2", "type": "tokenizes_for", "properties": {"correct": true}},
+      {"source": "gpt4_tokenizer", "target": "gpt4", "type": "tokenizes_for", "properties": {"correct": true}},
+      {"source": "llama_tokenizer", "target": "llama", "type": "tokenizes_for", "properties": {"correct": true}},
+      {"source": "llama_tokenizer", "target": "llama2", "type": "tokenizes_for", "properties": {"correct": true}},
+      {"source": "t5_tokenizer", "target": "t5", "type": "tokenizes_for", "properties": {"correct": true}},
+      {"source": "bert_tokenizer", "target": "mbert", "type": "extended_for", "properties": {"correct": true}},
+      {"source": "sentencepiece", "target": "xlm_roberta", "type": "used_by", "properties": {"correct": true}},
+      {"source": "sentencepiece", "target": "bloom", "type": "used_by", "properties": {"correct": true}},
+      {"source": "vocabulary", "target": "sequence_length", "type": "inversely_affects", "properties": {"correct": true}},
+      {"source": "vocabulary", "target": "embedding_layer", "type": "determines_size_of", "properties": {"correct": true}},
+      {"source": "bpe", "target": "oov_rate", "type": "reduces", "properties": {"correct": true}},
+      {"source": "wordpiece", "target": "oov_rate", "type": "reduces", "properties": {"correct": true}},
+      {"source": "fertility", "target": "multilingual_nlp", "type": "critical_for", "properties": {"correct": true}},
+      {"source": "compression_ratio", "target": "sequence_length", "type": "affects", "properties": {"correct": true}},
+      {"source": "multilingual_nlp", "target": "mbert", "type": "addressed_by", "properties": {"correct": true}},
+      {"source": "multilingual_nlp", "target": "xlm_roberta", "type": "addressed_by", "properties": {"correct": true}},
+      {"source": "multilingual_nlp", "target": "bloom", "type": "addressed_by", "properties": {"correct": true}},
+      {"source": "domain_adaptation", "target": "medical_tokenization", "type": "includes", "properties": {"correct": true}},
+      {"source": "domain_adaptation", "target": "code_tokenization", "type": "includes", "properties": {"correct": true}},
+      {"source": "subword_regularization", "target": "bpe", "type": "enhances", "properties": {"correct": true}},
+      {"source": "subword_regularization", "target": "unigram_lm", "type": "native_to", "properties": {"correct": true}},
+      {"source": "pretokenization", "target": "tokenization", "type": "precedes", "properties": {"correct": true}},
+      {"source": "normalization", "target": "pretokenization", "type": "precedes", "properties": {"correct": true}},
+      {"source": "special_tokens", "target": "vocabulary", "type": "added_to", "properties": {"correct": true}},
+      {"source": "special_tokens", "target": "bert_tokenizer", "type": "defined_in", "properties": {"correct": true}},
+      {"source": "gpt4_tokenizer", "target": "multilingual_nlp", "type": "improves", "properties": {"correct": true}},
+      {"source": "llama", "target": "llama2", "type": "evolved_to", "properties": {"correct": true}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Functional communities identified by Leiden algorithm",
+      "communities": [
+        {
+          "id": "community_tokenization_methods",
+          "label": "Tokenization Algorithms",
+          "size": 5,
+          "member_ids": ["tokenization", "bpe", "wordpiece", "sentencepiece", "unigram_lm"],
+          "properties": {"category": "Algorithms", "description": "Core tokenization algorithms and methods"}
+        },
+        {
+          "id": "community_tokenizer_implementations",
+          "label": "Tokenizer Implementations",
+          "size": 6,
+          "member_ids": ["tiktoken", "gpt2_tokenizer", "bert_tokenizer", "llama_tokenizer", "t5_tokenizer", "gpt4_tokenizer"],
+          "properties": {"category": "Implementations", "description": "Concrete tokenizer implementations for specific models"}
+        },
+        {
+          "id": "community_encoder_models",
+          "label": "Encoder-Based Models",
+          "size": 3,
+          "member_ids": ["bert", "mbert", "xlm_roberta"],
+          "properties": {"category": "Encoder Models", "description": "Models using bidirectional encoding"}
+        },
+        {
+          "id": "community_decoder_models",
+          "label": "Decoder-Based LLMs",
+          "size": 4,
+          "member_ids": ["gpt2", "gpt4", "llama", "llama2"],
+          "properties": {"category": "Decoder Models", "description": "Autoregressive language models"}
+        },
+        {
+          "id": "community_multilingual_models",
+          "label": "Multilingual & Large-Scale Models",
+          "size": 2,
+          "member_ids": ["bloom", "t5"],
+          "properties": {"category": "Multilingual Models", "description": "Models designed for multilingual and multi-task learning"}
+        },
+        {
+          "id": "community_metrics",
+          "label": "Tokenization Metrics",
+          "size": 4,
+          "member_ids": ["sequence_length", "oov_rate", "fertility", "compression_ratio"],
+          "properties": {"category": "Evaluation", "description": "Metrics for evaluating tokenization quality"}
+        },
+        {
+          "id": "community_applications",
+          "label": "Application Domains",
+          "size": 4,
+          "member_ids": ["multilingual_nlp", "domain_adaptation", "code_tokenization", "medical_tokenization"],
+          "properties": {"category": "Applications", "description": "Specific application areas requiring specialized tokenization"}
+        },
+        {
+          "id": "community_components",
+          "label": "Model Components",
+          "size": 3,
+          "member_ids": ["vocabulary", "special_tokens", "embedding_layer"],
+          "properties": {"category": "Components", "description": "Tokenization-related model components"}
+        },
+        {
+          "id": "community_preprocessing",
+          "label": "Preprocessing Pipeline",
+          "size": 3,
+          "member_ids": ["pretokenization", "normalization", "subword_regularization"],
+          "properties": {"category": "Preprocessing", "description": "Text preprocessing steps before/during tokenization"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_tokenization_methods", "target": "community_tokenizer_implementations", "type": "implemented_as", "weight": 6},
+        {"source": "community_tokenizer_implementations", "target": "community_encoder_models", "type": "used_by", "weight": 3},
+        {"source": "community_tokenizer_implementations", "target": "community_decoder_models", "type": "used_by", "weight": 4},
+        {"source": "community_tokenizer_implementations", "target": "community_multilingual_models", "type": "used_by", "weight": 2},
+        {"source": "community_tokenization_methods", "target": "community_metrics", "type": "evaluated_by", "weight": 4},
+        {"source": "community_metrics", "target": "community_applications", "type": "critical_for", "weight": 3},
+        {"source": "community_applications", "target": "community_tokenizer_implementations", "type": "requires_specialized", "weight": 2},
+        {"source": "community_components", "target": "community_tokenizer_implementations", "type": "configured_by", "weight": 3},
+        {"source": "community_preprocessing", "target": "community_tokenization_methods", "type": "precedes", "weight": 3},
+        {"source": "community_encoder_models", "target": "community_applications", "type": "applied_to", "weight": 2},
+        {"source": "community_decoder_models", "target": "community_applications", "type": "applied_to", "weight": 3}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Meta-communities representing major functional areas",
+      "communities": [
+        {
+          "id": "meta_tokenization_system",
+          "label": "Tokenization System",
+          "size": 4,
+          "member_ids": ["community_tokenization_methods", "community_tokenizer_implementations", "community_components", "community_preprocessing"],
+          "properties": {"meta_type": "Meta Community", "description": "Complete tokenization pipeline from preprocessing to implementation"}
+        },
+        {
+          "id": "meta_model_ecosystem",
+          "label": "Language Model Ecosystem",
+          "size": 3,
+          "member_ids": ["community_encoder_models", "community_decoder_models", "community_multilingual_models"],
+          "properties": {"meta_type": "Meta Community", "description": "All language models utilizing tokenization"}
+        },
+        {
+          "id": "meta_evaluation_application",
+          "label": "Evaluation & Application",
+          "size": 2,
+          "member_ids": ["community_metrics", "community_applications"],
+          "properties": {"meta_type": "Meta Community", "description": "Metrics and real-world application domains"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_tokenization_system", "target": "meta_model_ecosystem", "type": "enables", "weight": 15},
+        {"source": "meta_tokenization_system", "target": "meta_evaluation_application", "type": "measured_by", "weight": 7},
+        {"source": "meta_model_ecosystem", "target": "meta_evaluation_application", "type": "deployed_in", "weight": 8}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Highest-level tokenization knowledge model",
+      "communities": [
+        {
+          "id": "super_tokenization_knowledge",
+          "label": "Tokenization Knowledge Domain",
+          "size": 2,
+          "member_ids": ["meta_tokenization_system", "meta_model_ecosystem"],
+          "properties": {"super_type": "Super Meta Community", "description": "Complete knowledge of tokenization methods and their use in language models"}
+        },
+        {
+          "id": "super_practical_impact",
+          "label": "Practical Impact Domain",
+          "size": 1,
+          "member_ids": ["meta_evaluation_application"],
+          "properties": {"super_type": "Super Meta Community", "description": "Real-world evaluation and application of tokenization"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_tokenization_knowledge", "target": "super_practical_impact", "type": "determines_and_enables", "weight": 22}
+      ]
+    }
+  }
+}

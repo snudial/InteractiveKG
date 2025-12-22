@@ -1,0 +1,261 @@
+{
+  "domain": "business",
+  "case": "case2",
+  "description": "TMF Business Process Framework knowledge graph with correct relationships. Accurate process hierarchies, proper department assignments, and complete workflow connections based on TMF eTOM Framework dataset.",
+  "question": "How does the TMF eTOM framework organize customer-facing operations processes, and what is the workflow from order handling through service activation to billing?",
+  "llm_response": "The TMF eTOM framework organizes customer-facing operations through the FAB (Fulfillment, Assurance, Billing) horizontal process flow. When a customer places an order, Order Handling in CRM captures the request and validates it against product catalog offerings. This triggers Service Configuration & Activation in Service Management, which orchestrates the technical service setup. Service activation then triggers Resource Provisioning in Resource Management to allocate network resources. Once services are active, Billing & Revenue Management captures usage data through Rating & Discounting, generates invoices via Bill Invoice Management, and manages collections. Throughout this process, Assurance processes (Problem Handling, Service Quality Management) monitor service performance and handle issues. All these processes are governed by Product Lifecycle Management which defines the offerings, and Enterprise Management which provides financial and strategic oversight.",
+  "original_graph": {
+    "nodes": [
+      {"id": "etom_framework", "label": "eTOM Framework", "type": "Framework", "properties": {"version": "21.0", "organization": "TM Forum", "full_name": "Enhanced Telecom Operations Map"}},
+      {"id": "customer", "label": "Customer", "type": "Entity", "properties": {"role": "External stakeholder", "interaction_point": "CRM"}},
+      {"id": "product_offer", "label": "Product Offering", "type": "Entity", "properties": {"defined_by": "Product Lifecycle", "catalog": "Product Catalog"}},
+      {"id": "service_instance", "label": "Service Instance", "type": "Entity", "properties": {"activated_by": "Service Configuration", "monitored_by": "Assurance"}},
+      {"id": "resource_instance", "label": "Resource Instance", "type": "Entity", "properties": {"provisioned_by": "Resource Provisioning", "physical_or_logical": true}},
+      {"id": "fulfillment", "label": "Fulfillment", "type": "Process_Area_Level1", "properties": {"level": 1, "focus": "Service delivery", "fab_component": true}},
+      {"id": "assurance", "label": "Assurance", "type": "Process_Area_Level1", "properties": {"level": 1, "focus": "Service quality", "fab_component": true}},
+      {"id": "billing_revenue", "label": "Billing & Revenue Management", "type": "Process_Area_Level1", "properties": {"level": 1, "focus": "Revenue collection", "fab_component": true}},
+      {"id": "crm_support", "label": "Customer Relationship Management", "type": "Functional_Area", "properties": {"horizontal": true, "customer_facing": true}},
+      {"id": "service_management", "label": "Service Management & Operations", "type": "Functional_Area", "properties": {"horizontal": true, "service_layer": true}},
+      {"id": "resource_management", "label": "Resource Management & Operations", "type": "Functional_Area", "properties": {"horizontal": true, "infrastructure_layer": true}},
+      {"id": "supplier_partner", "label": "Supplier/Partner Relationship Management", "type": "Functional_Area", "properties": {"horizontal": true, "external_facing": true}},
+      {"id": "selling", "label": "Selling", "type": "Process_Level2", "properties": {"level": 2, "parent": "CRM-Fulfillment", "customer_acquisition": true}},
+      {"id": "order_handling", "label": "Order Handling", "type": "Process_Level2", "properties": {"level": 2, "parent": "CRM-Fulfillment", "order_capture": true}},
+      {"id": "retention_loyalty", "label": "Retention & Loyalty", "type": "Process_Level2", "properties": {"level": 2, "parent": "CRM", "customer_retention": true}},
+      {"id": "service_config", "label": "Service Configuration & Activation", "type": "Process_Level2", "properties": {"level": 2, "parent": "SM-Fulfillment", "service_activation": true}},
+      {"id": "service_problem", "label": "Service Problem Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "SM-Assurance", "incident_management": true}},
+      {"id": "service_quality", "label": "Service Quality Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "SM-Assurance", "sla_monitoring": true}},
+      {"id": "resource_provisioning", "label": "Resource Provisioning", "type": "Process_Level2", "properties": {"level": 2, "parent": "RM-Fulfillment", "resource_allocation": true}},
+      {"id": "resource_trouble", "label": "Resource Trouble Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "RM-Assurance", "fault_management": true}},
+      {"id": "resource_performance", "label": "Resource Performance Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "RM-Assurance", "performance_monitoring": true}},
+      {"id": "customer_interface", "label": "Customer Interface Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "CRM", "omnichannel": true}},
+      {"id": "customer_qos", "label": "Customer QoS/SLA Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "CRM-Assurance", "sla_fulfillment": true}},
+      {"id": "bill_invoice", "label": "Bill Invoice Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "Billing", "invoice_generation": true}},
+      {"id": "bill_payments", "label": "Bill Payments & Receivables", "type": "Process_Level2", "properties": {"level": 2, "parent": "Billing", "payment_collection": true}},
+      {"id": "rating_discounting", "label": "Rating & Discounting", "type": "Process_Level2", "properties": {"level": 2, "parent": "Billing", "usage_rating": true}},
+      {"id": "charging", "label": "Charging", "type": "Process_Level2", "properties": {"level": 2, "parent": "Billing", "real_time_charging": true}},
+      {"id": "balance_management", "label": "Balance Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "Billing", "prepaid_postpaid": true}},
+      {"id": "product_lifecycle", "label": "Product Lifecycle Management", "type": "Process_Area_Level1", "properties": {"level": 1, "parent": "SIP", "product_governance": true}},
+      {"id": "product_offering_dev", "label": "Product Offering Development", "type": "Process_Level2", "properties": {"level": 2, "parent": "Product Lifecycle", "new_product": true}},
+      {"id": "product_catalog", "label": "Product & Offer Capability Delivery", "type": "Process_Level2", "properties": {"level": 2, "parent": "Product Lifecycle", "catalog_management": true}},
+      {"id": "enterprise_management", "label": "Enterprise Management", "type": "Domain_Level0", "properties": {"level": 0, "scope": "Corporate functions"}},
+      {"id": "financial_management", "label": "Financial & Asset Management", "type": "Enterprise_Process", "properties": {"level": 1, "financial_control": true}},
+      {"id": "strategic_planning", "label": "Strategic & Enterprise Planning", "type": "Enterprise_Process", "properties": {"level": 1, "strategic_direction": true}},
+      {"id": "partner_ordering", "label": "S/P Requisition Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "S/P-Fulfillment", "partner_orders": true}},
+      {"id": "partner_problem", "label": "S/P Problem Reporting & Management", "type": "Process_Level2", "properties": {"level": 2, "parent": "S/P-Assurance", "partner_issues": true}},
+      {"id": "partner_settlements", "label": "S/P Settlements & Payments", "type": "Process_Level2", "properties": {"level": 2, "parent": "S/P-Billing", "partner_payments": true}}
+    ],
+    "relationships": [
+      {"source": "customer", "target": "customer_interface", "type": "interacts_through", "properties": {"correct": true}},
+      {"source": "customer", "target": "product_offer", "type": "subscribes_to", "properties": {"correct": true}},
+      {"source": "customer_interface", "target": "selling", "type": "enables", "properties": {"correct": true}},
+      {"source": "selling", "target": "order_handling", "type": "triggers", "properties": {"correct": true}},
+      {"source": "order_handling", "target": "product_offer", "type": "validates_against", "properties": {"correct": true}},
+      {"source": "order_handling", "target": "service_config", "type": "triggers", "properties": {"correct": true}},
+      {"source": "service_config", "target": "service_instance", "type": "creates", "properties": {"correct": true}},
+      {"source": "service_config", "target": "resource_provisioning", "type": "triggers", "properties": {"correct": true}},
+      {"source": "resource_provisioning", "target": "resource_instance", "type": "allocates", "properties": {"correct": true}},
+      {"source": "resource_instance", "target": "service_instance", "type": "supports", "properties": {"correct": true}},
+      {"source": "service_instance", "target": "customer", "type": "delivered_to", "properties": {"correct": true}},
+      {"source": "service_instance", "target": "charging", "type": "generates_usage_for", "properties": {"correct": true}},
+      {"source": "charging", "target": "rating_discounting", "type": "feeds", "properties": {"correct": true}},
+      {"source": "rating_discounting", "target": "balance_management", "type": "updates", "properties": {"correct": true}},
+      {"source": "balance_management", "target": "bill_invoice", "type": "triggers", "properties": {"correct": true}},
+      {"source": "bill_invoice", "target": "bill_payments", "type": "triggers", "properties": {"correct": true}},
+      {"source": "bill_payments", "target": "customer", "type": "collects_from", "properties": {"correct": true}},
+      {"source": "service_quality", "target": "service_instance", "type": "monitors", "properties": {"correct": true}},
+      {"source": "service_quality", "target": "customer_qos", "type": "reports_to", "properties": {"correct": true}},
+      {"source": "customer_qos", "target": "customer", "type": "communicates_with", "properties": {"correct": true}},
+      {"source": "service_problem", "target": "service_instance", "type": "investigates", "properties": {"correct": true}},
+      {"source": "service_problem", "target": "resource_trouble", "type": "escalates_to", "properties": {"correct": true}},
+      {"source": "resource_trouble", "target": "resource_instance", "type": "diagnoses", "properties": {"correct": true}},
+      {"source": "resource_performance", "target": "resource_instance", "type": "monitors", "properties": {"correct": true}},
+      {"source": "resource_performance", "target": "service_quality", "type": "feeds", "properties": {"correct": true}},
+      {"source": "product_lifecycle", "target": "product_offering_dev", "type": "contains", "properties": {"correct": true}},
+      {"source": "product_lifecycle", "target": "product_catalog", "type": "contains", "properties": {"correct": true}},
+      {"source": "product_offering_dev", "target": "product_offer", "type": "defines", "properties": {"correct": true}},
+      {"source": "product_catalog", "target": "order_handling", "type": "provides_to", "properties": {"correct": true}},
+      {"source": "retention_loyalty", "target": "customer", "type": "manages_relationship_with", "properties": {"correct": true}},
+      {"source": "crm_support", "target": "order_handling", "type": "contains", "properties": {"correct": true}},
+      {"source": "crm_support", "target": "selling", "type": "contains", "properties": {"correct": true}},
+      {"source": "crm_support", "target": "customer_interface", "type": "contains", "properties": {"correct": true}},
+      {"source": "service_management", "target": "service_config", "type": "contains", "properties": {"correct": true}},
+      {"source": "service_management", "target": "service_problem", "type": "contains", "properties": {"correct": true}},
+      {"source": "service_management", "target": "service_quality", "type": "contains", "properties": {"correct": true}},
+      {"source": "resource_management", "target": "resource_provisioning", "type": "contains", "properties": {"correct": true}},
+      {"source": "resource_management", "target": "resource_trouble", "type": "contains", "properties": {"correct": true}},
+      {"source": "resource_management", "target": "resource_performance", "type": "contains", "properties": {"correct": true}},
+      {"source": "supplier_partner", "target": "partner_ordering", "type": "contains", "properties": {"correct": true}},
+      {"source": "supplier_partner", "target": "partner_problem", "type": "contains", "properties": {"correct": true}},
+      {"source": "supplier_partner", "target": "partner_settlements", "type": "contains", "properties": {"correct": true}},
+      {"source": "resource_provisioning", "target": "partner_ordering", "type": "may_trigger", "properties": {"correct": true}},
+      {"source": "resource_trouble", "target": "partner_problem", "type": "may_escalate_to", "properties": {"correct": true}},
+      {"source": "fulfillment", "target": "crm_support", "type": "intersects", "properties": {"correct": true}},
+      {"source": "fulfillment", "target": "service_management", "type": "intersects", "properties": {"correct": true}},
+      {"source": "fulfillment", "target": "resource_management", "type": "intersects", "properties": {"correct": true}},
+      {"source": "assurance", "target": "crm_support", "type": "intersects", "properties": {"correct": true}},
+      {"source": "assurance", "target": "service_management", "type": "intersects", "properties": {"correct": true}},
+      {"source": "assurance", "target": "resource_management", "type": "intersects", "properties": {"correct": true}},
+      {"source": "billing_revenue", "target": "charging", "type": "contains", "properties": {"correct": true}},
+      {"source": "billing_revenue", "target": "rating_discounting", "type": "contains", "properties": {"correct": true}},
+      {"source": "billing_revenue", "target": "balance_management", "type": "contains", "properties": {"correct": true}},
+      {"source": "billing_revenue", "target": "bill_invoice", "type": "contains", "properties": {"correct": true}},
+      {"source": "billing_revenue", "target": "bill_payments", "type": "contains", "properties": {"correct": true}},
+      {"source": "enterprise_management", "target": "financial_management", "type": "contains", "properties": {"correct": true}},
+      {"source": "enterprise_management", "target": "strategic_planning", "type": "contains", "properties": {"correct": true}},
+      {"source": "strategic_planning", "target": "product_lifecycle", "type": "guides", "properties": {"correct": true}},
+      {"source": "financial_management", "target": "billing_revenue", "type": "oversees", "properties": {"correct": true}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Functional communities based on process flows",
+      "communities": [
+        {
+          "id": "community_customer_entities",
+          "label": "Customer & Offerings",
+          "size": 4,
+          "member_ids": ["customer", "product_offer", "service_instance", "resource_instance"],
+          "properties": {"category": "Business Entities", "description": "Core business entities in telecom operations"}
+        },
+        {
+          "id": "community_crm_processes",
+          "label": "CRM Processes",
+          "size": 5,
+          "member_ids": ["crm_support", "customer_interface", "selling", "order_handling", "retention_loyalty"],
+          "properties": {"category": "Customer Management", "description": "Customer-facing processes and touchpoints"}
+        },
+        {
+          "id": "community_service_ops",
+          "label": "Service Operations",
+          "size": 4,
+          "member_ids": ["service_management", "service_config", "service_problem", "service_quality"],
+          "properties": {"category": "Service Layer", "description": "Service management and operations processes"}
+        },
+        {
+          "id": "community_resource_ops",
+          "label": "Resource Operations",
+          "size": 4,
+          "member_ids": ["resource_management", "resource_provisioning", "resource_trouble", "resource_performance"],
+          "properties": {"category": "Infrastructure Layer", "description": "Resource and infrastructure management"}
+        },
+        {
+          "id": "community_partner_ops",
+          "label": "Partner Operations",
+          "size": 4,
+          "member_ids": ["supplier_partner", "partner_ordering", "partner_problem", "partner_settlements"],
+          "properties": {"category": "Partner Management", "description": "Supplier and partner management processes"}
+        },
+        {
+          "id": "community_billing_ops",
+          "label": "Billing Operations",
+          "size": 6,
+          "member_ids": ["billing_revenue", "charging", "rating_discounting", "balance_management", "bill_invoice", "bill_payments"],
+          "properties": {"category": "Revenue Management", "description": "Complete billing and revenue cycle"}
+        },
+        {
+          "id": "community_fab_areas",
+          "label": "FAB Process Areas",
+          "size": 4,
+          "member_ids": ["fulfillment", "assurance", "customer_qos", "etom_framework"],
+          "properties": {"category": "Process Areas", "description": "Main operational process areas"}
+        },
+        {
+          "id": "community_product_mgmt",
+          "label": "Product Management",
+          "size": 3,
+          "member_ids": ["product_lifecycle", "product_offering_dev", "product_catalog"],
+          "properties": {"category": "Product Domain", "description": "Product lifecycle and catalog management"}
+        },
+        {
+          "id": "community_enterprise_gov",
+          "label": "Enterprise Governance",
+          "size": 3,
+          "member_ids": ["enterprise_management", "financial_management", "strategic_planning"],
+          "properties": {"category": "Corporate Governance", "description": "Enterprise management and strategy"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_customer_entities", "target": "community_crm_processes", "type": "managed_by", "weight": 5},
+        {"source": "community_crm_processes", "target": "community_service_ops", "type": "triggers", "weight": 4},
+        {"source": "community_service_ops", "target": "community_resource_ops", "type": "orchestrates", "weight": 4},
+        {"source": "community_resource_ops", "target": "community_partner_ops", "type": "may_involve", "weight": 2},
+        {"source": "community_customer_entities", "target": "community_billing_ops", "type": "generates_usage_for", "weight": 3},
+        {"source": "community_billing_ops", "target": "community_customer_entities", "type": "collects_from", "weight": 2},
+        {"source": "community_service_ops", "target": "community_fab_areas", "type": "implements", "weight": 4},
+        {"source": "community_resource_ops", "target": "community_fab_areas", "type": "implements", "weight": 3},
+        {"source": "community_product_mgmt", "target": "community_crm_processes", "type": "defines_offerings_for", "weight": 3},
+        {"source": "community_enterprise_gov", "target": "community_product_mgmt", "type": "governs", "weight": 2},
+        {"source": "community_enterprise_gov", "target": "community_billing_ops", "type": "oversees", "weight": 2},
+        {"source": "community_crm_processes", "target": "community_fab_areas", "type": "spans", "weight": 3}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Meta-communities representing major operational domains",
+      "communities": [
+        {
+          "id": "meta_customer_domain",
+          "label": "Customer Domain",
+          "size": 2,
+          "member_ids": ["community_customer_entities", "community_crm_processes"],
+          "properties": {"meta_type": "Meta Community", "description": "All customer-facing processes and entities"}
+        },
+        {
+          "id": "meta_operations_domain",
+          "label": "Operations Domain",
+          "size": 4,
+          "member_ids": ["community_service_ops", "community_resource_ops", "community_partner_ops", "community_fab_areas"],
+          "properties": {"meta_type": "Meta Community", "description": "Service delivery and operational processes"}
+        },
+        {
+          "id": "meta_financial_domain",
+          "label": "Financial Domain",
+          "size": 2,
+          "member_ids": ["community_billing_ops", "community_enterprise_gov"],
+          "properties": {"meta_type": "Meta Community", "description": "Revenue management and enterprise governance"}
+        },
+        {
+          "id": "meta_product_domain",
+          "label": "Product Domain",
+          "size": 1,
+          "member_ids": ["community_product_mgmt"],
+          "properties": {"meta_type": "Meta Community", "description": "Product lifecycle management"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_customer_domain", "target": "meta_operations_domain", "type": "requests_from", "weight": 10},
+        {"source": "meta_operations_domain", "target": "meta_customer_domain", "type": "delivers_to", "weight": 8},
+        {"source": "meta_customer_domain", "target": "meta_financial_domain", "type": "generates_revenue_for", "weight": 6},
+        {"source": "meta_product_domain", "target": "meta_customer_domain", "type": "defines_offerings_for", "weight": 5},
+        {"source": "meta_product_domain", "target": "meta_operations_domain", "type": "specifies_for", "weight": 4},
+        {"source": "meta_financial_domain", "target": "meta_operations_domain", "type": "funds", "weight": 3}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Highest-level business model view",
+      "communities": [
+        {
+          "id": "super_value_creation",
+          "label": "Value Creation System",
+          "size": 2,
+          "member_ids": ["meta_product_domain", "meta_operations_domain"],
+          "properties": {"super_type": "Super Meta Community", "description": "Systems that create and deliver value to customers"}
+        },
+        {
+          "id": "super_value_capture",
+          "label": "Value Capture System",
+          "size": 2,
+          "member_ids": ["meta_customer_domain", "meta_financial_domain"],
+          "properties": {"super_type": "Super Meta Community", "description": "Systems that capture value from customers"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_value_creation", "target": "super_value_capture", "type": "enables_and_feeds", "weight": 20}
+      ]
+    }
+  }
+}
