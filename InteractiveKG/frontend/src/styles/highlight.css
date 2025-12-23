@@ -1,0 +1,478 @@
+/**
+ * 高亮显示效果样式
+ * 用于替换弹窗引导机制的视觉效果
+ */
+
+/* ===== 脉冲动画效果 ===== */
+@keyframes highlight-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.highlight-pulse-low {
+  animation: highlight-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-medium {
+  animation: highlight-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-high {
+  animation: highlight-pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 脉冲动画 - 绿色主题（知识推理模块） ===== */
+.highlight-pulse-low-green {
+  animation: highlight-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-medium-green {
+  animation: highlight-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-high-green {
+  animation: highlight-pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 脉冲动画 - 橙色主题（层级分析模块） ===== */
+.highlight-pulse-low-orange {
+  animation: highlight-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-medium-orange {
+  animation: highlight-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-high-orange {
+  animation: highlight-pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 脉冲动画 - 紫色主题（属性编辑模块） ===== */
+.highlight-pulse-low-purple {
+  animation: highlight-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-medium-purple {
+  animation: highlight-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-high-purple {
+  animation: highlight-pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 发光效果 ===== */
+@keyframes highlight-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+  }
+}
+
+.highlight-glow-low {
+  animation: highlight-glow 3s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-medium {
+  animation: highlight-glow 2s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-high {
+  animation: highlight-glow 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 发光效果 - 红色主题（错误数据加载） ===== */
+@keyframes highlight-glow-red {
+  0% {
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.3);
+  }
+}
+
+.highlight-glow-low-red {
+  animation: highlight-glow-red 3s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-medium-red {
+  animation: highlight-glow-red 2s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-high-red {
+  animation: highlight-glow-red 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 发光效果 - 紫色主题（属性编辑模块） ===== */
+@keyframes highlight-glow-purple {
+  0% {
+    box-shadow: 0 0 5px rgba(147, 51, 234, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.6), 0 0 30px rgba(147, 51, 234, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(147, 51, 234, 0.3);
+  }
+}
+
+.highlight-glow-low-purple {
+  animation: highlight-glow-purple 3s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-medium-purple {
+  animation: highlight-glow-purple 2s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-high-purple {
+  animation: highlight-glow-purple 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 边框闪烁效果 ===== */
+@keyframes highlight-border {
+  0% {
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    border-color: rgba(59, 130, 246, 1);
+  }
+  100% {
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+}
+
+.highlight-border-low {
+  animation: highlight-border 2.5s ease-in-out infinite;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-border-medium {
+  animation: highlight-border 2s ease-in-out infinite;
+  border: 3px solid rgba(59, 130, 246, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-border-high {
+  animation: highlight-border 1.5s ease-in-out infinite;
+  border: 4px solid rgba(59, 130, 246, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 边框闪烁效果 - 蓝色主题（节点解释模块） ===== */
+@keyframes highlight-border-blue {
+  0% {
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    border-color: rgba(59, 130, 246, 1);
+  }
+  100% {
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+}
+
+.highlight-border-low-blue {
+  animation: highlight-border-blue 2.5s ease-in-out infinite;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-border-medium-blue {
+  animation: highlight-border-blue 2s ease-in-out infinite;
+  border: 3px solid rgba(59, 130, 246, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-border-high-blue {
+  animation: highlight-border-blue 1.5s ease-in-out infinite;
+  border: 4px solid rgba(59, 130, 246, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 背景色变化效果 ===== */
+@keyframes highlight-background {
+  0% {
+    background-color: rgba(59, 130, 246, 0.05);
+  }
+  50% {
+    background-color: rgba(59, 130, 246, 0.15);
+  }
+  100% {
+    background-color: rgba(59, 130, 246, 0.05);
+  }
+}
+
+.highlight-background-low {
+  animation: highlight-background 3s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-background-medium {
+  animation: highlight-background 2s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-background-high {
+  animation: highlight-background 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 组合效果（用于重要提示） ===== */
+.highlight-combo-attention {
+  animation: highlight-pulse 1s ease-in-out infinite, highlight-glow 2s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.4);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 特殊阶段的自定义效果 ===== */
+
+/* 智能求解阶段 - 金色发光 */
+.highlight-smart-solve {
+  animation: highlight-glow 2s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.6), 0 0 25px rgba(251, 191, 36, 0.4);
+  border: 2px solid rgba(251, 191, 36, 0.8);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* 层级抽象阶段 - 紫色脉冲 */
+.highlight-hierarchical {
+  animation: highlight-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.5);
+  border: 2px solid rgba(147, 51, 234, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* 错误数据加载阶段 - 红色警告 */
+.highlight-error-data {
+  animation: highlight-glow 1.5s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6), 0 0 25px rgba(239, 68, 68, 0.4);
+  border: 2px solid rgba(239, 68, 68, 0.8);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 768px) {
+  .highlight-pulse-low,
+  .highlight-pulse-medium,
+  .highlight-pulse-high {
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.5);
+  }
+  
+  .highlight-glow-low,
+  .highlight-glow-medium,
+  .highlight-glow-high {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+  
+  .highlight-border-low,
+  .highlight-border-medium,
+  .highlight-border-high {
+    border-width: 2px;
+  }
+}
+
+/* ===== 辅助类 ===== */
+.highlight-container {
+  position: relative;
+  z-index: 10;
+}
+
+.highlight-overlay {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  pointer-events: none;
+  border-radius: 12px;
+  z-index: -1;
+}
+
+/* ===== 平滑过渡效果 ===== */
+.highlight-transition {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== 高亮提示文字 ===== */
+.highlight-tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(59, 130, 246, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0;
+  animation: tooltip-fade-in 0.3s ease-out forwards;
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.highlight-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(59, 130, 246, 0.9);
+}
+
+/* ===== 脉冲动画 - 黄色主题（知识推理模块） ===== */
+.highlight-pulse-low-yellow {
+  animation: highlight-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-medium-yellow {
+  animation: highlight-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-pulse-high-yellow {
+  animation: highlight-pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 发光效果 - 黄色主题 ===== */
+.highlight-glow-low-yellow {
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.3), 0 0 20px rgba(234, 179, 8, 0.2);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-medium-yellow {
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.5), 0 0 30px rgba(234, 179, 8, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-glow-high-yellow {
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.7), 0 0 40px rgba(234, 179, 8, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* ===== 边框效果 - 黄色主题 ===== */
+.highlight-border-low-yellow {
+  border: 2px solid rgba(234, 179, 8, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-border-medium-yellow {
+  border: 3px solid rgba(234, 179, 8, 0.5);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.highlight-border-high-yellow {
+  border: 4px solid rgba(234, 179, 8, 0.7);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}

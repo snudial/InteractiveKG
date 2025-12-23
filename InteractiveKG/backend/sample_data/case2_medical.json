@@ -1,0 +1,290 @@
+{
+  "domain": "medical",
+  "case": "case2",
+  "description": "COVID-19 knowledge graph with correct relationships. Accurate drug-disease interactions and complete pathway connections based on COVID-19 Knowledge Graph and Hetionet datasets.",
+  "question": "How does the SARS-CoV-2 virus enter host cells and what are the validated therapeutic strategies targeting different stages of infection?",
+  "llm_response": "SARS-CoV-2 enters host cells through the ACE2 receptor, with the spike protein binding to ACE2 and TMPRSS2 facilitating membrane fusion. Once inside, the virus hijacks cellular machinery for replication using RNA-dependent RNA polymerase (RdRp). Validated treatments include: Remdesivir inhibits RdRp to block viral replication; Paxlovid inhibits the main protease (Mpro) essential for viral polyprotein processing; for severe cases with hyperinflammation, Dexamethasone reduces mortality by suppressing excessive immune response via NF-κB pathway inhibition; Tocilizumab blocks IL-6 signaling to mitigate cytokine storm; and Baricitinib inhibits JAK-STAT signaling. These treatments target distinct phases of infection and immune dysregulation.",
+  "original_graph": {
+    "nodes": [
+      {"id": "sars_cov_2", "label": "SARS-CoV-2", "type": "Virus", "properties": {"taxonomy": "Betacoronavirus", "genome_type": "Positive-sense single-stranded RNA", "genome_size": "29.9 kb"}},
+      {"id": "spike_protein", "label": "Spike Protein (S)", "type": "Protein", "properties": {"function": "Viral entry", "structure": "Trimeric glycoprotein", "rbd_location": "S1 subunit"}},
+      {"id": "ace2_receptor", "label": "ACE2 Receptor", "type": "Receptor", "properties": {"function": "Viral receptor", "location": "Cell membrane", "normal_function": "Renin-angiotensin system"}},
+      {"id": "tmprss2", "label": "TMPRSS2", "type": "Enzyme", "properties": {"function": "Spike protein priming", "enzyme_class": "Serine protease", "cleavage_site": "S2 subunit"}},
+      {"id": "rdrp", "label": "RNA-dependent RNA Polymerase (RdRp)", "type": "Enzyme", "properties": {"function": "Viral replication", "target_type": "Antiviral target", "nsp": "nsp12"}},
+      {"id": "main_protease", "label": "Main Protease (Mpro/3CLpro)", "type": "Enzyme", "properties": {"function": "Polyprotein processing", "cleavage_sites": 11, "drug_target": true}},
+      {"id": "papain_like_protease", "label": "Papain-like Protease (PLpro)", "type": "Enzyme", "properties": {"function": "Polyprotein cleavage", "immune_evasion": true, "deubiquitinase_activity": true}},
+      {"id": "nsp14", "label": "nsp14 (ExoN)", "type": "Enzyme", "properties": {"function": "Proofreading exonuclease", "role": "Replication fidelity"}},
+      {"id": "nucleocapsid", "label": "Nucleocapsid Protein (N)", "type": "Protein", "properties": {"function": "RNA packaging", "diagnostic_marker": true, "phosphorylation": true}},
+      {"id": "envelope_protein", "label": "Envelope Protein (E)", "type": "Protein", "properties": {"function": "Viral assembly", "ion_channel": true}},
+      {"id": "membrane_protein", "label": "Membrane Protein (M)", "type": "Protein", "properties": {"function": "Virion structure", "most_abundant": true}},
+      {"id": "remdesivir", "label": "Remdesivir", "type": "Drug", "properties": {"drug_class": "Nucleoside analog", "approval_status": "FDA approved", "prodrug": true}},
+      {"id": "paxlovid", "label": "Paxlovid", "type": "Drug", "properties": {"drug_class": "Protease inhibitor combination", "components": "Nirmatrelvir + Ritonavir", "approval_status": "FDA authorized"}},
+      {"id": "molnupiravir", "label": "Molnupiravir", "type": "Drug", "properties": {"drug_class": "Nucleoside analog", "mechanism": "Lethal mutagenesis", "approval_status": "FDA authorized"}},
+      {"id": "dexamethasone", "label": "Dexamethasone", "type": "Drug", "properties": {"drug_class": "Corticosteroid", "approval_status": "Standard of care", "indication": "Severe COVID-19"}},
+      {"id": "tocilizumab", "label": "Tocilizumab", "type": "Drug", "properties": {"drug_class": "IL-6 receptor antagonist", "approval_status": "FDA authorized", "target": "IL-6R"}},
+      {"id": "baricitinib", "label": "Baricitinib", "type": "Drug", "properties": {"drug_class": "JAK inhibitor", "approval_status": "FDA authorized", "selectivity": "JAK1/JAK2"}},
+      {"id": "sotrovimab", "label": "Sotrovimab", "type": "Drug", "properties": {"drug_class": "Monoclonal antibody", "target": "Spike protein RBD", "variant_coverage": "Broad"}},
+      {"id": "il6", "label": "Interleukin-6 (IL-6)", "type": "Cytokine", "properties": {"role": "Pro-inflammatory", "pathway": "JAK-STAT", "biomarker": true}},
+      {"id": "il1_beta", "label": "IL-1β", "type": "Cytokine", "properties": {"role": "Pro-inflammatory", "inflammasome": "NLRP3"}},
+      {"id": "tnf_alpha", "label": "TNF-α", "type": "Cytokine", "properties": {"role": "Pro-inflammatory", "source": "Macrophages, Monocytes"}},
+      {"id": "interferon_alpha", "label": "IFN-α", "type": "Cytokine", "properties": {"role": "Type I interferon", "antiviral_activity": true}},
+      {"id": "interferon_beta", "label": "IFN-β", "type": "Cytokine", "properties": {"role": "Type I interferon", "antiviral_activity": true}},
+      {"id": "interferon_gamma", "label": "IFN-γ", "type": "Cytokine", "properties": {"role": "Type II interferon", "source": "T cells, NK cells"}},
+      {"id": "cxcl10", "label": "CXCL10 (IP-10)", "type": "Chemokine", "properties": {"role": "T cell recruitment", "biomarker": true}},
+      {"id": "cytokine_storm", "label": "Cytokine Storm", "type": "Condition", "properties": {"severity": "Critical", "mortality_risk": "High", "biomarkers": "IL-6, Ferritin, D-dimer"}},
+      {"id": "ards", "label": "Acute Respiratory Distress Syndrome", "type": "Condition", "properties": {"severity": "Severe", "pf_ratio": "<300", "bilateral_infiltrates": true}},
+      {"id": "pneumonia", "label": "COVID-19 Pneumonia", "type": "Condition", "properties": {"imaging": "Ground-glass opacity", "bilateral": true, "progression": "Rapid"}},
+      {"id": "thrombosis", "label": "Thrombosis/Coagulopathy", "type": "Condition", "properties": {"complication_type": "Vascular", "d_dimer_elevated": true, "risk": "VTE, PE"}},
+      {"id": "multi_organ_failure", "label": "Multi-Organ Failure", "type": "Condition", "properties": {"organs_affected": "Lungs, Kidneys, Heart", "mortality": "Very high"}},
+      {"id": "type2_pneumocyte", "label": "Type II Pneumocyte", "type": "Cell", "properties": {"function": "Surfactant production", "ace2_expression": "High", "primary_target": true}},
+      {"id": "alveolar_macrophage", "label": "Alveolar Macrophage", "type": "Cell", "properties": {"function": "Phagocytosis", "cytokine_production": true, "m1_m2": "M1 polarization"}},
+      {"id": "dendritic_cell", "label": "Dendritic Cell", "type": "Cell", "properties": {"function": "Antigen presentation", "location": "Lung interstitium"}},
+      {"id": "cd4_t_cell", "label": "CD4+ T Helper Cell", "type": "Cell", "properties": {"function": "Adaptive immunity coordination", "lymphopenia": true}},
+      {"id": "cd8_t_cell", "label": "CD8+ Cytotoxic T Cell", "type": "Cell", "properties": {"function": "Infected cell killing", "exhaustion": "PD-1 upregulation"}},
+      {"id": "nk_cell", "label": "Natural Killer Cell", "type": "Cell", "properties": {"function": "Innate cytotoxicity", "ifn_gamma_production": true}},
+      {"id": "neutrophil", "label": "Neutrophil", "type": "Cell", "properties": {"function": "Innate immunity", "netosis": true, "tissue_damage": true}},
+      {"id": "monocyte", "label": "Monocyte", "type": "Cell", "properties": {"function": "Cytokine production", "differentiation": "Macrophage"}},
+      {"id": "endothelial_cell", "label": "Endothelial Cell", "type": "Cell", "properties": {"function": "Vascular barrier", "ace2_expression": "Moderate", "endotheliitis": true}},
+      {"id": "jak_stat_pathway", "label": "JAK-STAT Pathway", "type": "Pathway", "properties": {"signaling_type": "Cytokine signaling", "components": "JAK1, JAK2, STAT1, STAT3"}},
+      {"id": "nfkb_pathway", "label": "NF-κB Pathway", "type": "Pathway", "properties": {"signaling_type": "Inflammatory transcription", "activation": "Cytokine, TLR"}},
+      {"id": "nlrp3_inflammasome", "label": "NLRP3 Inflammasome", "type": "Pathway", "properties": {"function": "IL-1β, IL-18 processing", "pyroptosis": true}},
+      {"id": "type1_ifn_pathway", "label": "Type I IFN Pathway", "type": "Pathway", "properties": {"function": "Antiviral response", "components": "IRF3, IRF7, IFNAR"}},
+      {"id": "coagulation_cascade", "label": "Coagulation Cascade", "type": "Pathway", "properties": {"components": "Tissue Factor, Thrombin, Fibrin", "dysregulation": "Immunothrombosis"}}
+    ],
+    "relationships": [
+      {"source": "sars_cov_2", "target": "spike_protein", "type": "encodes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "nucleocapsid", "type": "encodes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "envelope_protein", "type": "encodes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "membrane_protein", "type": "encodes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "rdrp", "type": "encodes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "main_protease", "type": "encodes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "papain_like_protease", "type": "encodes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "nsp14", "type": "encodes", "properties": {"correct": true}},
+      {"source": "spike_protein", "target": "ace2_receptor", "type": "binds_to", "properties": {"correct": true, "affinity": "High"}},
+      {"source": "tmprss2", "target": "spike_protein", "type": "primes", "properties": {"correct": true}},
+      {"source": "ace2_receptor", "target": "type2_pneumocyte", "type": "expressed_on", "properties": {"correct": true}},
+      {"source": "ace2_receptor", "target": "endothelial_cell", "type": "expressed_on", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "type2_pneumocyte", "type": "infects", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "endothelial_cell", "type": "infects", "properties": {"correct": true}},
+      {"source": "remdesivir", "target": "rdrp", "type": "inhibits", "properties": {"correct": true, "mechanism": "Chain termination"}},
+      {"source": "paxlovid", "target": "main_protease", "type": "inhibits", "properties": {"correct": true, "mechanism": "Active site binding"}},
+      {"source": "molnupiravir", "target": "rdrp", "type": "disrupts", "properties": {"correct": true, "mechanism": "Lethal mutagenesis"}},
+      {"source": "sotrovimab", "target": "spike_protein", "type": "neutralizes", "properties": {"correct": true}},
+      {"source": "dexamethasone", "target": "nfkb_pathway", "type": "inhibits", "properties": {"correct": true}},
+      {"source": "dexamethasone", "target": "cytokine_storm", "type": "reduces", "properties": {"correct": true}},
+      {"source": "tocilizumab", "target": "il6", "type": "blocks_receptor", "properties": {"correct": true}},
+      {"source": "tocilizumab", "target": "jak_stat_pathway", "type": "indirectly_inhibits", "properties": {"correct": true}},
+      {"source": "baricitinib", "target": "jak_stat_pathway", "type": "inhibits", "properties": {"correct": true}},
+      {"source": "type2_pneumocyte", "target": "alveolar_macrophage", "type": "activates", "properties": {"correct": true}},
+      {"source": "alveolar_macrophage", "target": "il6", "type": "produces", "properties": {"correct": true}},
+      {"source": "alveolar_macrophage", "target": "il1_beta", "type": "produces", "properties": {"correct": true}},
+      {"source": "alveolar_macrophage", "target": "tnf_alpha", "type": "produces", "properties": {"correct": true}},
+      {"source": "monocyte", "target": "il6", "type": "produces", "properties": {"correct": true}},
+      {"source": "dendritic_cell", "target": "cd4_t_cell", "type": "activates", "properties": {"correct": true}},
+      {"source": "cd4_t_cell", "target": "cd8_t_cell", "type": "helps", "properties": {"correct": true}},
+      {"source": "cd8_t_cell", "target": "sars_cov_2", "type": "kills_infected_cells", "properties": {"correct": true}},
+      {"source": "nk_cell", "target": "interferon_gamma", "type": "produces", "properties": {"correct": true}},
+      {"source": "cd4_t_cell", "target": "interferon_gamma", "type": "produces", "properties": {"correct": true}},
+      {"source": "il6", "target": "jak_stat_pathway", "type": "activates", "properties": {"correct": true}},
+      {"source": "tnf_alpha", "target": "nfkb_pathway", "type": "activates", "properties": {"correct": true}},
+      {"source": "il1_beta", "target": "nlrp3_inflammasome", "type": "produced_by", "properties": {"correct": true}},
+      {"source": "il6", "target": "cytokine_storm", "type": "contributes_to", "properties": {"correct": true}},
+      {"source": "tnf_alpha", "target": "cytokine_storm", "type": "contributes_to", "properties": {"correct": true}},
+      {"source": "il1_beta", "target": "cytokine_storm", "type": "contributes_to", "properties": {"correct": true}},
+      {"source": "cytokine_storm", "target": "ards", "type": "causes", "properties": {"correct": true}},
+      {"source": "cytokine_storm", "target": "multi_organ_failure", "type": "causes", "properties": {"correct": true}},
+      {"source": "sars_cov_2", "target": "pneumonia", "type": "causes", "properties": {"correct": true}},
+      {"source": "pneumonia", "target": "ards", "type": "progresses_to", "properties": {"correct": true}},
+      {"source": "endothelial_cell", "target": "coagulation_cascade", "type": "activates", "properties": {"correct": true}},
+      {"source": "neutrophil", "target": "coagulation_cascade", "type": "promotes_via_nets", "properties": {"correct": true}},
+      {"source": "coagulation_cascade", "target": "thrombosis", "type": "causes", "properties": {"correct": true}},
+      {"source": "papain_like_protease", "target": "type1_ifn_pathway", "type": "suppresses", "properties": {"correct": true}},
+      {"source": "type1_ifn_pathway", "target": "interferon_alpha", "type": "induces", "properties": {"correct": true}},
+      {"source": "type1_ifn_pathway", "target": "interferon_beta", "type": "induces", "properties": {"correct": true}},
+      {"source": "interferon_alpha", "target": "sars_cov_2", "type": "inhibits_replication", "properties": {"correct": true}},
+      {"source": "interferon_beta", "target": "sars_cov_2", "type": "inhibits_replication", "properties": {"correct": true}},
+      {"source": "cxcl10", "target": "cd8_t_cell", "type": "recruits", "properties": {"correct": true}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Functional communities identified by Leiden algorithm with resolution=1.0",
+      "communities": [
+        {
+          "id": "community_viral_proteins",
+          "label": "SARS-CoV-2 Structural & Non-structural Proteins",
+          "size": 9,
+          "member_ids": ["sars_cov_2", "spike_protein", "nucleocapsid", "envelope_protein", "membrane_protein", "rdrp", "main_protease", "papain_like_protease", "nsp14"],
+          "properties": {"category": "Viral Components", "description": "Complete set of SARS-CoV-2 proteins involved in structure and replication"}
+        },
+        {
+          "id": "community_host_entry",
+          "label": "Host Cell Entry Machinery",
+          "size": 2,
+          "member_ids": ["ace2_receptor", "tmprss2"],
+          "properties": {"category": "Host Factors", "description": "Host proteins required for viral entry"}
+        },
+        {
+          "id": "community_antiviral_drugs",
+          "label": "Direct-Acting Antivirals",
+          "size": 4,
+          "member_ids": ["remdesivir", "paxlovid", "molnupiravir", "sotrovimab"],
+          "properties": {"category": "Therapeutics", "description": "Drugs directly targeting viral components"}
+        },
+        {
+          "id": "community_immunomodulators",
+          "label": "Immunomodulatory Therapeutics",
+          "size": 3,
+          "member_ids": ["dexamethasone", "tocilizumab", "baricitinib"],
+          "properties": {"category": "Therapeutics", "description": "Drugs modulating host immune response"}
+        },
+        {
+          "id": "community_proinflammatory_cytokines",
+          "label": "Pro-inflammatory Cytokines",
+          "size": 4,
+          "member_ids": ["il6", "il1_beta", "tnf_alpha", "cxcl10"],
+          "properties": {"category": "Inflammatory Mediators", "description": "Cytokines driving inflammation and cytokine storm"}
+        },
+        {
+          "id": "community_interferons",
+          "label": "Interferon System",
+          "size": 3,
+          "member_ids": ["interferon_alpha", "interferon_beta", "interferon_gamma"],
+          "properties": {"category": "Antiviral Cytokines", "description": "Type I and II interferons for antiviral defense"}
+        },
+        {
+          "id": "community_clinical_complications",
+          "label": "Clinical Complications",
+          "size": 5,
+          "member_ids": ["cytokine_storm", "ards", "pneumonia", "thrombosis", "multi_organ_failure"],
+          "properties": {"category": "Disease Outcomes", "description": "Severe clinical manifestations of COVID-19"}
+        },
+        {
+          "id": "community_innate_immune_cells",
+          "label": "Innate Immune Cells",
+          "size": 5,
+          "member_ids": ["alveolar_macrophage", "dendritic_cell", "nk_cell", "neutrophil", "monocyte"],
+          "properties": {"category": "Innate Immunity", "description": "Cells of the innate immune response"}
+        },
+        {
+          "id": "community_adaptive_immune_cells",
+          "label": "Adaptive Immune Cells",
+          "size": 2,
+          "member_ids": ["cd4_t_cell", "cd8_t_cell"],
+          "properties": {"category": "Adaptive Immunity", "description": "T cell mediated adaptive immune response"}
+        },
+        {
+          "id": "community_target_cells",
+          "label": "Primary Target Cells",
+          "size": 2,
+          "member_ids": ["type2_pneumocyte", "endothelial_cell"],
+          "properties": {"category": "Host Cells", "description": "Primary cellular targets of SARS-CoV-2"}
+        },
+        {
+          "id": "community_signaling_pathways",
+          "label": "Inflammatory Signaling Pathways",
+          "size": 4,
+          "member_ids": ["jak_stat_pathway", "nfkb_pathway", "nlrp3_inflammasome", "type1_ifn_pathway"],
+          "properties": {"category": "Signaling", "description": "Key signaling pathways in COVID-19 pathogenesis"}
+        },
+        {
+          "id": "community_coagulation",
+          "label": "Coagulation System",
+          "size": 1,
+          "member_ids": ["coagulation_cascade"],
+          "properties": {"category": "Hemostasis", "description": "Coagulation pathway involved in COVID-19 coagulopathy"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_viral_proteins", "target": "community_host_entry", "type": "utilizes_for_entry", "weight": 2},
+        {"source": "community_host_entry", "target": "community_target_cells", "type": "expressed_on", "weight": 2},
+        {"source": "community_viral_proteins", "target": "community_target_cells", "type": "infects", "weight": 2},
+        {"source": "community_antiviral_drugs", "target": "community_viral_proteins", "type": "inhibits", "weight": 4},
+        {"source": "community_immunomodulators", "target": "community_proinflammatory_cytokines", "type": "suppresses", "weight": 2},
+        {"source": "community_immunomodulators", "target": "community_signaling_pathways", "type": "inhibits", "weight": 3},
+        {"source": "community_target_cells", "target": "community_innate_immune_cells", "type": "activates", "weight": 2},
+        {"source": "community_innate_immune_cells", "target": "community_proinflammatory_cytokines", "type": "produces", "weight": 5},
+        {"source": "community_innate_immune_cells", "target": "community_adaptive_immune_cells", "type": "activates", "weight": 2},
+        {"source": "community_adaptive_immune_cells", "target": "community_interferons", "type": "produces", "weight": 2},
+        {"source": "community_adaptive_immune_cells", "target": "community_viral_proteins", "type": "targets", "weight": 1},
+        {"source": "community_proinflammatory_cytokines", "target": "community_signaling_pathways", "type": "activates", "weight": 4},
+        {"source": "community_proinflammatory_cytokines", "target": "community_clinical_complications", "type": "causes", "weight": 4},
+        {"source": "community_interferons", "target": "community_viral_proteins", "type": "inhibits_replication", "weight": 2},
+        {"source": "community_viral_proteins", "target": "community_signaling_pathways", "type": "suppresses_ifn", "weight": 1},
+        {"source": "community_target_cells", "target": "community_coagulation", "type": "activates", "weight": 1},
+        {"source": "community_innate_immune_cells", "target": "community_coagulation", "type": "promotes", "weight": 1},
+        {"source": "community_coagulation", "target": "community_clinical_complications", "type": "causes", "weight": 1},
+        {"source": "community_viral_proteins", "target": "community_clinical_complications", "type": "causes", "weight": 2}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Meta-communities representing major functional domains",
+      "communities": [
+        {
+          "id": "meta_viral_infection",
+          "label": "Viral Infection Machinery",
+          "size": 3,
+          "member_ids": ["community_viral_proteins", "community_host_entry", "community_target_cells"],
+          "properties": {"meta_type": "Meta Community", "description": "Complete viral infection and cellular entry system"}
+        },
+        {
+          "id": "meta_therapeutic_arsenal",
+          "label": "Therapeutic Arsenal",
+          "size": 2,
+          "member_ids": ["community_antiviral_drugs", "community_immunomodulators"],
+          "properties": {"meta_type": "Meta Community", "description": "All therapeutic interventions for COVID-19"}
+        },
+        {
+          "id": "meta_immune_response",
+          "label": "Immune Response System",
+          "size": 4,
+          "member_ids": ["community_innate_immune_cells", "community_adaptive_immune_cells", "community_proinflammatory_cytokines", "community_interferons"],
+          "properties": {"meta_type": "Meta Community", "description": "Complete host immune response to infection"}
+        },
+        {
+          "id": "meta_pathological_outcomes",
+          "label": "Pathological Outcomes",
+          "size": 3,
+          "member_ids": ["community_signaling_pathways", "community_coagulation", "community_clinical_complications"],
+          "properties": {"meta_type": "Meta Community", "description": "Disease mechanisms and clinical outcomes"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_viral_infection", "target": "meta_immune_response", "type": "triggers", "weight": 12},
+        {"source": "meta_therapeutic_arsenal", "target": "meta_viral_infection", "type": "targets", "weight": 6},
+        {"source": "meta_therapeutic_arsenal", "target": "meta_immune_response", "type": "modulates", "weight": 5},
+        {"source": "meta_therapeutic_arsenal", "target": "meta_pathological_outcomes", "type": "prevents", "weight": 3},
+        {"source": "meta_immune_response", "target": "meta_pathological_outcomes", "type": "drives", "weight": 14},
+        {"source": "meta_immune_response", "target": "meta_viral_infection", "type": "controls", "weight": 5},
+        {"source": "meta_viral_infection", "target": "meta_pathological_outcomes", "type": "causes", "weight": 4}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Highest conceptual model of COVID-19 disease",
+      "communities": [
+        {
+          "id": "super_disease_mechanism",
+          "label": "COVID-19 Disease Mechanism",
+          "size": 2,
+          "member_ids": ["meta_viral_infection", "meta_immune_response"],
+          "properties": {"super_type": "Super Meta Community", "description": "Complete pathophysiological mechanism of COVID-19 including infection and host response"}
+        },
+        {
+          "id": "super_clinical_framework",
+          "label": "Clinical Management Framework",
+          "size": 2,
+          "member_ids": ["meta_therapeutic_arsenal", "meta_pathological_outcomes"],
+          "properties": {"super_type": "Super Meta Community", "description": "Treatment strategies and disease outcomes requiring clinical management"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_disease_mechanism", "target": "super_clinical_framework", "type": "determines_and_informs", "weight": 25}
+      ]
+    }
+  }
+}

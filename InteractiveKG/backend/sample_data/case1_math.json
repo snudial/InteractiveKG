@@ -1,0 +1,221 @@
+{
+  "domain": "math",
+  "case": "case1",
+  "description": "Mathematics knowledge graph with erroneous relationships. Contains incorrect theorem dependencies, wrong mathematical hierarchies, and missing critical concept connections based on Math Knowledge Graph dataset.",
+  "question": "What are the foundational relationships between calculus, linear algebra, and their applications in machine learning, and how do mathematical concepts build upon each other?",
+  "llm_response": "Calculus was developed after Linear Algebra and depends on matrix theory for its foundations. The derivative is defined using eigenvalues, while integrals are computed through matrix decomposition. Linear Algebra's vector spaces are built upon the Fundamental Theorem of Calculus. In machine learning, gradient descent uses determinants rather than partial derivatives. Neural networks rely primarily on combinatorics rather than linear transformations and calculus. Probability theory is independent of measure theory and does not require integration concepts.",
+  "original_graph": {
+    "nodes": [
+      {"id": "calculus", "label": "Calculus", "type": "Field", "properties": {"branch": "Analysis", "founders": "Newton, Leibniz", "century": 17}},
+      {"id": "linear_algebra", "label": "Linear Algebra", "type": "Field", "properties": {"branch": "Algebra", "applications": "Widespread", "abstraction": "Vector spaces"}},
+      {"id": "real_analysis", "label": "Real Analysis", "type": "Field", "properties": {"branch": "Analysis", "rigor": "High", "foundation": "Set theory"}},
+      {"id": "abstract_algebra", "label": "Abstract Algebra", "type": "Field", "properties": {"branch": "Algebra", "structures": "Groups, Rings, Fields"}},
+      {"id": "probability_theory", "label": "Probability Theory", "type": "Field", "properties": {"branch": "Applied Mathematics", "foundation": "Measure theory"}},
+      {"id": "statistics", "label": "Statistics", "type": "Field", "properties": {"branch": "Applied Mathematics", "types": "Descriptive, Inferential"}},
+      {"id": "optimization", "label": "Optimization Theory", "type": "Field", "properties": {"branch": "Applied Mathematics", "types": "Convex, Non-convex"}},
+      {"id": "numerical_analysis", "label": "Numerical Analysis", "type": "Field", "properties": {"branch": "Computational", "focus": "Approximation algorithms"}},
+      {"id": "derivative", "label": "Derivative", "type": "Concept", "properties": {"definition": "Rate of change", "notation": "f'(x), df/dx"}},
+      {"id": "integral", "label": "Integral", "type": "Concept", "properties": {"types": "Definite, Indefinite", "notation": "∫f(x)dx"}},
+      {"id": "limit", "label": "Limit", "type": "Concept", "properties": {"definition": "Approach behavior", "notation": "lim", "epsilon_delta": true}},
+      {"id": "continuity", "label": "Continuity", "type": "Concept", "properties": {"definition": "No breaks", "types": "Pointwise, Uniform"}},
+      {"id": "partial_derivative", "label": "Partial Derivative", "type": "Concept", "properties": {"definition": "Multivariate rate of change", "notation": "∂f/∂x"}},
+      {"id": "gradient", "label": "Gradient", "type": "Concept", "properties": {"definition": "Vector of partial derivatives", "notation": "∇f"}},
+      {"id": "chain_rule", "label": "Chain Rule", "type": "Theorem", "properties": {"application": "Composite functions", "formula": "(f∘g)' = f'(g)·g'"}},
+      {"id": "ftc", "label": "Fundamental Theorem of Calculus", "type": "Theorem", "properties": {"parts": 2, "connects": "Derivative and Integral"}},
+      {"id": "vector_space", "label": "Vector Space", "type": "Concept", "properties": {"axioms": 8, "examples": "R^n, Function spaces"}},
+      {"id": "matrix", "label": "Matrix", "type": "Concept", "properties": {"definition": "2D array", "operations": "Addition, Multiplication"}},
+      {"id": "eigenvalue", "label": "Eigenvalue", "type": "Concept", "properties": {"definition": "Scalar in Av=λv", "application": "Diagonalization"}},
+      {"id": "eigenvector", "label": "Eigenvector", "type": "Concept", "properties": {"definition": "Vector in Av=λv", "non_zero": true}},
+      {"id": "determinant", "label": "Determinant", "type": "Concept", "properties": {"definition": "Scalar from square matrix", "geometric": "Signed volume"}},
+      {"id": "linear_transformation", "label": "Linear Transformation", "type": "Concept", "properties": {"preserves": "Addition, Scalar multiplication"}},
+      {"id": "matrix_decomposition", "label": "Matrix Decomposition", "type": "Concept", "properties": {"types": "SVD, QR, LU, Eigendecomposition"}},
+      {"id": "inner_product", "label": "Inner Product", "type": "Concept", "properties": {"definition": "Generalized dot product", "induces": "Norm"}},
+      {"id": "gradient_descent", "label": "Gradient Descent", "type": "Algorithm", "properties": {"type": "Optimization", "variants": "SGD, Adam, RMSprop"}},
+      {"id": "backpropagation", "label": "Backpropagation", "type": "Algorithm", "properties": {"based_on": "Chain rule", "application": "Neural networks"}},
+      {"id": "loss_function", "label": "Loss Function", "type": "Concept", "properties": {"types": "MSE, Cross-entropy", "minimized": true}},
+      {"id": "neural_network", "label": "Neural Network", "type": "Model", "properties": {"layers": "Input, Hidden, Output", "nonlinearity": true}},
+      {"id": "convolution", "label": "Convolution", "type": "Operation", "properties": {"definition": "Weighted sum", "application": "Signal processing, CNN"}},
+      {"id": "probability_distribution", "label": "Probability Distribution", "type": "Concept", "properties": {"types": "Discrete, Continuous", "sums_to": 1}},
+      {"id": "expected_value", "label": "Expected Value", "type": "Concept", "properties": {"definition": "Weighted average", "notation": "E[X]"}},
+      {"id": "variance", "label": "Variance", "type": "Concept", "properties": {"definition": "Spread measure", "notation": "Var(X)"}},
+      {"id": "bayes_theorem", "label": "Bayes' Theorem", "type": "Theorem", "properties": {"formula": "P(A|B) = P(B|A)P(A)/P(B)", "application": "Inference"}},
+      {"id": "measure_theory", "label": "Measure Theory", "type": "Field", "properties": {"foundation": "Set theory", "generalizes": "Length, Area, Volume"}}
+    ],
+    "relationships": [
+      {"source": "calculus", "target": "linear_algebra", "type": "depends_on", "properties": {"error": true}},
+      {"source": "linear_algebra", "target": "calculus", "type": "historically_precedes", "properties": {"correct": true, "hidden": true}},
+      {"source": "derivative", "target": "eigenvalue", "type": "defined_using", "properties": {"error": true}},
+      {"source": "derivative", "target": "limit", "type": "defined_using", "properties": {"correct": true, "hidden": true}},
+      {"source": "integral", "target": "matrix_decomposition", "type": "computed_via", "properties": {"error": true}},
+      {"source": "integral", "target": "limit", "type": "defined_using", "properties": {"correct": true, "hidden": true}},
+      {"source": "vector_space", "target": "ftc", "type": "built_upon", "properties": {"error": true}},
+      {"source": "vector_space", "target": "abstract_algebra", "type": "generalized_from", "properties": {"correct": true, "hidden": true}},
+      {"source": "gradient_descent", "target": "determinant", "type": "uses", "properties": {"error": true}},
+      {"source": "gradient_descent", "target": "gradient", "type": "uses", "properties": {"correct": true, "hidden": true}},
+      {"source": "neural_network", "target": "linear_transformation", "type": "does_not_use", "properties": {"error": true}},
+      {"source": "neural_network", "target": "linear_transformation", "type": "heavily_uses", "properties": {"correct": true, "hidden": true}},
+      {"source": "probability_theory", "target": "measure_theory", "type": "independent_of", "properties": {"error": true}},
+      {"source": "probability_theory", "target": "measure_theory", "type": "founded_on", "properties": {"correct": true, "hidden": true}},
+      {"source": "limit", "target": "derivative", "type": "foundation_of", "properties": {}},
+      {"source": "limit", "target": "integral", "type": "foundation_of", "properties": {}},
+      {"source": "limit", "target": "continuity", "type": "defines", "properties": {}},
+      {"source": "derivative", "target": "partial_derivative", "type": "generalized_to", "properties": {}},
+      {"source": "partial_derivative", "target": "gradient", "type": "forms", "properties": {}},
+      {"source": "chain_rule", "target": "derivative", "type": "applies_to", "properties": {}},
+      {"source": "chain_rule", "target": "backpropagation", "type": "foundation_of", "properties": {}},
+      {"source": "ftc", "target": "derivative", "type": "connects", "properties": {}},
+      {"source": "ftc", "target": "integral", "type": "connects", "properties": {}},
+      {"source": "matrix", "target": "linear_transformation", "type": "represents", "properties": {}},
+      {"source": "matrix", "target": "determinant", "type": "has_property", "properties": {}},
+      {"source": "matrix", "target": "eigenvalue", "type": "has_property", "properties": {}},
+      {"source": "eigenvalue", "target": "eigenvector", "type": "paired_with", "properties": {}},
+      {"source": "matrix", "target": "matrix_decomposition", "type": "factored_by", "properties": {}},
+      {"source": "vector_space", "target": "inner_product", "type": "equipped_with", "properties": {}},
+      {"source": "gradient", "target": "gradient_descent", "type": "used_in", "properties": {}},
+      {"source": "loss_function", "target": "gradient_descent", "type": "minimized_by", "properties": {}},
+      {"source": "backpropagation", "target": "neural_network", "type": "trains", "properties": {}},
+      {"source": "convolution", "target": "neural_network", "type": "used_in", "properties": {}},
+      {"source": "probability_distribution", "target": "expected_value", "type": "defines", "properties": {}},
+      {"source": "probability_distribution", "target": "variance", "type": "defines", "properties": {}},
+      {"source": "bayes_theorem", "target": "probability_distribution", "type": "relates", "properties": {}},
+      {"source": "statistics", "target": "probability_theory", "type": "based_on", "properties": {}},
+      {"source": "optimization", "target": "gradient_descent", "type": "includes", "properties": {}},
+      {"source": "numerical_analysis", "target": "optimization", "type": "implements", "properties": {}},
+      {"source": "real_analysis", "target": "calculus", "type": "rigorous_foundation_of", "properties": {}},
+      {"source": "measure_theory", "target": "integral", "type": "generalizes", "properties": {}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Mathematical domain communities",
+      "communities": [
+        {
+          "id": "community_calculus_core",
+          "label": "Calculus Core Concepts",
+          "size": 8,
+          "member_ids": ["calculus", "derivative", "integral", "limit", "continuity", "partial_derivative", "gradient", "chain_rule"],
+          "properties": {"category": "Analysis", "description": "Fundamental calculus concepts and operations"}
+        },
+        {
+          "id": "community_calculus_theorems",
+          "label": "Calculus Theorems",
+          "size": 2,
+          "member_ids": ["ftc", "real_analysis"],
+          "properties": {"category": "Theoretical Foundation", "description": "Major theorems and rigorous foundations"}
+        },
+        {
+          "id": "community_linear_algebra_core",
+          "label": "Linear Algebra Core",
+          "size": 8,
+          "member_ids": ["linear_algebra", "vector_space", "matrix", "eigenvalue", "eigenvector", "determinant", "linear_transformation", "inner_product"],
+          "properties": {"category": "Algebra", "description": "Fundamental linear algebra structures"}
+        },
+        {
+          "id": "community_matrix_methods",
+          "label": "Matrix Methods",
+          "size": 2,
+          "member_ids": ["matrix_decomposition", "abstract_algebra"],
+          "properties": {"category": "Computational Algebra", "description": "Matrix factorization and algebraic structures"}
+        },
+        {
+          "id": "community_probability_stats",
+          "label": "Probability & Statistics",
+          "size": 6,
+          "member_ids": ["probability_theory", "statistics", "probability_distribution", "expected_value", "variance", "bayes_theorem"],
+          "properties": {"category": "Stochastic Mathematics", "description": "Probability and statistical concepts"}
+        },
+        {
+          "id": "community_measure_foundation",
+          "label": "Measure Theory Foundation",
+          "size": 1,
+          "member_ids": ["measure_theory"],
+          "properties": {"category": "Foundation", "description": "Measure-theoretic foundations"}
+        },
+        {
+          "id": "community_ml_optimization",
+          "label": "ML Optimization",
+          "size": 5,
+          "member_ids": ["optimization", "gradient_descent", "loss_function", "backpropagation", "numerical_analysis"],
+          "properties": {"category": "Applied Mathematics", "description": "Optimization methods for machine learning"}
+        },
+        {
+          "id": "community_neural_models",
+          "label": "Neural Network Models",
+          "size": 2,
+          "member_ids": ["neural_network", "convolution"],
+          "properties": {"category": "Machine Learning", "description": "Neural network architectures and operations"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_calculus_core", "target": "community_calculus_theorems", "type": "formalized_by", "weight": 3},
+        {"source": "community_linear_algebra_core", "target": "community_matrix_methods", "type": "extended_by", "weight": 2},
+        {"source": "community_calculus_core", "target": "community_ml_optimization", "type": "enables", "weight": 5},
+        {"source": "community_linear_algebra_core", "target": "community_ml_optimization", "type": "enables", "weight": 4},
+        {"source": "community_linear_algebra_core", "target": "community_neural_models", "type": "foundation_of", "weight": 4},
+        {"source": "community_ml_optimization", "target": "community_neural_models", "type": "trains", "weight": 3},
+        {"source": "community_measure_foundation", "target": "community_probability_stats", "type": "founds", "weight": 2},
+        {"source": "community_measure_foundation", "target": "community_calculus_theorems", "type": "generalizes", "weight": 2},
+        {"source": "community_probability_stats", "target": "community_ml_optimization", "type": "informs", "weight": 3},
+        {"source": "community_calculus_theorems", "target": "community_calculus_core", "type": "rigorizes", "weight": 2}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Major mathematical branches",
+      "communities": [
+        {
+          "id": "meta_analysis",
+          "label": "Mathematical Analysis",
+          "size": 3,
+          "member_ids": ["community_calculus_core", "community_calculus_theorems", "community_measure_foundation"],
+          "properties": {"meta_type": "Meta Community", "description": "All analysis-related mathematics"}
+        },
+        {
+          "id": "meta_algebra",
+          "label": "Algebraic Mathematics",
+          "size": 2,
+          "member_ids": ["community_linear_algebra_core", "community_matrix_methods"],
+          "properties": {"meta_type": "Meta Community", "description": "All algebra-related mathematics"}
+        },
+        {
+          "id": "meta_applied_ml",
+          "label": "Applied ML Mathematics",
+          "size": 3,
+          "member_ids": ["community_probability_stats", "community_ml_optimization", "community_neural_models"],
+          "properties": {"meta_type": "Meta Community", "description": "Mathematics applied to machine learning"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_analysis", "target": "meta_applied_ml", "type": "enables", "weight": 10},
+        {"source": "meta_algebra", "target": "meta_applied_ml", "type": "enables", "weight": 9},
+        {"source": "meta_analysis", "target": "meta_algebra", "type": "interacts_with", "weight": 5}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Pure vs Applied mathematics",
+      "communities": [
+        {
+          "id": "super_pure_math",
+          "label": "Pure Mathematics",
+          "size": 2,
+          "member_ids": ["meta_analysis", "meta_algebra"],
+          "properties": {"super_type": "Super Meta Community", "description": "Foundational pure mathematical disciplines"}
+        },
+        {
+          "id": "super_applied_math",
+          "label": "Applied Mathematics",
+          "size": 1,
+          "member_ids": ["meta_applied_ml"],
+          "properties": {"super_type": "Super Meta Community", "description": "Mathematics applied to real-world problems"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_pure_math", "target": "super_applied_math", "type": "provides_foundation_for", "weight": 19}
+      ]
+    }
+  }
+}
