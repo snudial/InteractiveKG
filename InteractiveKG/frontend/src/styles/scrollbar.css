@@ -1,0 +1,235 @@
+/* Custom scrollbar styles - consistent with existing UI design */
+
+/* General scrollbar styles */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ChatbotPanel specific scrollbar styles */
+.chatbot-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 #f1f5f9;
+}
+
+.chatbot-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.chatbot-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 2px;
+}
+
+.chatbot-scrollbar::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.chatbot-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Message area scrollbar styles */
+.messages-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #ddd6fe #faf5ff;
+}
+
+.messages-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-scrollbar::-webkit-scrollbar-track {
+  background: #faf5ff;
+  border-radius: 3px;
+}
+
+.messages-scrollbar::-webkit-scrollbar-thumb {
+  background: #ddd6fe;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.messages-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c4b5fd;
+}
+
+/* Phase guidance information scrollbar styles */
+.guidance-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #bfdbfe #eff6ff;
+}
+
+.guidance-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.guidance-scrollbar::-webkit-scrollbar-track {
+  background: #eff6ff;
+  border-radius: 2px;
+}
+
+.guidance-scrollbar::-webkit-scrollbar-thumb {
+  background: #bfdbfe;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.guidance-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #93c5fd;
+}
+
+/* ChatbotPanel track selection scrollbar styles - Purple theme */
+.chatbot-track-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d8b4fe #faf5ff;
+}
+
+.chatbot-track-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chatbot-track-scrollbar::-webkit-scrollbar-track {
+  background: #faf5ff;
+  border-radius: 2px;
+}
+
+.chatbot-track-scrollbar::-webkit-scrollbar-thumb {
+  background: #d8b4fe;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.chatbot-track-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c084fc;
+}
+
+/* Suggested actions area scrollbar styles */
+.actions-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #bfdbfe #dbeafe;
+}
+
+.actions-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.actions-scrollbar::-webkit-scrollbar-track {
+  background: #dbeafe;
+  border-radius: 2px;
+}
+
+.actions-scrollbar::-webkit-scrollbar-thumb {
+  background: #bfdbfe;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.actions-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #93c5fd;
+}
+
+/* Error data loading panel scrollbar styles */
+.error-loader-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #fed7aa #fff7ed;
+}
+
+.error-loader-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.error-loader-scrollbar::-webkit-scrollbar-track {
+  background: #fff7ed;
+  border-radius: 3px;
+}
+
+.error-loader-scrollbar::-webkit-scrollbar-thumb {
+  background: #fed7aa;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.error-loader-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #fdba74;
+}
+
+/* Dataset selection area scrollbar styles */
+.dataset-selection-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e5e7eb #f9fafb;
+}
+
+.dataset-selection-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dataset-selection-scrollbar::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 2px;
+}
+
+.dataset-selection-scrollbar::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.dataset-selection-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+/* Responsive design - hide scrollbars on small screens */
+@media (max-width: 640px) {
+  .custom-scrollbar::-webkit-scrollbar,
+  .chatbot-scrollbar::-webkit-scrollbar,
+  .messages-scrollbar::-webkit-scrollbar,
+  .guidance-scrollbar::-webkit-scrollbar,
+  .chatbot-track-scrollbar::-webkit-scrollbar,
+  .actions-scrollbar::-webkit-scrollbar,
+  .error-loader-scrollbar::-webkit-scrollbar,
+  .dataset-selection-scrollbar::-webkit-scrollbar {
+    width: 2px;
+  }
+}
+
+/* Smooth scrolling */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Scroll shadow effects */
+.scroll-shadow {
+  background: 
+    linear-gradient(white 30%, rgba(255,255,255,0)),
+    linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+    radial-gradient(50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
+    radial-gradient(50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  background-attachment: local, local, scroll, scroll;
+}

@@ -1,0 +1,237 @@
+{
+  "domain": "common",
+  "case": "case2",
+  "description": "Commonsense reasoning knowledge graph with correct relationships. Accurate causal relationships, proper temporal sequences, and complete logical connections based on Stories with Knowledge Graph dataset.",
+  "question": "What are the causal chains and prerequisites involved in cooking a meal at home, from planning to serving, and how do different factors affect the outcome?",
+  "llm_response": "Cooking a meal involves several interconnected causal chains. Planning starts with deciding what to cook, which is influenced by available ingredients, dietary preferences, and time constraints. Before cooking, you need to check ingredients and possibly go grocery shopping. Preparation involves gathering ingredients, washing vegetables, and preparing cooking tools. The cooking process follows recipes or knowledge, with heat transforming raw ingredients into cooked food. Temperature and timing are critical; too much heat causes burning while too little results in undercooked food. Seasoning affects taste, and plating affects presentation. The meal's success depends on ingredient quality, cooking skill, proper timing, and following appropriate techniques. Cleanup follows eating, and leftovers require proper storage to prevent spoilage.",
+  "original_graph": {
+    "nodes": [
+      {"id": "decide_meal", "label": "Decide What to Cook", "type": "Decision", "properties": {"influenced_by": "Preferences, Time, Ingredients"}},
+      {"id": "check_recipe", "label": "Check Recipe", "type": "Action", "properties": {"source": "Cookbook, Internet, Memory"}},
+      {"id": "check_ingredients", "label": "Check Available Ingredients", "type": "Action", "properties": {"location": "Pantry, Refrigerator"}},
+      {"id": "make_shopping_list", "label": "Make Shopping List", "type": "Action", "properties": {"based_on": "Missing ingredients"}},
+      {"id": "go_shopping", "label": "Go Grocery Shopping", "type": "Action", "properties": {"location": "Supermarket", "optional": true}},
+      {"id": "buy_ingredients", "label": "Buy Ingredients", "type": "Action", "properties": {"cost": "Variable", "quality_choice": true}},
+      {"id": "return_home", "label": "Return Home with Groceries", "type": "Action", "properties": {"transport": "Required for perishables"}},
+      {"id": "store_ingredients", "label": "Store Ingredients Properly", "type": "Action", "properties": {"locations": "Fridge, Freezer, Pantry"}},
+      {"id": "gather_ingredients", "label": "Gather Ingredients", "type": "Action", "properties": {"mise_en_place": true}},
+      {"id": "gather_tools", "label": "Gather Cooking Tools", "type": "Action", "properties": {"items": "Pots, Pans, Utensils, Knives"}},
+      {"id": "wash_produce", "label": "Wash Produce", "type": "Action", "properties": {"food_safety": true, "removes": "Dirt, Pesticides"}},
+      {"id": "chop_vegetables", "label": "Chop Vegetables", "type": "Action", "properties": {"requires": "Knife, Cutting board", "technique": "Various cuts"}},
+      {"id": "measure_ingredients", "label": "Measure Ingredients", "type": "Action", "properties": {"precision": "Important for baking", "tools": "Cups, Spoons, Scale"}},
+      {"id": "preheat_oven", "label": "Preheat Oven/Stove", "type": "Action", "properties": {"temperature": "Recipe-dependent", "time": "5-15 minutes"}},
+      {"id": "heat_pan", "label": "Heat Pan", "type": "Action", "properties": {"medium": "Oil, Butter", "indicator": "Shimmering"}},
+      {"id": "add_oil", "label": "Add Cooking Oil", "type": "Action", "properties": {"prevents": "Sticking", "types": "Olive, Vegetable, etc."}},
+      {"id": "cook_protein", "label": "Cook Protein", "type": "Action", "properties": {"types": "Meat, Fish, Tofu", "doneness": "Critical"}},
+      {"id": "cook_vegetables", "label": "Cook Vegetables", "type": "Action", "properties": {"methods": "Sauté, Steam, Roast"}},
+      {"id": "cook_starch", "label": "Cook Starch", "type": "Action", "properties": {"types": "Rice, Pasta, Potatoes"}},
+      {"id": "season_food", "label": "Season Food", "type": "Action", "properties": {"ingredients": "Salt, Pepper, Herbs, Spices"}},
+      {"id": "taste_test", "label": "Taste and Adjust", "type": "Action", "properties": {"iterative": true, "quality_control": true}},
+      {"id": "combine_components", "label": "Combine Components", "type": "Action", "properties": {"timing": "Important", "technique": "Tossing, Mixing"}},
+      {"id": "plate_food", "label": "Plate Food", "type": "Action", "properties": {"presentation": true, "garnish": "Optional"}},
+      {"id": "serve_meal", "label": "Serve Meal", "type": "Action", "properties": {"temperature": "Hot/Cold as appropriate"}},
+      {"id": "eat_meal", "label": "Eat Meal", "type": "Action", "properties": {"social": "Often shared", "enjoyment": true}},
+      {"id": "clean_dishes", "label": "Clean Dishes", "type": "Action", "properties": {"timing": "After eating", "methods": "Hand wash, Dishwasher"}},
+      {"id": "store_leftovers", "label": "Store Leftovers", "type": "Action", "properties": {"container": "Airtight", "location": "Refrigerator"}},
+      {"id": "fresh_ingredients", "label": "Fresh Ingredients", "type": "Object", "properties": {"quality": "High", "affects": "Taste"}},
+      {"id": "stale_ingredients", "label": "Stale/Expired Ingredients", "type": "Object", "properties": {"quality": "Low", "risk": "Food safety"}},
+      {"id": "cooking_skill", "label": "Cooking Skill", "type": "Attribute", "properties": {"levels": "Beginner to Expert", "improves": "With practice"}},
+      {"id": "recipe_knowledge", "label": "Recipe Knowledge", "type": "Knowledge", "properties": {"source": "Learning, Experience"}},
+      {"id": "time_constraint", "label": "Time Available", "type": "Constraint", "properties": {"affects": "Meal complexity"}},
+      {"id": "dietary_preference", "label": "Dietary Preferences", "type": "Constraint", "properties": {"types": "Vegetarian, Allergies, etc."}},
+      {"id": "overcooked_food", "label": "Overcooked Food", "type": "Outcome", "properties": {"cause": "Too much heat/time", "quality": "Reduced"}},
+      {"id": "undercooked_food", "label": "Undercooked Food", "type": "Outcome", "properties": {"cause": "Insufficient heat/time", "risk": "Food safety"}},
+      {"id": "delicious_meal", "label": "Delicious Meal", "type": "Outcome", "properties": {"positive": true, "satisfaction": "High"}},
+      {"id": "bland_meal", "label": "Bland Meal", "type": "Outcome", "properties": {"cause": "Under-seasoned", "satisfaction": "Low"}},
+      {"id": "burned_food", "label": "Burned Food", "type": "Outcome", "properties": {"cause": "Excessive heat, Inattention", "inedible": true}}
+    ],
+    "relationships": [
+      {"source": "decide_meal", "target": "check_recipe", "type": "leads_to", "properties": {"correct": true}},
+      {"source": "decide_meal", "target": "check_ingredients", "type": "leads_to", "properties": {"correct": true}},
+      {"source": "dietary_preference", "target": "decide_meal", "type": "constrains", "properties": {"correct": true}},
+      {"source": "time_constraint", "target": "decide_meal", "type": "constrains", "properties": {"correct": true}},
+      {"source": "check_ingredients", "target": "make_shopping_list", "type": "may_trigger", "properties": {"correct": true}},
+      {"source": "make_shopping_list", "target": "go_shopping", "type": "leads_to", "properties": {"correct": true}},
+      {"source": "go_shopping", "target": "buy_ingredients", "type": "enables", "properties": {"correct": true}},
+      {"source": "buy_ingredients", "target": "return_home", "type": "followed_by", "properties": {"correct": true}},
+      {"source": "return_home", "target": "store_ingredients", "type": "followed_by", "properties": {"correct": true}},
+      {"source": "fresh_ingredients", "target": "delicious_meal", "type": "contributes_to", "properties": {"correct": true}},
+      {"source": "stale_ingredients", "target": "bland_meal", "type": "contributes_to", "properties": {"correct": true}},
+      {"source": "check_recipe", "target": "gather_ingredients", "type": "enables", "properties": {"correct": true}},
+      {"source": "gather_ingredients", "target": "gather_tools", "type": "concurrent_with", "properties": {"correct": true}},
+      {"source": "gather_ingredients", "target": "wash_produce", "type": "enables", "properties": {"correct": true}},
+      {"source": "wash_produce", "target": "chop_vegetables", "type": "precedes", "properties": {"correct": true}},
+      {"source": "check_recipe", "target": "measure_ingredients", "type": "guides", "properties": {"correct": true}},
+      {"source": "check_recipe", "target": "preheat_oven", "type": "may_require", "properties": {"correct": true}},
+      {"source": "gather_tools", "target": "heat_pan", "type": "enables", "properties": {"correct": true}},
+      {"source": "heat_pan", "target": "add_oil", "type": "precedes", "properties": {"correct": true}},
+      {"source": "add_oil", "target": "cook_protein", "type": "enables", "properties": {"correct": true}},
+      {"source": "add_oil", "target": "cook_vegetables", "type": "enables", "properties": {"correct": true}},
+      {"source": "chop_vegetables", "target": "cook_vegetables", "type": "enables", "properties": {"correct": true}},
+      {"source": "measure_ingredients", "target": "cook_starch", "type": "enables", "properties": {"correct": true}},
+      {"source": "cook_protein", "target": "season_food", "type": "involves", "properties": {"correct": true}},
+      {"source": "cook_vegetables", "target": "season_food", "type": "involves", "properties": {"correct": true}},
+      {"source": "season_food", "target": "taste_test", "type": "followed_by", "properties": {"correct": true}},
+      {"source": "taste_test", "target": "season_food", "type": "may_repeat", "properties": {"correct": true}},
+      {"source": "cook_protein", "target": "combine_components", "type": "input_to", "properties": {"correct": true}},
+      {"source": "cook_vegetables", "target": "combine_components", "type": "input_to", "properties": {"correct": true}},
+      {"source": "cook_starch", "target": "combine_components", "type": "input_to", "properties": {"correct": true}},
+      {"source": "combine_components", "target": "plate_food", "type": "precedes", "properties": {"correct": true}},
+      {"source": "plate_food", "target": "serve_meal", "type": "precedes", "properties": {"correct": true}},
+      {"source": "serve_meal", "target": "eat_meal", "type": "enables", "properties": {"correct": true}},
+      {"source": "eat_meal", "target": "clean_dishes", "type": "followed_by", "properties": {"correct": true}},
+      {"source": "eat_meal", "target": "store_leftovers", "type": "may_require", "properties": {"correct": true}},
+      {"source": "cooking_skill", "target": "delicious_meal", "type": "contributes_to", "properties": {"correct": true}},
+      {"source": "recipe_knowledge", "target": "cooking_skill", "type": "component_of", "properties": {"correct": true}},
+      {"source": "heat_pan", "target": "overcooked_food", "type": "excessive_causes", "properties": {"correct": true}},
+      {"source": "heat_pan", "target": "undercooked_food", "type": "insufficient_causes", "properties": {"correct": true}},
+      {"source": "heat_pan", "target": "burned_food", "type": "extreme_causes", "properties": {"correct": true}},
+      {"source": "season_food", "target": "delicious_meal", "type": "proper_leads_to", "properties": {"correct": true}},
+      {"source": "season_food", "target": "bland_meal", "type": "insufficient_leads_to", "properties": {"correct": true}},
+      {"source": "taste_test", "target": "delicious_meal", "type": "ensures", "properties": {"correct": true}},
+      {"source": "store_leftovers", "target": "fresh_ingredients", "type": "preserves_as", "properties": {"correct": true}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Cooking phase communities",
+      "communities": [
+        {
+          "id": "community_planning",
+          "label": "Meal Planning",
+          "size": 5,
+          "member_ids": ["decide_meal", "check_recipe", "dietary_preference", "time_constraint", "recipe_knowledge"],
+          "properties": {"category": "Planning", "description": "Decision-making and planning phase"}
+        },
+        {
+          "id": "community_procurement",
+          "label": "Ingredient Procurement",
+          "size": 6,
+          "member_ids": ["check_ingredients", "make_shopping_list", "go_shopping", "buy_ingredients", "return_home", "store_ingredients"],
+          "properties": {"category": "Acquisition", "description": "Obtaining necessary ingredients"}
+        },
+        {
+          "id": "community_ingredient_quality",
+          "label": "Ingredient Quality",
+          "size": 2,
+          "member_ids": ["fresh_ingredients", "stale_ingredients"],
+          "properties": {"category": "Quality", "description": "Ingredient freshness and quality"}
+        },
+        {
+          "id": "community_preparation",
+          "label": "Food Preparation",
+          "size": 5,
+          "member_ids": ["gather_ingredients", "gather_tools", "wash_produce", "chop_vegetables", "measure_ingredients"],
+          "properties": {"category": "Prep Work", "description": "Mise en place and preparation"}
+        },
+        {
+          "id": "community_cooking",
+          "label": "Cooking Process",
+          "size": 7,
+          "member_ids": ["preheat_oven", "heat_pan", "add_oil", "cook_protein", "cook_vegetables", "cook_starch", "cooking_skill"],
+          "properties": {"category": "Cooking", "description": "Active cooking activities"}
+        },
+        {
+          "id": "community_finishing",
+          "label": "Finishing & Seasoning",
+          "size": 4,
+          "member_ids": ["season_food", "taste_test", "combine_components", "plate_food"],
+          "properties": {"category": "Finishing", "description": "Final touches and plating"}
+        },
+        {
+          "id": "community_serving",
+          "label": "Serving & Eating",
+          "size": 2,
+          "member_ids": ["serve_meal", "eat_meal"],
+          "properties": {"category": "Consumption", "description": "Serving and enjoying the meal"}
+        },
+        {
+          "id": "community_cleanup",
+          "label": "Cleanup & Storage",
+          "size": 2,
+          "member_ids": ["clean_dishes", "store_leftovers"],
+          "properties": {"category": "Post-Meal", "description": "Cleaning up after cooking and eating"}
+        },
+        {
+          "id": "community_outcomes",
+          "label": "Meal Outcomes",
+          "size": 5,
+          "member_ids": ["delicious_meal", "bland_meal", "overcooked_food", "undercooked_food", "burned_food"],
+          "properties": {"category": "Results", "description": "Possible cooking outcomes"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_planning", "target": "community_procurement", "type": "initiates", "weight": 3},
+        {"source": "community_procurement", "target": "community_ingredient_quality", "type": "determines", "weight": 2},
+        {"source": "community_ingredient_quality", "target": "community_outcomes", "type": "affects", "weight": 3},
+        {"source": "community_planning", "target": "community_preparation", "type": "guides", "weight": 4},
+        {"source": "community_procurement", "target": "community_preparation", "type": "enables", "weight": 3},
+        {"source": "community_preparation", "target": "community_cooking", "type": "enables", "weight": 5},
+        {"source": "community_cooking", "target": "community_finishing", "type": "leads_to", "weight": 5},
+        {"source": "community_cooking", "target": "community_outcomes", "type": "determines", "weight": 5},
+        {"source": "community_finishing", "target": "community_outcomes", "type": "affects", "weight": 4},
+        {"source": "community_finishing", "target": "community_serving", "type": "enables", "weight": 3},
+        {"source": "community_serving", "target": "community_cleanup", "type": "followed_by", "weight": 2},
+        {"source": "community_planning", "target": "community_cooking", "type": "skill_affects", "weight": 2}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Major cooking stages",
+      "communities": [
+        {
+          "id": "meta_pre_cooking",
+          "label": "Pre-Cooking Stage",
+          "size": 4,
+          "member_ids": ["community_planning", "community_procurement", "community_ingredient_quality", "community_preparation"],
+          "properties": {"meta_type": "Meta Community", "description": "All activities before actual cooking begins"}
+        },
+        {
+          "id": "meta_active_cooking",
+          "label": "Active Cooking Stage",
+          "size": 2,
+          "member_ids": ["community_cooking", "community_finishing"],
+          "properties": {"meta_type": "Meta Community", "description": "Heat application and final preparation"}
+        },
+        {
+          "id": "meta_post_cooking",
+          "label": "Post-Cooking Stage",
+          "size": 3,
+          "member_ids": ["community_serving", "community_cleanup", "community_outcomes"],
+          "properties": {"meta_type": "Meta Community", "description": "Serving, eating, cleanup, and results"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_pre_cooking", "target": "meta_active_cooking", "type": "enables", "weight": 12},
+        {"source": "meta_active_cooking", "target": "meta_post_cooking", "type": "leads_to", "weight": 10},
+        {"source": "meta_pre_cooking", "target": "meta_post_cooking", "type": "indirectly_affects_outcome", "weight": 6}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Complete cooking knowledge model",
+      "communities": [
+        {
+          "id": "super_input_process",
+          "label": "Input & Process Domain",
+          "size": 2,
+          "member_ids": ["meta_pre_cooking", "meta_active_cooking"],
+          "properties": {"super_type": "Super Meta Community", "description": "All controllable inputs and cooking processes"}
+        },
+        {
+          "id": "super_output",
+          "label": "Output Domain",
+          "size": 1,
+          "member_ids": ["meta_post_cooking"],
+          "properties": {"super_type": "Super Meta Community", "description": "Results and post-cooking activities"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_input_process", "target": "super_output", "type": "determines_quality_of", "weight": 22}
+      ]
+    }
+  }
+}

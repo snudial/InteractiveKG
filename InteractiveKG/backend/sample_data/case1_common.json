@@ -1,0 +1,217 @@
+{
+  "domain": "common",
+  "case": "case1",
+  "description": "Commonsense reasoning knowledge graph with erroneous relationships. Contains incorrect causal relationships, wrong temporal sequences, and missing logical connections based on Stories with Knowledge Graph dataset.",
+  "question": "In a typical morning routine scenario, what is the logical sequence of events from waking up to arriving at work, and what causal relationships connect these activities?",
+  "llm_response": "A typical morning routine starts with eating breakfast, which causes the alarm to ring. After the alarm rings, you should take a shower before waking up. Getting dressed happens before taking a shower to keep clothes dry. Driving to work requires having breakfast in the car, not before leaving. Brushing teeth is unrelated to eating and can be done at any time without sequence. Being late to work is caused by waking up early. Traffic jams have no effect on arrival time at the office.",
+  "original_graph": {
+    "nodes": [
+      {"id": "alarm_rings", "label": "Alarm Rings", "type": "Event", "properties": {"time_of_day": "Morning", "trigger": "Set time reached"}},
+      {"id": "wake_up", "label": "Wake Up", "type": "Event", "properties": {"state_change": "Asleep → Awake", "location": "Bedroom"}},
+      {"id": "get_out_of_bed", "label": "Get Out of Bed", "type": "Action", "properties": {"physical_action": true, "location": "Bedroom"}},
+      {"id": "use_bathroom", "label": "Use Bathroom", "type": "Action", "properties": {"location": "Bathroom", "morning_priority": "High"}},
+      {"id": "take_shower", "label": "Take Shower", "type": "Action", "properties": {"location": "Bathroom", "duration": "10-20 minutes", "requires": "Water"}},
+      {"id": "dry_off", "label": "Dry Off", "type": "Action", "properties": {"requires": "Towel", "follows": "Shower"}},
+      {"id": "get_dressed", "label": "Get Dressed", "type": "Action", "properties": {"location": "Bedroom", "requires": "Clean clothes"}},
+      {"id": "brush_teeth", "label": "Brush Teeth", "type": "Action", "properties": {"location": "Bathroom", "duration": "2-3 minutes"}},
+      {"id": "prepare_breakfast", "label": "Prepare Breakfast", "type": "Action", "properties": {"location": "Kitchen", "requires": "Food ingredients"}},
+      {"id": "eat_breakfast", "label": "Eat Breakfast", "type": "Action", "properties": {"location": "Kitchen/Dining", "provides": "Energy"}},
+      {"id": "drink_coffee", "label": "Drink Coffee", "type": "Action", "properties": {"optional": true, "provides": "Caffeine, Alertness"}},
+      {"id": "check_phone", "label": "Check Phone", "type": "Action", "properties": {"checks": "Messages, News, Time"}},
+      {"id": "pack_bag", "label": "Pack Bag", "type": "Action", "properties": {"contains": "Work items, Lunch", "location": "Home"}},
+      {"id": "find_keys", "label": "Find Keys", "type": "Action", "properties": {"required_for": "Driving, Locking door"}},
+      {"id": "leave_house", "label": "Leave House", "type": "Event", "properties": {"state_change": "At home → In transit"}},
+      {"id": "lock_door", "label": "Lock Door", "type": "Action", "properties": {"security": true, "requires": "Keys"}},
+      {"id": "walk_to_car", "label": "Walk to Car", "type": "Action", "properties": {"location_change": "House → Car"}},
+      {"id": "start_car", "label": "Start Car", "type": "Action", "properties": {"requires": "Keys, Fuel"}},
+      {"id": "drive_to_work", "label": "Drive to Work", "type": "Action", "properties": {"duration": "Variable", "requires": "Car, Route knowledge"}},
+      {"id": "traffic_jam", "label": "Traffic Jam", "type": "Event", "properties": {"external_factor": true, "effect": "Delay"}},
+      {"id": "arrive_at_work", "label": "Arrive at Work", "type": "Event", "properties": {"goal_state": true, "location": "Office"}},
+      {"id": "park_car", "label": "Park Car", "type": "Action", "properties": {"location": "Parking lot", "requires": "Parking space"}},
+      {"id": "enter_office", "label": "Enter Office", "type": "Action", "properties": {"requires": "Badge/Key", "work_start": true}},
+      {"id": "being_late", "label": "Being Late", "type": "State", "properties": {"negative_outcome": true, "consequence": "Missed meetings"}},
+      {"id": "being_on_time", "label": "Being On Time", "type": "State", "properties": {"positive_outcome": true}},
+      {"id": "feeling_hungry", "label": "Feeling Hungry", "type": "State", "properties": {"cause": "No breakfast", "effect": "Low energy"}},
+      {"id": "feeling_alert", "label": "Feeling Alert", "type": "State", "properties": {"cause": "Coffee, Good sleep"}},
+      {"id": "feeling_tired", "label": "Feeling Tired", "type": "State", "properties": {"cause": "Poor sleep, No coffee"}},
+      {"id": "clean_clothes", "label": "Clean Clothes", "type": "Object", "properties": {"required_for": "Getting dressed"}},
+      {"id": "car_keys", "label": "Car Keys", "type": "Object", "properties": {"required_for": "Driving"}},
+      {"id": "work_bag", "label": "Work Bag", "type": "Object", "properties": {"contains": "Laptop, Documents"}},
+      {"id": "breakfast_food", "label": "Breakfast Food", "type": "Object", "properties": {"provides": "Nutrition", "types": "Cereal, Eggs, Toast"}}
+    ],
+    "relationships": [
+      {"source": "eat_breakfast", "target": "alarm_rings", "type": "causes", "properties": {"error": true}},
+      {"source": "alarm_rings", "target": "wake_up", "type": "causes", "properties": {"correct": true, "hidden": true}},
+      {"source": "take_shower", "target": "wake_up", "type": "precedes", "properties": {"error": true}},
+      {"source": "wake_up", "target": "take_shower", "type": "precedes", "properties": {"correct": true, "hidden": true}},
+      {"source": "get_dressed", "target": "take_shower", "type": "precedes", "properties": {"error": true}},
+      {"source": "take_shower", "target": "get_dressed", "type": "precedes", "properties": {"correct": true, "hidden": true}},
+      {"source": "drive_to_work", "target": "eat_breakfast", "type": "requires_during", "properties": {"error": true}},
+      {"source": "eat_breakfast", "target": "leave_house", "type": "precedes", "properties": {"correct": true, "hidden": true}},
+      {"source": "brush_teeth", "target": "eat_breakfast", "type": "unrelated_to", "properties": {"error": true}},
+      {"source": "eat_breakfast", "target": "brush_teeth", "type": "typically_precedes", "properties": {"correct": true, "hidden": true}},
+      {"source": "wake_up", "target": "being_late", "type": "causes", "properties": {"error": true}},
+      {"source": "wake_up", "target": "get_out_of_bed", "type": "enables", "properties": {}},
+      {"source": "traffic_jam", "target": "arrive_at_work", "type": "no_effect_on", "properties": {"error": true}},
+      {"source": "traffic_jam", "target": "being_late", "type": "causes", "properties": {"correct": true, "hidden": true}},
+      {"source": "alarm_rings", "target": "wake_up", "type": "triggers", "properties": {}},
+      {"source": "get_out_of_bed", "target": "use_bathroom", "type": "enables", "properties": {}},
+      {"source": "take_shower", "target": "dry_off", "type": "followed_by", "properties": {}},
+      {"source": "dry_off", "target": "get_dressed", "type": "enables", "properties": {}},
+      {"source": "clean_clothes", "target": "get_dressed", "type": "required_for", "properties": {}},
+      {"source": "breakfast_food", "target": "prepare_breakfast", "type": "required_for", "properties": {}},
+      {"source": "prepare_breakfast", "target": "eat_breakfast", "type": "enables", "properties": {}},
+      {"source": "eat_breakfast", "target": "feeling_hungry", "type": "prevents", "properties": {}},
+      {"source": "drink_coffee", "target": "feeling_alert", "type": "causes", "properties": {}},
+      {"source": "feeling_tired", "target": "drink_coffee", "type": "motivates", "properties": {}},
+      {"source": "check_phone", "target": "feeling_alert", "type": "may_help", "properties": {}},
+      {"source": "pack_bag", "target": "work_bag", "type": "produces", "properties": {}},
+      {"source": "car_keys", "target": "find_keys", "type": "target_of", "properties": {}},
+      {"source": "find_keys", "target": "leave_house", "type": "enables", "properties": {}},
+      {"source": "leave_house", "target": "lock_door", "type": "involves", "properties": {}},
+      {"source": "lock_door", "target": "walk_to_car", "type": "followed_by", "properties": {}},
+      {"source": "car_keys", "target": "start_car", "type": "required_for", "properties": {}},
+      {"source": "walk_to_car", "target": "start_car", "type": "enables", "properties": {}},
+      {"source": "start_car", "target": "drive_to_work", "type": "enables", "properties": {}},
+      {"source": "drive_to_work", "target": "traffic_jam", "type": "may_encounter", "properties": {}},
+      {"source": "drive_to_work", "target": "arrive_at_work", "type": "leads_to", "properties": {}},
+      {"source": "arrive_at_work", "target": "park_car", "type": "involves", "properties": {}},
+      {"source": "park_car", "target": "enter_office", "type": "followed_by", "properties": {}},
+      {"source": "being_on_time", "target": "enter_office", "type": "achieved_at", "properties": {}},
+      {"source": "being_late", "target": "enter_office", "type": "determined_at", "properties": {}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Activity phase communities",
+      "communities": [
+        {
+          "id": "community_waking",
+          "label": "Waking Up Phase",
+          "size": 4,
+          "member_ids": ["alarm_rings", "wake_up", "get_out_of_bed", "use_bathroom"],
+          "properties": {"category": "Morning Start", "description": "Initial wake-up activities"}
+        },
+        {
+          "id": "community_hygiene",
+          "label": "Personal Hygiene",
+          "size": 4,
+          "member_ids": ["take_shower", "dry_off", "brush_teeth", "clean_clothes"],
+          "properties": {"category": "Self-Care", "description": "Cleaning and grooming activities"}
+        },
+        {
+          "id": "community_dressing",
+          "label": "Getting Ready",
+          "size": 2,
+          "member_ids": ["get_dressed", "check_phone"],
+          "properties": {"category": "Preparation", "description": "Dressing and information gathering"}
+        },
+        {
+          "id": "community_breakfast",
+          "label": "Breakfast Activities",
+          "size": 4,
+          "member_ids": ["prepare_breakfast", "eat_breakfast", "drink_coffee", "breakfast_food"],
+          "properties": {"category": "Nutrition", "description": "Morning meal preparation and consumption"}
+        },
+        {
+          "id": "community_departure",
+          "label": "Leaving Home",
+          "size": 5,
+          "member_ids": ["pack_bag", "find_keys", "leave_house", "lock_door", "work_bag"],
+          "properties": {"category": "Departure", "description": "Preparing to leave and securing home"}
+        },
+        {
+          "id": "community_commute",
+          "label": "Commute to Work",
+          "size": 5,
+          "member_ids": ["walk_to_car", "start_car", "car_keys", "drive_to_work", "traffic_jam"],
+          "properties": {"category": "Transportation", "description": "Travel from home to work"}
+        },
+        {
+          "id": "community_arrival",
+          "label": "Arriving at Work",
+          "size": 3,
+          "member_ids": ["arrive_at_work", "park_car", "enter_office"],
+          "properties": {"category": "Destination", "description": "Final arrival activities"}
+        },
+        {
+          "id": "community_states",
+          "label": "Physical/Mental States",
+          "size": 5,
+          "member_ids": ["feeling_hungry", "feeling_alert", "feeling_tired", "being_late", "being_on_time"],
+          "properties": {"category": "States", "description": "Resulting physical and temporal states"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_waking", "target": "community_hygiene", "type": "enables", "weight": 3},
+        {"source": "community_hygiene", "target": "community_dressing", "type": "enables", "weight": 2},
+        {"source": "community_waking", "target": "community_breakfast", "type": "enables", "weight": 2},
+        {"source": "community_dressing", "target": "community_departure", "type": "precedes", "weight": 2},
+        {"source": "community_breakfast", "target": "community_departure", "type": "precedes", "weight": 2},
+        {"source": "community_departure", "target": "community_commute", "type": "enables", "weight": 4},
+        {"source": "community_commute", "target": "community_arrival", "type": "leads_to", "weight": 3},
+        {"source": "community_breakfast", "target": "community_states", "type": "affects", "weight": 3},
+        {"source": "community_commute", "target": "community_states", "type": "affects", "weight": 3},
+        {"source": "community_states", "target": "community_arrival", "type": "manifests_at", "weight": 2}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Major routine phases",
+      "communities": [
+        {
+          "id": "meta_home_preparation",
+          "label": "Home Preparation Phase",
+          "size": 4,
+          "member_ids": ["community_waking", "community_hygiene", "community_dressing", "community_breakfast"],
+          "properties": {"meta_type": "Meta Community", "description": "All activities done at home before leaving"}
+        },
+        {
+          "id": "meta_transition",
+          "label": "Transition Phase",
+          "size": 2,
+          "member_ids": ["community_departure", "community_commute"],
+          "properties": {"meta_type": "Meta Community", "description": "Moving from home to work"}
+        },
+        {
+          "id": "meta_outcome",
+          "label": "Outcome Phase",
+          "size": 2,
+          "member_ids": ["community_arrival", "community_states"],
+          "properties": {"meta_type": "Meta Community", "description": "Final destination and resulting states"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_home_preparation", "target": "meta_transition", "type": "enables", "weight": 10},
+        {"source": "meta_transition", "target": "meta_outcome", "type": "determines", "weight": 8},
+        {"source": "meta_home_preparation", "target": "meta_outcome", "type": "indirectly_affects", "weight": 5}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Complete morning routine model",
+      "communities": [
+        {
+          "id": "super_preparation",
+          "label": "Preparation Domain",
+          "size": 2,
+          "member_ids": ["meta_home_preparation", "meta_transition"],
+          "properties": {"super_type": "Super Meta Community", "description": "All preparatory and travel activities"}
+        },
+        {
+          "id": "super_result",
+          "label": "Result Domain",
+          "size": 1,
+          "member_ids": ["meta_outcome"],
+          "properties": {"super_type": "Super Meta Community", "description": "Final outcomes of morning routine"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_preparation", "target": "super_result", "type": "determines_success_of", "weight": 18}
+      ]
+    }
+  }
+}

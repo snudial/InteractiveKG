@@ -1,0 +1,261 @@
+{
+  "domain": "math",
+  "case": "case2",
+  "description": "Mathematics knowledge graph with correct relationships. Accurate theorem dependencies, proper mathematical hierarchies, and complete concept connections based on Math Knowledge Graph dataset.",
+  "question": "How do different branches of mathematics connect to form the theoretical foundation of deep learning, from basic calculus through optimization to neural network training?",
+  "llm_response": "Deep learning's mathematical foundation builds hierarchically. Calculus provides derivatives and the chain rule essential for backpropagation. Limits define derivatives rigorously, and the Fundamental Theorem of Calculus connects differentiation with integration. Linear algebra contributes vector spaces, matrices, and linear transformations that represent neural network layers. Eigenvalue decomposition aids in understanding weight matrices and optimization landscapes. Multivariate calculus extends to gradients and Jacobians for handling high-dimensional parameter spaces. Optimization theory, particularly convex optimization, provides gradient descent algorithms. Probability theory, grounded in measure theory, enables understanding of loss functions, regularization, and Bayesian approaches. These fields combine: backpropagation applies the chain rule to compute gradients, which flow through linear transformations, optimized by gradient descent to minimize probabilistically-motivated loss functions.",
+  "original_graph": {
+    "nodes": [
+      {"id": "set_theory", "label": "Set Theory", "type": "Field", "properties": {"foundational": true, "axioms": "ZFC", "branch": "Foundations"}},
+      {"id": "real_numbers", "label": "Real Numbers", "type": "Concept", "properties": {"constructed_from": "Rationals", "completeness": "Dedekind cuts"}},
+      {"id": "limit", "label": "Limit", "type": "Concept", "properties": {"definition": "ε-δ definition", "notation": "lim_{x→a} f(x)"}},
+      {"id": "continuity", "label": "Continuity", "type": "Concept", "properties": {"definition": "Limit equals value", "types": "Pointwise, Uniform"}},
+      {"id": "derivative", "label": "Derivative", "type": "Concept", "properties": {"definition": "lim_{h→0} [f(x+h)-f(x)]/h", "notation": "f'(x), df/dx"}},
+      {"id": "integral", "label": "Integral", "type": "Concept", "properties": {"riemann": "Limit of Riemann sums", "lebesgue": "Measure-theoretic"}},
+      {"id": "partial_derivative", "label": "Partial Derivative", "type": "Concept", "properties": {"multivariate": true, "notation": "∂f/∂xᵢ"}},
+      {"id": "gradient", "label": "Gradient", "type": "Concept", "properties": {"definition": "∇f = (∂f/∂x₁, ..., ∂f/∂xₙ)", "direction": "Steepest ascent"}},
+      {"id": "jacobian", "label": "Jacobian Matrix", "type": "Concept", "properties": {"definition": "Matrix of partial derivatives", "size": "m×n"}},
+      {"id": "hessian", "label": "Hessian Matrix", "type": "Concept", "properties": {"definition": "Matrix of second derivatives", "curvature": true}},
+      {"id": "chain_rule", "label": "Chain Rule", "type": "Theorem", "properties": {"formula": "d/dx[f(g(x))] = f'(g(x))·g'(x)", "multivariate": "Jacobian multiplication"}},
+      {"id": "ftc", "label": "Fundamental Theorem of Calculus", "type": "Theorem", "properties": {"connects": "Derivative ↔ Integral", "parts": 2}},
+      {"id": "mean_value_theorem", "label": "Mean Value Theorem", "type": "Theorem", "properties": {"statement": "f'(c) = [f(b)-f(a)]/(b-a)", "existence": true}},
+      {"id": "taylors_theorem", "label": "Taylor's Theorem", "type": "Theorem", "properties": {"approximation": "Polynomial", "remainder": "Lagrange form"}},
+      {"id": "vector_space", "label": "Vector Space", "type": "Concept", "properties": {"axioms": 8, "over_field": "R or C"}},
+      {"id": "linear_transformation", "label": "Linear Transformation", "type": "Concept", "properties": {"preserves": "Addition, Scalar multiplication", "representation": "Matrix"}},
+      {"id": "matrix", "label": "Matrix", "type": "Concept", "properties": {"operations": "Add, Multiply, Transpose", "represents": "Linear map"}},
+      {"id": "eigenvalue", "label": "Eigenvalue/Eigenvector", "type": "Concept", "properties": {"equation": "Av = λv", "spectrum": "Set of eigenvalues"}},
+      {"id": "svd", "label": "Singular Value Decomposition", "type": "Concept", "properties": {"factorization": "A = UΣV^T", "applications": "Dimensionality reduction"}},
+      {"id": "inner_product", "label": "Inner Product", "type": "Concept", "properties": {"generalizes": "Dot product", "induces": "Norm, Angle"}},
+      {"id": "norm", "label": "Norm", "type": "Concept", "properties": {"types": "L1, L2, L∞", "metric": true}},
+      {"id": "convex_function", "label": "Convex Function", "type": "Concept", "properties": {"definition": "f(λx+(1-λ)y) ≤ λf(x)+(1-λ)f(y)", "global_minimum": true}},
+      {"id": "convex_optimization", "label": "Convex Optimization", "type": "Field", "properties": {"global_optimum": "Guaranteed", "algorithms": "Many efficient"}},
+      {"id": "gradient_descent", "label": "Gradient Descent", "type": "Algorithm", "properties": {"update": "θ ← θ - α∇f(θ)", "convergence": "Guaranteed for convex"}},
+      {"id": "sgd", "label": "Stochastic Gradient Descent", "type": "Algorithm", "properties": {"mini_batch": true, "variance": "Higher but faster"}},
+      {"id": "adam", "label": "Adam Optimizer", "type": "Algorithm", "properties": {"adaptive_lr": true, "momentum": "First and second moment"}},
+      {"id": "loss_function", "label": "Loss Function", "type": "Concept", "properties": {"measures": "Model error", "types": "MSE, Cross-entropy"}},
+      {"id": "backpropagation", "label": "Backpropagation", "type": "Algorithm", "properties": {"computes": "Gradients via chain rule", "efficient": "O(n) per sample"}},
+      {"id": "neural_layer", "label": "Neural Network Layer", "type": "Concept", "properties": {"computation": "σ(Wx + b)", "types": "Dense, Conv, RNN"}},
+      {"id": "activation_function", "label": "Activation Function", "type": "Concept", "properties": {"nonlinearity": true, "types": "ReLU, Sigmoid, Tanh"}},
+      {"id": "universal_approximation", "label": "Universal Approximation Theorem", "type": "Theorem", "properties": {"statement": "NN can approximate any continuous function", "requirements": "Sufficient width/depth"}},
+      {"id": "measure_theory", "label": "Measure Theory", "type": "Field", "properties": {"generalizes": "Length, Area, Probability", "sigma_algebra": true}},
+      {"id": "probability_space", "label": "Probability Space", "type": "Concept", "properties": {"triple": "(Ω, F, P)", "kolmogorov_axioms": true}},
+      {"id": "random_variable", "label": "Random Variable", "type": "Concept", "properties": {"measurable_function": true, "distribution": "CDF, PDF/PMF"}},
+      {"id": "expected_value", "label": "Expected Value", "type": "Concept", "properties": {"definition": "∫x dP(x)", "lebesgue_integral": true}},
+      {"id": "kl_divergence", "label": "KL Divergence", "type": "Concept", "properties": {"definition": "∫p(x)log(p(x)/q(x))dx", "asymmetric": true}},
+      {"id": "cross_entropy", "label": "Cross-Entropy Loss", "type": "Concept", "properties": {"related_to": "KL divergence", "classification": true}},
+      {"id": "maximum_likelihood", "label": "Maximum Likelihood Estimation", "type": "Method", "properties": {"principle": "Maximize P(data|θ)", "connection": "Minimize cross-entropy"}}
+    ],
+    "relationships": [
+      {"source": "set_theory", "target": "real_numbers", "type": "constructs", "properties": {"correct": true}},
+      {"source": "real_numbers", "target": "limit", "type": "enables_definition_of", "properties": {"correct": true}},
+      {"source": "limit", "target": "continuity", "type": "defines", "properties": {"correct": true}},
+      {"source": "limit", "target": "derivative", "type": "defines", "properties": {"correct": true}},
+      {"source": "limit", "target": "integral", "type": "defines", "properties": {"correct": true}},
+      {"source": "derivative", "target": "partial_derivative", "type": "generalizes_to", "properties": {"correct": true}},
+      {"source": "partial_derivative", "target": "gradient", "type": "composes_into", "properties": {"correct": true}},
+      {"source": "partial_derivative", "target": "jacobian", "type": "composes_into", "properties": {"correct": true}},
+      {"source": "partial_derivative", "target": "hessian", "type": "second_order_forms", "properties": {"correct": true}},
+      {"source": "chain_rule", "target": "derivative", "type": "applies_to", "properties": {"correct": true}},
+      {"source": "chain_rule", "target": "jacobian", "type": "generalizes_via", "properties": {"correct": true}},
+      {"source": "ftc", "target": "derivative", "type": "connects", "properties": {"correct": true}},
+      {"source": "ftc", "target": "integral", "type": "connects", "properties": {"correct": true}},
+      {"source": "taylors_theorem", "target": "derivative", "type": "uses", "properties": {"correct": true}},
+      {"source": "taylors_theorem", "target": "convex_function", "type": "characterizes", "properties": {"correct": true}},
+      {"source": "set_theory", "target": "vector_space", "type": "foundations_of", "properties": {"correct": true}},
+      {"source": "vector_space", "target": "linear_transformation", "type": "morphisms_of", "properties": {"correct": true}},
+      {"source": "linear_transformation", "target": "matrix", "type": "represented_by", "properties": {"correct": true}},
+      {"source": "matrix", "target": "eigenvalue", "type": "has_property", "properties": {"correct": true}},
+      {"source": "matrix", "target": "svd", "type": "factorized_by", "properties": {"correct": true}},
+      {"source": "vector_space", "target": "inner_product", "type": "equipped_with", "properties": {"correct": true}},
+      {"source": "inner_product", "target": "norm", "type": "induces", "properties": {"correct": true}},
+      {"source": "hessian", "target": "convex_function", "type": "characterizes", "properties": {"correct": true}},
+      {"source": "convex_function", "target": "convex_optimization", "type": "subject_of", "properties": {"correct": true}},
+      {"source": "gradient", "target": "gradient_descent", "type": "used_by", "properties": {"correct": true}},
+      {"source": "convex_optimization", "target": "gradient_descent", "type": "includes", "properties": {"correct": true}},
+      {"source": "gradient_descent", "target": "sgd", "type": "extended_to", "properties": {"correct": true}},
+      {"source": "sgd", "target": "adam", "type": "improved_by", "properties": {"correct": true}},
+      {"source": "loss_function", "target": "gradient_descent", "type": "minimized_by", "properties": {"correct": true}},
+      {"source": "chain_rule", "target": "backpropagation", "type": "mathematical_basis_of", "properties": {"correct": true}},
+      {"source": "jacobian", "target": "backpropagation", "type": "computed_in", "properties": {"correct": true}},
+      {"source": "backpropagation", "target": "gradient", "type": "computes", "properties": {"correct": true}},
+      {"source": "linear_transformation", "target": "neural_layer", "type": "core_operation_of", "properties": {"correct": true}},
+      {"source": "matrix", "target": "neural_layer", "type": "weights_represented_as", "properties": {"correct": true}},
+      {"source": "activation_function", "target": "neural_layer", "type": "applied_in", "properties": {"correct": true}},
+      {"source": "neural_layer", "target": "universal_approximation", "type": "justified_by", "properties": {"correct": true}},
+      {"source": "set_theory", "target": "measure_theory", "type": "foundations_of", "properties": {"correct": true}},
+      {"source": "measure_theory", "target": "probability_space", "type": "formalizes", "properties": {"correct": true}},
+      {"source": "measure_theory", "target": "integral", "type": "generalizes", "properties": {"correct": true}},
+      {"source": "probability_space", "target": "random_variable", "type": "defines", "properties": {"correct": true}},
+      {"source": "random_variable", "target": "expected_value", "type": "has_property", "properties": {"correct": true}},
+      {"source": "integral", "target": "expected_value", "type": "computes", "properties": {"correct": true}},
+      {"source": "expected_value", "target": "kl_divergence", "type": "used_in_definition_of", "properties": {"correct": true}},
+      {"source": "kl_divergence", "target": "cross_entropy", "type": "related_to", "properties": {"correct": true}},
+      {"source": "cross_entropy", "target": "loss_function", "type": "instance_of", "properties": {"correct": true}},
+      {"source": "maximum_likelihood", "target": "cross_entropy", "type": "equivalent_to_minimizing", "properties": {"correct": true}},
+      {"source": "norm", "target": "loss_function", "type": "used_in", "properties": {"correct": true}},
+      {"source": "eigenvalue", "target": "hessian", "type": "analyzed_via", "properties": {"correct": true}},
+      {"source": "svd", "target": "neural_layer", "type": "analyzes", "properties": {"correct": true}}
+    ]
+  },
+  "abstraction_levels": {
+    "level_0": {
+      "description": "Original data without abstraction",
+      "communities": [],
+      "relationships": []
+    },
+    "level_1": {
+      "description": "First-level abstraction: Mathematical concept clusters",
+      "communities": [
+        {
+          "id": "community_foundations",
+          "label": "Mathematical Foundations",
+          "size": 2,
+          "member_ids": ["set_theory", "real_numbers"],
+          "properties": {"category": "Foundations", "description": "Foundational mathematical structures"}
+        },
+        {
+          "id": "community_single_var_calc",
+          "label": "Single Variable Calculus",
+          "size": 6,
+          "member_ids": ["limit", "continuity", "derivative", "integral", "chain_rule", "ftc"],
+          "properties": {"category": "Analysis", "description": "Core single-variable calculus concepts"}
+        },
+        {
+          "id": "community_multi_var_calc",
+          "label": "Multivariate Calculus",
+          "size": 5,
+          "member_ids": ["partial_derivative", "gradient", "jacobian", "hessian", "mean_value_theorem"],
+          "properties": {"category": "Analysis", "description": "Multivariate differential calculus"}
+        },
+        {
+          "id": "community_taylor_approx",
+          "label": "Approximation Theory",
+          "size": 1,
+          "member_ids": ["taylors_theorem"],
+          "properties": {"category": "Analysis", "description": "Function approximation methods"}
+        },
+        {
+          "id": "community_linear_algebra",
+          "label": "Linear Algebra Core",
+          "size": 6,
+          "member_ids": ["vector_space", "linear_transformation", "matrix", "eigenvalue", "svd", "inner_product"],
+          "properties": {"category": "Algebra", "description": "Core linear algebra structures"}
+        },
+        {
+          "id": "community_norms_metrics",
+          "label": "Norms and Convexity",
+          "size": 3,
+          "member_ids": ["norm", "convex_function", "convex_optimization"],
+          "properties": {"category": "Analysis/Optimization", "description": "Metric and convexity concepts"}
+        },
+        {
+          "id": "community_optimization_algos",
+          "label": "Optimization Algorithms",
+          "size": 4,
+          "member_ids": ["gradient_descent", "sgd", "adam", "loss_function"],
+          "properties": {"category": "Algorithms", "description": "Numerical optimization methods"}
+        },
+        {
+          "id": "community_neural_networks",
+          "label": "Neural Network Theory",
+          "size": 4,
+          "member_ids": ["backpropagation", "neural_layer", "activation_function", "universal_approximation"],
+          "properties": {"category": "Machine Learning", "description": "Neural network mathematical foundations"}
+        },
+        {
+          "id": "community_measure_prob",
+          "label": "Measure & Probability",
+          "size": 4,
+          "member_ids": ["measure_theory", "probability_space", "random_variable", "expected_value"],
+          "properties": {"category": "Probability", "description": "Measure-theoretic probability foundations"}
+        },
+        {
+          "id": "community_info_theory",
+          "label": "Information Theory & Loss",
+          "size": 4,
+          "member_ids": ["kl_divergence", "cross_entropy", "maximum_likelihood"],
+          "properties": {"category": "Information Theory", "description": "Information-theoretic concepts for ML"}
+        }
+      ],
+      "relationships": [
+        {"source": "community_foundations", "target": "community_single_var_calc", "type": "enables", "weight": 3},
+        {"source": "community_foundations", "target": "community_linear_algebra", "type": "enables", "weight": 2},
+        {"source": "community_foundations", "target": "community_measure_prob", "type": "enables", "weight": 2},
+        {"source": "community_single_var_calc", "target": "community_multi_var_calc", "type": "generalizes_to", "weight": 5},
+        {"source": "community_single_var_calc", "target": "community_taylor_approx", "type": "leads_to", "weight": 2},
+        {"source": "community_multi_var_calc", "target": "community_norms_metrics", "type": "characterizes", "weight": 3},
+        {"source": "community_multi_var_calc", "target": "community_optimization_algos", "type": "enables", "weight": 5},
+        {"source": "community_linear_algebra", "target": "community_norms_metrics", "type": "provides_structure", "weight": 3},
+        {"source": "community_linear_algebra", "target": "community_neural_networks", "type": "foundation_of", "weight": 5},
+        {"source": "community_norms_metrics", "target": "community_optimization_algos", "type": "guides", "weight": 4},
+        {"source": "community_optimization_algos", "target": "community_neural_networks", "type": "trains", "weight": 5},
+        {"source": "community_single_var_calc", "target": "community_neural_networks", "type": "chain_rule_for", "weight": 3},
+        {"source": "community_measure_prob", "target": "community_info_theory", "type": "formalizes", "weight": 4},
+        {"source": "community_info_theory", "target": "community_optimization_algos", "type": "defines_loss_for", "weight": 4},
+        {"source": "community_measure_prob", "target": "community_single_var_calc", "type": "generalizes_integration", "weight": 2}
+      ]
+    },
+    "level_2": {
+      "description": "Second-level abstraction: Major mathematical disciplines",
+      "communities": [
+        {
+          "id": "meta_calculus_analysis",
+          "label": "Calculus & Analysis",
+          "size": 4,
+          "member_ids": ["community_foundations", "community_single_var_calc", "community_multi_var_calc", "community_taylor_approx"],
+          "properties": {"meta_type": "Meta Community", "description": "Complete calculus and real analysis"}
+        },
+        {
+          "id": "meta_linear_algebra",
+          "label": "Linear Algebra & Geometry",
+          "size": 2,
+          "member_ids": ["community_linear_algebra", "community_norms_metrics"],
+          "properties": {"meta_type": "Meta Community", "description": "Algebraic structures and geometric concepts"}
+        },
+        {
+          "id": "meta_probability_info",
+          "label": "Probability & Information Theory",
+          "size": 2,
+          "member_ids": ["community_measure_prob", "community_info_theory"],
+          "properties": {"meta_type": "Meta Community", "description": "Stochastic and information-theoretic mathematics"}
+        },
+        {
+          "id": "meta_ml_computation",
+          "label": "ML Computation",
+          "size": 2,
+          "member_ids": ["community_optimization_algos", "community_neural_networks"],
+          "properties": {"meta_type": "Meta Community", "description": "Computational methods for machine learning"}
+        }
+      ],
+      "relationships": [
+        {"source": "meta_calculus_analysis", "target": "meta_ml_computation", "type": "provides_derivatives_for", "weight": 12},
+        {"source": "meta_linear_algebra", "target": "meta_ml_computation", "type": "provides_structure_for", "weight": 10},
+        {"source": "meta_probability_info", "target": "meta_ml_computation", "type": "provides_loss_theory_for", "weight": 8},
+        {"source": "meta_calculus_analysis", "target": "meta_probability_info", "type": "integration_theory_for", "weight": 5},
+        {"source": "meta_linear_algebra", "target": "meta_calculus_analysis", "type": "function_spaces_for", "weight": 4}
+      ]
+    },
+    "level_3": {
+      "description": "Third-level abstraction: Mathematics for Deep Learning",
+      "communities": [
+        {
+          "id": "super_pure_foundations",
+          "label": "Pure Mathematical Foundations",
+          "size": 3,
+          "member_ids": ["meta_calculus_analysis", "meta_linear_algebra", "meta_probability_info"],
+          "properties": {"super_type": "Super Meta Community", "description": "All pure mathematics underlying deep learning"}
+        },
+        {
+          "id": "super_applied_ml",
+          "label": "Applied ML Mathematics",
+          "size": 1,
+          "member_ids": ["meta_ml_computation"],
+          "properties": {"super_type": "Super Meta Community", "description": "Computational mathematics for machine learning"}
+        }
+      ],
+      "relationships": [
+        {"source": "super_pure_foundations", "target": "super_applied_ml", "type": "complete_mathematical_foundation_of", "weight": 30}
+      ]
+    }
+  }
+}
