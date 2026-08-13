@@ -35,12 +35,12 @@ class AbstractionExplorationService:
             if hasattr(graph_data_model, 'model_dump'):
                 graph_data = graph_data_model.model_dump()
             elif hasattr(graph_data_model, 'dict'):
-                graph_data = graph_data_model.dict()
+                graph_data = graph_data_model.model_dump()
             elif hasattr(graph_data_model, 'nodes') and hasattr(graph_data_model, 'relationships'):
 
                 graph_data = {
-                    "nodes": [node.dict() if hasattr(node, 'dict') else node for node in graph_data_model.nodes],
-                    "relationships": [rel.dict() if hasattr(rel, 'dict') else rel for rel in graph_data_model.relationships]
+                    "nodes": [node.model_dump() if hasattr(node, 'model_dump') else node for node in graph_data_model.nodes],
+                    "relationships": [rel.model_dump() if hasattr(rel, 'model_dump') else rel for rel in graph_data_model.relationships]
                 }
             else:
 

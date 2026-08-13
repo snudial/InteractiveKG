@@ -2,12 +2,64 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import logging
-from ..services.kgot_integration import enhanced_kgot_service, KGOTSolveResult, KGOTRetrieveResult
+import re
+from ..database.connection import db_connection
+from ..services.external_kgot_service import (
+    external_kgot_service as enhanced_kgot_service,
+    KGOTSolveResult,
+    KGOTRetrieveResult,
+)
 from ..services.kg_backup_service import kg_backup_service
 from ..services.graph_service import GraphService
 from ..config.cleanup_config import cleanup_config
 router = APIRouter(prefix="/api/kgot", tags=["Enhanced KGOT"])
 logger = logging.getLogger(__name__)
+
+_IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
+def _safe_identifier(value: str, what: str) -> str:
+    """Validate a label/type/property name before interpolating it into Cypher."""
+    if not _IDENTIFIER_RE.match(value):
+        raise HTTPException(status_code=400, detail=f"Invalid {what}: {value!r}")
+    return value
+
+
+def _clear_knowledge_graph() -> None:
+    """Delete every node and relationship."""
+    db_connection.execute_write_query("MATCH (n) DETACH DELETE n")
+
+
+def _add_node(node_id: str, label: str, node_type: str, properties: Dict[str, Any]) -> None:
+    """MERGE a node by id with the given type label and properties."""
+    node_type = _safe_identifier(node_type, "node type")
+    set_parts = ["n.label = $label"]
+    params: Dict[str, Any] = {"node_id": node_id, "label": label}
+    for key, value in properties.items():
+        _safe_identifier(key, "property name")
+        set_parts.append(f"n.{key} = ${key}")
+        params[key] = value
+    cypher = f"MERGE (n:{node_type} {{id: $node_id}}) SET " + ", ".join(set_parts)
+    db_connection.execute_write_query(cypher, params)
+
+
+def _add_relationship(source_id: str, target_id: str, relationship_type: str,
+                      properties: Dict[str, Any]) -> None:
+    """MERGE a relationship between two nodes matched by id."""
+    relationship_type = _safe_identifier(relationship_type, "relationship type")
+    params: Dict[str, Any] = {"source_id": source_id, "target_id": target_id}
+    cypher = (
+        f"MATCH (a {{id: $source_id}}), (b {{id: $target_id}}) "
+        f"MERGE (a)-[r:{relationship_type}]->(b)"
+    )
+    if properties:
+        set_parts = []
+        for key, value in properties.items():
+            _safe_identifier(key, "property name")
+            set_parts.append(f"r.{key} = ${key}")
+            params[key] = value
+        cypher += " SET " + ", ".join(set_parts)
+    db_connection.execute_write_query(cypher, params)
 
 class EnhancedProblemSolveRequest(BaseModel):
     problem: str
@@ -193,12 +245,12 @@ async def load_error_dataset(request: LoadErrorDataRequest):
         with open(dataset_path, 'r', encoding='utf-8') as f:
             dataset = json.load(f)
 
-        await enhanced_kgot_service.clear_knowledge_graph()
+        _clear_knowledge_graph()
 
         nodes_loaded = 0
         error_nodes_count = 0
         for node in dataset.get('nodes', []):
-            await enhanced_kgot_service.add_node(
+            _add_node(
                 node_id=node['id'],
                 label=node['label'],
                 node_type=node['type'],
@@ -209,7 +261,7 @@ async def load_error_dataset(request: LoadErrorDataRequest):
                 error_nodes_count += 1
 
         for rel in dataset.get('relationships', []):
-            await enhanced_kgot_service.add_relationship(
+            _add_relationship(
                 source_id=rel['source'],
                 target_id=rel['target'],
                 relationship_type=rel['type'],

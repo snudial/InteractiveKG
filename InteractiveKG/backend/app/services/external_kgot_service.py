@@ -37,6 +37,12 @@ class ExternalKGOTService:
         self._llm_config = None
         self._llm_enabled = None
 
+        # URI of the KGOT Python executor container (see the KGOT project's
+        # containers/python docker-compose).
+        self.python_executor_uri = os.getenv(
+            "PYTHON_EXECUTOR_URI", "http://localhost:16000/run"
+        )
+
         self.kgot_project_root = self._resolve_kgot_project_root()
         self.available = os.path.isdir(self.kgot_project_root)
 
@@ -91,7 +97,7 @@ class ExternalKGOTService:
         os.environ['NEO4J_USER'] = self.db.username
         os.environ['NEO4J_PASSWORD'] = self.db.password
 
-        os.environ['PYTHON_EXECUTOR_URI'] = "http://localhost:16000/run"
+        os.environ['PYTHON_EXECUTOR_URI'] = self.python_executor_uri
 
         logger.info("Setting external KGOT environment variables:")
         logger.info(f"  NEO4J_URI: {os.environ['NEO4J_URI']}")
@@ -107,7 +113,7 @@ class ExternalKGOTService:
 NEO4J_USER={self.db.username}
 NEO4J_PASSWORD={self.db.password}
 
-PYTHON_EXECUTOR_URI=http://localhost:16000/run
+PYTHON_EXECUTOR_URI={self.python_executor_uri}
 
 RDF4J_READ_URI=http://localhost:8080/rdf4j-server/repositories/kgot
 RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
@@ -260,7 +266,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                     neo4j_uri=self.db.uri,
                     neo4j_username=self.db.username,
                     neo4j_pwd=self.db.password,
-                    python_executor_uri="http://localhost:16000/run",
+                    python_executor_uri=self.python_executor_uri,
                     llm_execution_model="gpt-4o-mini",
                     llm_execution_temperature=0.0,
                     statistics_file_name=stats_file,
@@ -360,14 +366,14 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                 try:
                     logger.info("Initializing the directRetrieve controller (pure internal retrieval, all external tools disabled)...")
                     logger.info(f"  - Neo4j URI: {self.db.uri}")
-                    logger.info(f"  - Python Executor URI: http://localhost:16000/run")
+                    logger.info(f"  - Python Executor URI: {self.python_executor_uri}")
                     logger.info(f"  - LLM Config: {llm_config_file}")
                     logger.info(f"  - Stats File: {stats_file}")
                     controller = Controller(
                         neo4j_uri=self.db.uri,
                         neo4j_username=self.db.username,
                         neo4j_pwd=self.db.password,
-                        python_executor_uri="http://localhost:16000/run",
+                        python_executor_uri=self.python_executor_uri,
                         llm_execution_model="gpt-4o-mini",
                         llm_execution_temperature=0.0,
                         llm_planning_model="gpt-4o-mini",

@@ -193,7 +193,7 @@ async def export_graph_data():
 
     try:
         result = await graph_service.get_all_graph_data()
-        return JSONResponse(content=result.dict())
+        return JSONResponse(content=result.model_dump(mode="json"))
     except Exception as e:
         logger.error(f"Failed to export data: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to export data: {str(e)}")

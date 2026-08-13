@@ -180,8 +180,8 @@ class DataTransformationService:
     def from_pydantic_models(cls, graph_model: GraphDataModel) -> Dict[str, List[Dict[str, Any]]]:
         try:
             return {
-                'nodes': [node.dict() for node in graph_model.nodes],
-                'relationships': [rel.dict() for rel in graph_model.relationships]
+                'nodes': [node.model_dump() for node in graph_model.nodes],
+                'relationships': [rel.model_dump() for rel in graph_model.relationships]
             }
         except Exception as e:
             logger.error(f"Pydantic model parsing failed: {e}")

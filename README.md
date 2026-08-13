@@ -1,6 +1,12 @@
 # InteractiveKG: Transparent and User-Controllable Knowledge Graph Reasoning
 
-InteractiveKG is a visual analytics system that enables transparent, controllable, and human-centered interaction with LLM-generated reasoning through editable knowledge graphs. Rather than improving the internal reasoning capability of language models, InteractiveKG focuses on exposing intermediate reasoning structures as explicit, inspectable, and persistent artifacts that users can understand, verify, and refine.
+> InteractiveKG is a visual analytics system that externalizes LLM-generated
+> reasoning as persistent, editable knowledge graphs, enabling users to inspect,
+> correct, and iteratively refine the reasoning process.
+
+**Information Visualization, 2026**
+
+[Paper](https://doi.org/10.1177/14738716261435574) · [Citation](#citation)
 
 ## Overview
 
@@ -259,6 +265,7 @@ InteractiveKG/                 # Repository root
     │   │   ├── routers/       # Graph CRUD/analysis routes
     │   │   └── services/      # Graph, abstraction, KGOT, chatbot services
     │   ├── sample_data/       # Bundled study datasets
+    │   ├── tests/             # Smoke tests (python -m pytest tests/)
     │   ├── main.py            # Application entry point
     │   └── requirements.txt   # Python dependencies
     ├── docker-compose.yml     # Docker configuration for Neo4j

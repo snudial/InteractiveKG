@@ -1,16 +1,10 @@
 from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional
-from datetime import datetime
 class NodeModel(BaseModel):
 
     id: Optional[str] = None
     labels: List[str] = Field(default_factory=list, description="Node labels")
     properties: Dict[str, Any] = Field(default_factory=dict, description="Node properties")
-
-    class Config:
-        json_encoders = {
-            datetime: lambda v: v.isoformat()
-        }
 class RelationshipModel(BaseModel):
 
     id: Optional[str] = None
@@ -18,11 +12,6 @@ class RelationshipModel(BaseModel):
     start_node_id: str = Field(..., description="Start node ID")
     end_node_id: str = Field(..., description="End node ID")
     properties: Dict[str, Any] = Field(default_factory=dict, description="Relationship properties")
-
-    class Config:
-        json_encoders = {
-            datetime: lambda v: v.isoformat()
-        }
 class GraphDataModel(BaseModel):
 
     nodes: List[NodeModel] = Field(default_factory=list)

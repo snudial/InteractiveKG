@@ -61,7 +61,7 @@ class Neo4jConnection:
                 def write_tx(tx):
                     result = tx.run(query, parameters or {})
                     return [record.data() for record in result]
-                return session.write_transaction(write_tx)
+                return session.execute_write(write_tx)
             except Exception as e:
                 logger.error(f"Write query execution failed: {str(e)}")
                 raise
