@@ -149,15 +149,33 @@ const NodeExplanationPanel: React.FC<NodeExplanationPanelProps> = ({
 
         {}
         {connectedNodes.length > 0 && (
-          <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded">
-            <span className="font-medium">Related Connections: </span>
-            {connectedNodes.slice(0, 3).map((conn, idx) => (
-              <span key={conn.id}>
-                {idx > 0 && ', '}
-                {conn.name}({conn.relationship_type})
-              </span>
-            ))}
-            {connectedNodes.length > 3 && ` and ${connectedNodes.length - 3} more nodes`}
+          <div className="bg-gray-50 p-2.5 rounded-lg">
+            <div className="text-xs font-medium text-gray-500 mb-1.5">Related Connections</div>
+            <div className="flex flex-wrap gap-1.5">
+              {connectedNodes.slice(0, 6).map((conn) => {
+                const isIncoming = conn.relationship_type.endsWith('(reverse)');
+                const relation = conn.relationship_type
+                  .replace('(reverse)', '')
+                  .replace(/_/g, ' ')
+                  .toLowerCase();
+                return (
+                  <span
+                    key={conn.id}
+                    className="inline-flex items-center gap-1 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs"
+                    title={isIncoming ? `${conn.name} ${relation} this node` : `this node ${relation} ${conn.name}`}
+                  >
+                    <span className="text-blue-600 font-medium">{relation}</span>
+                    <span className="text-gray-400">{isIncoming ? '←' : '→'}</span>
+                    <span className="text-gray-700">{conn.name}</span>
+                  </span>
+                );
+              })}
+              {connectedNodes.length > 6 && (
+                <span className="self-center text-xs text-gray-400">
+                  +{connectedNodes.length - 6} more
+                </span>
+              )}
+            </div>
           </div>
         )}
       </div>
