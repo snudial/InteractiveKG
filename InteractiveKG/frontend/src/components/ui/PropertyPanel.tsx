@@ -142,7 +142,7 @@ export const PropertyPanel: React.FC<PropertyPanelProps> = ({
   return (
     <div
       id="property-panel"
-      className="fixed inset-y-0 right-0 w-96 bg-white shadow-xl border-l border-gray-200 z-50 overflow-y-auto"
+      className="fixed inset-y-0 right-0 w-96 bg-white shadow-xl border-l border-gray-200 z-40 overflow-y-auto"
     >
       {}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">

@@ -141,7 +141,7 @@ export const SimplePropertyEditor: React.FC<SimplePropertyEditorProps> = ({
               {selectedProperty && !isAddingNew && (
                 <button
                   onClick={deleteProperty}
-                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors flex items-center"
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors flex items-center"
                 >
                   <Trash2 className="h-4 w-4 mr-1" />
                   Delete Property

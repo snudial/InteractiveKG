@@ -165,7 +165,7 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
             onClick={() => handleTabChange('solve')}
             className={`px-3 py-2 text-sm font-medium rounded-md ${
               activeTab === 'solve'
-                ? 'bg-yellow-100 text-yellow-700'
+                ? 'bg-blue-50 text-blue-700'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -176,7 +176,7 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
             onClick={() => handleTabChange('retrieve')}
             className={`px-3 py-2 text-sm font-medium rounded-md ${
               activeTab === 'retrieve'
-                ? 'bg-amber-100 text-amber-700'
+                ? 'bg-blue-50 text-blue-700'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -196,7 +196,7 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
               value={problemText}
               onChange={(e) => setProblemText(e.target.value)}
               placeholder="Enter a problem. The system will visualize the reasoning process in the graph."
-              className="w-full p-3 border border-gray-300 rounded-md placeholder-gray-400 text-gray-900 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-md placeholder-gray-400 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               rows={4}
             />
           </div>
@@ -217,7 +217,7 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
           <button
             onClick={handleEnhancedSolve}
             disabled={isLoading || !problemText.trim()}
-            className="w-full bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin mr-2" />
@@ -247,7 +247,7 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
           <button
             onClick={handlePureInternalRetrieve}
             disabled={isLoading || !queryText.trim()}
-            className="w-full bg-amber-600 text-white py-2 px-4 rounded-md hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin mr-2" />

@@ -179,7 +179,7 @@ export const InsertNodeModal: React.FC<InsertNodeModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
         {}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
@@ -345,7 +345,7 @@ export const InsertNodeModal: React.FC<InsertNodeModalProps> = ({
           <button
             onClick={handleInsertNode}
             disabled={!nodeLabels.trim() || isLoading}
-            className="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center"
           >
             {isLoading ? (
               <>

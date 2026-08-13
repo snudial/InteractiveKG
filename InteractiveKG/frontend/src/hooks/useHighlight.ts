@@ -101,7 +101,6 @@ const ALL_HIGHLIGHT_TARGETS = [
   'enhanced-kgot-panel-retrieve',
   'hierarchical-abstraction-panel',
   'node-explanation-panel',
-  'error-data-loader',
   'property-panel'
 ];
 
@@ -235,7 +234,7 @@ export const useHighlight = () => {
     });
 
     
-    highlightClasses.push('highlight-combo-attention', 'highlight-smart-solve', 'highlight-hierarchical', 'highlight-error-data');
+    highlightClasses.push('highlight-combo-attention', 'highlight-smart-solve', 'highlight-hierarchical');
 
     element.classList.remove(...highlightClasses);
   };

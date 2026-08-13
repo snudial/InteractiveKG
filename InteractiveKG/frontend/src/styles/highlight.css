@@ -326,15 +326,6 @@
   transition: all 0.3s ease;
 }
 
-/* Error data loading phase - red warning */
-.highlight-error-data {
-  animation: highlight-glow 1.5s ease-in-out infinite;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6), 0 0 25px rgba(239, 68, 68, 0.4);
-  border: 2px solid rgba(239, 68, 68, 0.8);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
 /* ===== Responsive adjustments ===== */
 @media (max-width: 768px) {
   .highlight-pulse-low,

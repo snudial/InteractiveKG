@@ -642,7 +642,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
-              className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -693,7 +693,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
                   onClick={() => handleDataSourceSelection(button.file)}
                   disabled={isLoading}
                   className={`w-full px-6 py-4 rounded-lg font-medium text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg ${
-                    button.variant === 'primary' ? 'bg-purple-500/80 hover:bg-purple-600 active:bg-purple-700 text-white' :
+                    button.variant === 'primary' ? 'bg-blue-500/80 hover:bg-blue-600 active:bg-blue-700 text-white' :
                     button.variant === 'secondary' ? 'bg-pink-500/80 hover:bg-pink-600 active:bg-pink-700 text-white' :
                     'bg-pink-600 hover:bg-pink-700 text-white'
                   }`}
@@ -738,11 +738,11 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
             disabled={isAdvancing}
             className={`w-full px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-200 flex items-center justify-center ${
               advanceButton.variant === 'primary'
-                ? 'bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white'
+                ? 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white'
                 : advanceButton.variant === 'success'
-                ? 'bg-purple-500 hover:bg-purple-600 active:bg-purple-700 text-white'
+                ? 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white'
                 : advanceButton.variant === 'warning'
-                ? 'bg-purple-400 hover:bg-purple-500 active:bg-purple-600 text-white'
+                ? 'bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-white'
                 : 'bg-gray-600 hover:bg-gray-700 text-white'
             } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
@@ -801,7 +801,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
 
       {}
       {highlightState.isHighlighted && (
-        <div className="fixed top-4 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center space-x-2">
+        <div className="fixed top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center space-x-2">
           <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
           <span className="text-sm font-medium">
             Guiding you to use relevant features

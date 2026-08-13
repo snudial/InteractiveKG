@@ -359,21 +359,21 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-slate-200">
       {}
       <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
-        <div className="max-w-full mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+        <div className="max-w-full mx-auto px-4 lg:px-8">
+          <div className="flex flex-wrap justify-between items-center gap-y-2 min-h-16 py-2">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <div className="h-10 w-10 bg-gradient-to-r from-orange-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="h-10 w-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Database className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Knowledge Graph</h1>
-                  <p className="text-sm text-gray-500">Interactive Management System</p>
+                  <h1 className="text-xl font-bold text-gray-900">InteractiveKG</h1>
+                  <p className="text-sm text-gray-500 hidden md:block">User-Controllable Knowledge Graph Reasoning</p>
                 </div>
               </div>
 
               {}
-              <div className="flex items-center space-x-4 ml-8">
+              <div className="hidden lg:flex items-center space-x-4 ml-8">
                 <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-50 border border-green-200 rounded-full">
                   <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-sm font-medium text-green-700">{graphData.nodes.length} Nodes</span>
@@ -386,7 +386,7 @@ export default function Home() {
             </div>
 
             {}
-            <div className="flex items-center space-x-3">
+            <div className="flex flex-wrap items-center gap-2">
               <div className="flex items-center space-x-2 bg-gray-50 rounded-xl p-1">
                 <FileUploadButton
                   onUploadSuccess={handleUploadSuccess}
@@ -395,7 +395,7 @@ export default function Home() {
 
                 <button
                   onClick={() => setIsCreateModalOpen(true)}
-                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-green-700 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-all duration-200 hover:shadow-md"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-all duration-200 hover:shadow-md"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Create Node
@@ -404,7 +404,7 @@ export default function Home() {
                 <button
                   onClick={() => setIsCreateRelModalOpen(true)}
                   disabled={!graphData || graphData.nodes.length < 2}
-                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-lg hover:bg-amber-100 transition-all duration-200 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-all duration-200 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Link className="h-4 w-4 mr-2" />
                   Create Relation
@@ -458,10 +458,10 @@ export default function Home() {
       )}
 
       {}
-      <main className="max-w-full mx-auto px-6 lg:px-8 py-6">
-        <div className="flex gap-6 h-[calc(100vh-180px)]">
+      <main className="max-w-full mx-auto px-4 lg:px-8 py-6">
+        <div className="flex flex-col lg:flex-row gap-6 lg:h-[calc(100vh-180px)]">
           {}
-          <div className="w-80 flex flex-col space-y-4 h-full">
+          <div className="w-full lg:w-72 xl:w-80 flex flex-col space-y-4 lg:h-full">
             {}
             <div id="hierarchical-abstraction-panel" className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 overflow-hidden flex-shrink-0">
               <div className="px-5 py-4 border-b border-gray-200/50 bg-gradient-to-r from-orange-50 to-red-50">
@@ -513,11 +513,11 @@ export default function Home() {
           </div>
 
           {}
-          <div className="flex-1">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-full overflow-hidden">
+          <div className="flex-1 min-w-0">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-[60vh] lg:h-full overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200/50 bg-gradient-to-r from-slate-50 to-gray-50">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900">Knowledge Graph Visualization of LLM Responses</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">Reasoning Graph</h2>
                   <div className="flex items-center space-x-4 text-sm text-gray-600">
                     <span>Visible Nodes: {showFullView ? graphData.nodes.length : calculateVisibleNodes()}</span>
                     <span className="text-gray-400">|</span>
@@ -545,9 +545,9 @@ export default function Home() {
 
                 {}
                 {isHierarchicalAnalyzing && (
-                  <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-50">
+                  <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-30">
                     <div className="bg-white rounded-lg shadow-xl p-6 flex flex-col items-center space-y-4">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-purple-600"></div>
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600"></div>
                       <div className="text-center">
                         <div className="text-lg font-semibold text-gray-900">Analyzing Graph Structure</div>
                         <div className="text-sm text-gray-600 mt-1">Please wait while we process the data...</div>
@@ -560,8 +560,8 @@ export default function Home() {
           </div>
 
           {}
-          <div className="w-80">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-full overflow-hidden">
+          <div className="w-full lg:w-72 xl:w-80">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-[70vh] lg:h-full overflow-hidden">
               <div className="px-5 py-4 border-b border-gray-200/50 bg-purple-50">
                 <div className="flex items-center space-x-3">
                   <div className="h-8 w-8 bg-purple-500 rounded-lg flex items-center justify-center">
