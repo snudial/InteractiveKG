@@ -488,7 +488,7 @@ export default function Home() {
             {}
             <div
               id={activeKGOTTab === 'solve' ? 'enhanced-kgot-panel-solve' : 'enhanced-kgot-panel-retrieve'}
-              className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 overflow-hidden"
+              className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 overflow-hidden lg:flex-1 lg:flex lg:flex-col lg:min-h-0"
             >
               <div className="px-5 py-4 border-b border-gray-200/50 bg-yellow-50">
                 <div className="flex items-center space-x-3">
@@ -498,7 +498,7 @@ export default function Home() {
                   <h3 className="text-sm font-semibold text-gray-900">Knowledge Reasoning</h3>
                 </div>
               </div>
-              <div className="p-5">
+              <div className="p-5 lg:flex-1 lg:min-h-0 lg:overflow-y-auto custom-scrollbar">
                 <EnhancedKGOTPanel
                   onDataUpdate={loadGraphData}
                   useHierarchicalView={useHierarchicalView}

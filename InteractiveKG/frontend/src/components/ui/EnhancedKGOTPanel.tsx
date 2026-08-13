@@ -268,6 +268,45 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
         </div>
       )}
 
+      {/* Example prompts fill the otherwise-empty lower half of the panel and
+          give first-time users a one-click starting point. */}
+      {!result && !isLoading && (
+        <div className="mt-6 border-t border-gray-200 pt-4">
+          <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
+            Try an example
+          </div>
+          <div className="space-y-2">
+            {(activeTab === 'solve'
+              ? [
+                  'How does SARS-CoV-2 enter human cells?',
+                  'Which drugs could block viral replication, and how?',
+                  'Why might Baricitinib reduce inflammation in severe cases?',
+                ]
+              : [
+                  'What does Paxlovid inhibit?',
+                  'Which pathway does Baricitinib act on?',
+                  'How are the spike protein and ACE2 receptor related?',
+                ]
+            ).map((example) => (
+              <button
+                key={example}
+                onClick={() =>
+                  activeTab === 'solve' ? setProblemText(example) : setQueryText(example)
+                }
+                className="w-full text-left text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 transition-colors"
+              >
+                {example}
+              </button>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-gray-400 leading-relaxed">
+            {activeTab === 'solve'
+              ? 'Intelligent Solving reasons about your problem and writes new knowledge into the graph.'
+              : 'Internal Retrieval answers using only what is currently in the graph - edits you make change the answer.'}
+          </p>
+        </div>
+      )}
+
 
 
       {result && (
