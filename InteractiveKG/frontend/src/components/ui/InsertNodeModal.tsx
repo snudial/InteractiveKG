@@ -112,13 +112,6 @@ export const InsertNodeModal: React.FC<InsertNodeModalProps> = ({
         throw new Error('Relationship not found: Missing start or end node ID');
       }
 
-      console.log('🔗 Inserting node on relationship:', {
-        relationshipId: selectedRelationship.id,
-        startNodeId,
-        endNodeId,
-        newNodeId: newNode.id,
-        relationshipType: selectedRelationship.type
-      });
 
       
       const firstRelRequest: RelationshipCreateRequest = {

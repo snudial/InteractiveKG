@@ -125,44 +125,14 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     }
   }, [supportsTwoStageView, viewState, hierarchicalAnalysis?.community_view?.edges]);
 
-  
-  if (hierarchicalAnalysis) {
-    
-    (window as any).colorMapping = hierarchicalAnalysis?.color_mapping;
-    (window as any).hierarchicalAnalysis = hierarchicalAnalysis;
-
-    console.log('GraphVisualization Debug:', {
-      useHierarchicalView,
-      hasHierarchicalAnalysis: !!hierarchicalAnalysis,
-      hasCommunityView: !!hierarchicalAnalysis?.community_view,
-      hasDetailedView: !!hierarchicalAnalysis?.detailed_view,
-      abstractionLevel,
-      supportsTwoStageView,
-      viewState,
-      panelViewMode,
-      communityViewNodes: hierarchicalAnalysis?.community_view?.nodes?.length || 0,
-      detailedViewNodes: hierarchicalAnalysis?.detailed_view?.nodes?.length || 0,
-      colorMapping: hierarchicalAnalysis?.color_mapping
-    });
-  }
 
   
   const getCurrentViewData = (): GraphData => {
-    console.log('getCurrentViewData called:', {
-      supportsTwoStageView,
-      viewState,
-      hasCommunityView: !!hierarchicalAnalysis?.community_view,
-      hasDetailedView: !!hierarchicalAnalysis?.detailed_view,
-      hasSingleCommunityData: !!singleCommunityData,
-      abstractionLevel
-    });
 
     if (!supportsTwoStageView) {
-      console.log('Using original data (no two-stage support)');
       
       if (abstractionLevel === 0) {
         const filteredNodes = data.nodes.filter(node => !node.labels?.includes('Community'));
-        console.log(`Level 0: Filtered out ${data.nodes.length - filteredNodes.length} Community nodes`);
         return {
           nodes: filteredNodes,
           relationships: data.relationships
@@ -173,19 +143,15 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
 
     if (viewState === 'community') {
       
-      console.log('Converting community view data');
       return convertCommunityViewToGraphData(hierarchicalAnalysis.community_view);
     } else if (viewState === 'detailed') {
       
-      console.log('Converting detailed view data');
       return convertDetailedViewToGraphData(hierarchicalAnalysis.detailed_view);
     } else if (viewState === 'single_community' && singleCommunityData) {
       
-      console.log('Using single community data from API');
       return singleCommunityData;
     }
 
-    console.log('Using original data (fallback)');
     return data; 
   };
 
@@ -275,7 +241,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
 
       
       if (isFirstNode) {
-        console.log('📊 First converted detail node:', convertedNode);
         isFirstNode = false;
       }
 
@@ -292,7 +257,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       properties: edge.properties
     }));
 
-    console.log(`📊 Converted ${nodes.length} detail nodes, ${relationships.length} relationships`);
     return { nodes, relationships };
   };
 
@@ -337,7 +301,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
   
   const handleViewCommunityDetails = async (communityId: string) => {
     try {
-      console.log(`Fetching community details for: ${communityId}, abstraction level: ${abstractionLevel}`);
 
       const communityDetail = await graphApi.communityDetail<any>(communityId, abstractionLevel);
 
@@ -374,11 +337,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       setViewState('single_community');
       setClickedCommunityNode(null); 
 
-      console.log('Community detail loaded:', {
-        communityId,
-        nodeCount: nodes.length,
-        edgeCount: relationships.length
-      });
 
     } catch (error) {
       console.error('Failed to load community details:', error);
@@ -537,16 +495,9 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     mode: string,
     abstractionLevel: number
   ): NodeData[] => {
-    console.log('filterNodesForHierarchicalView called:', {
-      nodeCount: nodes.length,
-      mode,
-      abstractionLevel,
-      hasAnalysis: !!analysis
-    });
 
     
     
-    console.log('Returning all nodes - grouping controlled by Leiden algorithm');
     return nodes;
   };
 
@@ -570,16 +521,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     }
 
     
-    console.log('GraphVisualization Debug:', {
-      useHierarchicalView,
-      hasHierarchicalAnalysis: !!hierarchicalAnalysis,
-      originalNodeCount: graphData.nodes.length,
-      filteredNodeCount: filteredNodes.length,
-      viewMode,
-      abstractionLevel,
-      shouldFilter: useHierarchicalView && hierarchicalAnalysis,
-      filterCondition: `${useHierarchicalView} && ${!!hierarchicalAnalysis}`
-    });
 
     
     if (onVisibleNodesChange) {
@@ -778,14 +719,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       const node = event.target;
       const nodeData = node.data();
 
-      console.log('🔍 Double-click node event:', {
-        nodeId: nodeData.id,
-        nodeLabels: nodeData.labels,
-        nodeProperties: nodeData.properties,
-        viewState,
-        supportsTwoStageView,
-        hasCallback: !!callbacksRef.current.onNodeDoubleClick
-      });
 
       if (!callbacksRef.current.onNodeDoubleClick) {
         console.warn('⚠️ onNodeDoubleClick callback not set');
@@ -802,20 +735,10 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
         const currentData = getCurrentViewData();
       let originalNode = currentData.nodes.find(n => n.id === nodeData.id);
       
-      console.log('🔍 Search in current view data:', {
-        found: !!originalNode,
-        currentDataNodesCount: currentData.nodes.length,
-        searchedId: nodeData.id
-      });
 
       
       if (!originalNode) {
         originalNode = data.nodes.find(n => n.id === nodeData.id);
-        console.log('🔍 Search in original data:', {
-          found: !!originalNode,
-          originalDataNodesCount: data.nodes.length,
-          searchedId: nodeData.id
-        });
       }
 
       
@@ -825,10 +748,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
           n.properties?.displayName === nodeData.properties.name ||
           n.id === nodeData.properties.name
         );
-        console.log('🔍 Search by name:', {
-          found: !!originalNode,
-          searchedName: nodeData.properties.name
-        });
       }
 
       
@@ -850,7 +769,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
               type: communityNode.type || 'community'
             }
           } as NodeData;
-          console.log('🔍 Found Community node from hierarchicalAnalysis:', originalNode);
         }
       }
 
@@ -862,11 +780,9 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
           labels: nodeData.labels || [],
           properties: nodeData.properties || {}
         } as NodeData;
-        console.log('🔍 Created node object from nodeData as fallback:', originalNode);
       }
 
         if (originalNode) {
-        console.log('✅ Found node, calling onNodeDoubleClick:', originalNode.id);
           callbacksRef.current.onNodeDoubleClick(originalNode);
       } else {
         console.error('❌ Node not found for double-click:', {
@@ -892,20 +808,11 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       const isCommunityNode = nodeData.labels?.includes('Community') ||
                              (typeof typeValue === 'string' && typeValue.toLowerCase().includes('community'));
 
-      console.log('Right-click on node:', {
-        nodeId: nodeData.id,
-        nodeType: nodeData.properties?.type,
-        labels: nodeData.labels,
-        supportsTwoStageView,
-        viewState,
-        isCommunityNode
-      });
 
       
       if (supportsTwoStageView && viewState === 'community' && isCommunityNode) {
         
         const position = node.renderedPosition();
-        console.log('Showing View Details button for community:', nodeData.id);
         setClickedCommunityNode({
           id: nodeData.id,
           name: nodeData.properties.name || nodeData.label,
@@ -938,15 +845,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       const edge = event.target;
       const edgeData = edge.data();
 
-      console.log('🔗 Double-click edge event:', {
-        edgeId: edgeData.id,
-        source: edgeData.source,
-        target: edgeData.target,
-        type: edgeData.type,
-        viewState,
-        supportsTwoStageView,
-        hasCallback: !!callbacksRef.current.onRelationshipDoubleClick
-      });
 
       if (!callbacksRef.current.onRelationshipDoubleClick) {
         console.warn('⚠️ onRelationshipDoubleClick callback not set');
@@ -957,20 +855,10 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       const currentData = getCurrentViewData();
       let originalRel = currentData.relationships.find(r => r.id === edgeData.id);
       
-      console.log('🔗 Search in current view data:', {
-        found: !!originalRel,
-        currentDataRelationshipsCount: currentData.relationships.length,
-        searchedId: edgeData.id
-      });
 
       
       if (!originalRel) {
         originalRel = data.relationships.find(r => r.id === edgeData.id);
-        console.log('🔗 Search in original data by ID:', {
-          found: !!originalRel,
-          originalDataRelationshipsCount: data.relationships.length,
-          searchedId: edgeData.id
-        });
       }
 
       
@@ -984,11 +872,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
                              (r as any).target === edgeData.target;
           return matchSource && matchTarget;
         });
-        console.log('🔗 Search by source/target:', {
-          found: !!originalRel,
-          source: edgeData.source,
-          target: edgeData.target
-        });
       }
 
       
@@ -1001,11 +884,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
                              (r as any).target_id === edgeData.target ||
                              (r as any).target === edgeData.target;
           return matchSource && matchTarget;
-        });
-        console.log('🔗 Search in current data by source/target:', {
-          found: !!originalRel,
-          source: edgeData.source,
-          target: edgeData.target
         });
       }
 
@@ -1027,7 +905,6 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
               edge_count: communityEdge.edge_count
             }
           } as RelationshipData;
-          console.log('🔗 Found edge from hierarchicalAnalysis:', originalRel);
         }
       }
 
@@ -1042,11 +919,9 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
           type: edgeData.type || 'RELATED',
           properties: edgeData.properties || {}
         } as RelationshipData;
-        console.log('🔗 Created relationship object from edgeData as fallback:', originalRel);
       }
 
         if (originalRel) {
-        console.log('✅ Found relationship, calling onRelationshipDoubleClick:', originalRel.id);
           callbacksRef.current.onRelationshipDoubleClick(originalRel);
       } else {
         console.error('❌ Relationship not found for double-click:', {

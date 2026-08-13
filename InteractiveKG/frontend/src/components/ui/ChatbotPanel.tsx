@@ -46,84 +46,49 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
   const [dataSourceSelectionButtons, setDataSourceSelectionButtons] = useState<DataSourceSelectionButton[]>([]);
 
   
+  // Case 1 and Case 2 walk through the same six steps, so guidance is keyed by
+  // the phase suffix; only the intro title mentions the case number.
   const getPhaseGuidance = (phase: TestPhase): { title: string; description: string; panelHint?: string } | null => {
-    switch (phase) {
-      
-      case TestPhase.CASE1_INTRO:
+    const caseNumber = phase.startsWith('case2') ? 2 : 1;
+    const step = phase.replace(/^case[12]_/, '');
+
+    switch (step) {
+      case 'intro':
         return {
-          title: 'Case 1 - InteractiveKG Exploration',
+          title: `Case ${caseNumber} - InteractiveKG Exploration`,
           description: 'Compare LLM text response with knowledge graph visualization',
           panelHint: 'Select a domain to begin exploring'
         };
-      case TestPhase.CASE1_LLM_RESPONSE:
+      case 'llm_response':
         return {
           title: 'Initial Exploration',
           description: 'The same content you previously read through text has been transformed into a knowledge graph',
-          panelHint: ' Examine the distribution of nodes and relationships in the graph'
+          panelHint: 'Examine the distribution of nodes and relationships in the graph'
         };
-      case TestPhase.CASE1_EXPLORE_GRAPH:
+      case 'explore_graph':
         return {
           title: 'Explore Knowledge Graph Visualization',
           description: 'Transform complex graphs into community views, extracting key information for better understanding',
-          panelHint: ' Use the "Hierarchical Analysis" panel to navigate different levels of detail'
+          panelHint: 'Use the "Hierarchical Analysis" panel to navigate different levels of detail'
         };
-      case TestPhase.CASE1_IDENTIFY_ERRORS:
+      case 'identify_errors':
         return {
           title: 'Identifying Unexpected Nodes / Relationships',
           description: 'When you don\'t understand why a node is in a certain position or how to interpret the information it represents, you can use the "node explanation" feature to get a better understanding.',
-          panelHint: ' Double click on a node to activate the explanation feature'
+          panelHint: 'Double click on a node to activate the explanation feature'
         };
-      case TestPhase.CASE1_EDIT_CORRECT:
+      case 'edit_correct':
         return {
           title: 'Edit and Correct',
           description: 'After identifying problem nodes/relationships, you can now edit the knowledge graph to impact LLM reasoning',
-          panelHint: ' Double click on nodes or relationships and edit their properties'
+          panelHint: 'Double click on nodes or relationships and edit their properties'
         };
-      case TestPhase.CASE1_REQUERY_COMPARE:
+      case 'requery_compare':
         return {
           title: 'Re-query and Compare',
           description: 'Query with the corrected knowledge graph and compare results',
           panelHint: 'Use the "Internal Retrieval" mode to query with the updated graph'
         };
-
-      
-      case TestPhase.CASE2_INTRO:
-        return {
-          title: 'Case 2 - InteractiveKG Exploration',
-          description: 'Compare LLM text response with knowledge graph visualization',
-          panelHint: ' Select a domain to begin exploring'
-        };
-      case TestPhase.CASE2_LLM_RESPONSE:
-        return {
-          title: 'Initial Exploration',
-          description: 'The same content you previously read through text has been transformed into a knowledge graph',
-          panelHint: ' Examine the distribution of nodes and relationships in the graph'
-        };
-      case TestPhase.CASE2_EXPLORE_GRAPH:
-        return {
-          title: 'Explore Knowledge Graph Visualization',
-          description: 'Transform complex graphs into community views, extracting key information for better understanding',
-          panelHint: ' Use the "Hierarchical Analysis" panel to navigate different levels of detail'
-        };
-      case TestPhase.CASE2_IDENTIFY_ERRORS:
-        return {
-          title: 'Identifying Unexpected Nodes / Relationships',
-          description: 'When you don\'t understand why a node is in a certain position or how to interpret the information it represents, you can use the "node explanation" feature to get a better understanding.',
-          panelHint: ' Double click on a node to activate the explanation feature'
-        };
-      case TestPhase.CASE2_EDIT_CORRECT:
-        return {
-          title: 'Edit',
-          description: 'After identifying problem nodes/relationships, you can now edit the knowledge graph to impact LLM reasoning',
-          panelHint: ' Double click on nodes or relationships and edit their properties'
-        };
-      case TestPhase.CASE2_REQUERY_COMPARE:
-        return {
-          title: 'Re-query and Compare',
-          description: 'Query with the corrected knowledge graph and compare results',
-          panelHint: 'Use the "Internal Retrieval" mode to query with the updated graph'
-        };
-
       default:
         return null;
     }
@@ -154,7 +119,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
   
   useEffect(() => {
     return () => {
-      console.log('🎯 ChatbotPanel: Component unmounting, clearing all highlight effects');
       clearAllHighlights();
     };
   }, [clearAllHighlights]);
@@ -164,8 +128,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
       const response = await ChatbotAPI.createSession();
       if (response.success) {
         setSessionId(response.session_id);
-        
-        (window as any).chatbotSessionId = response.session_id;
         setCurrentPhase(TestPhase.CASE1_INTRO);
         setProgress(0);
         
@@ -209,29 +171,19 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
     setDataSourceSelectionButtons(response.data_source_selection_buttons || []);
 
     
-    console.log('🔍 ChatbotPanel - Update state:', {
-      current_phase: newPhase,
-      phase_changed: phaseChanged,
-      advance_button: response.advance_button,
-      has_button: !!response.advance_button,
-      data_source_buttons: response.data_source_selection_buttons
-    });
 
     
     if (phaseChanged) {
-      console.log(`🎯 ChatbotPanel: Phase change detected ${currentPhase} -> ${newPhase}`);
 
       
       
       if (newPhase === TestPhase.CASE1_REQUERY_COMPARE) {
         
-        console.log(`🎯 ChatbotPanel: Case 1 re-query phase, switching KGOT panel to retrieve tab`);
         if (onTriggerKGOTSearch) {
           onTriggerKGOTSearch('', 'retrieve');
         }
       } else if (newPhase === TestPhase.CASE2_REQUERY_COMPARE) {
         
-        console.log(`🎯 ChatbotPanel: Case 2 re-query phase, switching KGOT panel to retrieve tab`);
         if (onTriggerKGOTSearch) {
           onTriggerKGOTSearch('', 'retrieve');
         }
@@ -254,12 +206,10 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
       if (functionalPhases.includes(newPhase)) {
         
         setTimeout(() => {
-          console.log(`🎯 ChatbotPanel: Triggering highlight for phase ${newPhase} in updateChatState`);
           highlightPhase(newPhase);
         }, 800); 
       } else {
         
-        console.log(`🎯 ChatbotPanel: Clearing highlights in updateChatState, phase ${newPhase} does not need highlighting`);
         setTimeout(() => {
           clearAllHighlights();
         }, 100);
@@ -299,27 +249,20 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
         setAdvanceButton(response.advance_button || null);
         setDataSourceSelectionButtons(response.data_source_selection_buttons || []);
 
-        console.log(`✅ Phase advanced to: ${newPhase}`, {
-          hasAdvanceButton: !!response.advance_button,
-          advanceButton: response.advance_button
-        });
 
         
         updateProgress();
 
         
-        console.log(`🎯 ChatbotPanel: Phase switched to ${newPhase}, managing highlight display and KGOT panel state`);
 
         
         if (newPhase === TestPhase.CASE1_REQUERY_COMPARE) {
           
-          console.log(`🎯 ChatbotPanel: Case 1 re-query phase, switching KGOT panel to retrieve tab`);
           if (onTriggerKGOTSearch) {
             onTriggerKGOTSearch('', 'retrieve');
           }
         } else if (newPhase === TestPhase.CASE2_REQUERY_COMPARE) {
           
-          console.log(`🎯 ChatbotPanel: Case 2 re-query phase, switching KGOT panel to retrieve tab`);
           if (onTriggerKGOTSearch) {
             onTriggerKGOTSearch('', 'retrieve');
           }
@@ -342,12 +285,10 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
         if (functionalPhases.includes(newPhase)) {
           
           setTimeout(() => {
-            console.log(`🎯 ChatbotPanel: Triggering highlight for phase ${newPhase}`);
             highlightPhase(newPhase);
           }, 1000); 
         } else {
           
-          console.log(`🎯 ChatbotPanel: Phase ${newPhase} does not need highlight, clearing all highlights`);
           setTimeout(() => {
             clearAllHighlights();
           }, 100);
@@ -389,7 +330,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
     setError(null);
 
     try {
-      console.log(`🔄 Automatically loading error dataset: ${defaultDatasetId}`);
 
       
       const response = await fetch(apiUrl('/api/kgot/load-error-data'), {
@@ -419,7 +359,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
 
 
 
-        console.log(`✅ Error dataset loaded successfully: ${result.message}`);
       } else {
         throw new Error(result.error || 'Load failed');
       }
@@ -473,7 +412,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
       setIsLoading(true);
       setError(null);
 
-      console.log(`🎯 ChatbotPanel: Loading domain data from ${domainFile}`);
       await loadSampleData(domainFile);
     } catch (error) {
       console.error('Domain selection failed:', error);
@@ -488,7 +426,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
     try {
       setIsLoading(true);
 
-      console.log(`🎯 ChatbotPanel: Loading sample data from ${dataFileName}`);
 
       
       
@@ -496,16 +433,13 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
 
       if (dataResponse.ok) {
         const sampleData = await dataResponse.json();
-        console.log(`🎯 ChatbotPanel: Successfully loaded sample data`, sampleData);
 
         
         try {
-          console.log('🔄 Clearing backend database...');
           await fetch(apiUrl('/api/graph/data'), {
             method: 'DELETE'
           });
 
-          console.log('📤 Importing sample data to backend...');
           const importResponse = await fetch(apiUrl('/api/graph/import'), {
             method: 'POST',
             headers: {
@@ -515,7 +449,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
           });
 
           if (importResponse.ok) {
-            console.log('✅ Sample data successfully imported to backend');
 
             
             
@@ -551,11 +484,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
               const sessionInfo = await ChatbotAPI.getSessionInfo(sessionId);
               setAdvanceButton(sessionInfo.advance_button || null);
               setDataSourceSelectionButtons(sessionInfo.data_source_selection_buttons || []);
-              console.log('🔄 Updated session info after loading sample data:', {
-                phase: sessionInfo.current_phase,
-                hasAdvanceButton: !!sessionInfo.advance_button,
-                advanceButton: sessionInfo.advance_button
-              });
             } catch (error) {
               console.error('Failed to fetch session info after loading sample data:', error);
               setAdvanceButton(null);
@@ -722,12 +650,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
       {}
       {(() => {
         const shouldShow = advanceButton !== null;
-        console.log('🔘 Advance button render check:', {
-          currentPhase,
-          hasAdvanceButton: !!advanceButton,
-          advanceButton: advanceButton,
-          shouldShow
-        });
         return shouldShow;
       })() && (
         <div className="flex-shrink-0 px-4 py-2 border-t border-gray-100 bg-gray-50 mt-auto">

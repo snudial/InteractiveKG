@@ -197,7 +197,6 @@ export const HierarchicalAbstractionPanel: React.FC<HierarchicalAbstractionPanel
   
   useEffect(() => {
     if (refreshTrigger > 0) {
-      console.log('🔄 Refreshing hierarchical analysis due to data update');
       performHierarchicalAnalysis();
     }
   }, [refreshTrigger]);

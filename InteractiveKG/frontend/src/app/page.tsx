@@ -54,7 +54,6 @@ export default function Home() {
     const hasAnalysis = !!hierarchicalAnalysis;
 
     if (hasAnalysis && !useHierarchicalView) {
-      console.log('Auto-switching to hierarchical view');
       setUseHierarchicalView(true);
     }
   }, [!!hierarchicalAnalysis, useHierarchicalView]); 
@@ -86,7 +85,6 @@ export default function Home() {
     try {
       
       if (sampleData) {
-        console.log('🎯 Processing sample data from ChatbotPanel:', sampleData);
 
         
         const loadResponse = await GraphAPI.loadSampleData(sampleData);
@@ -96,7 +94,6 @@ export default function Home() {
           return;
         }
 
-        console.log('✅ Sample data loaded to database:', loadResponse.data);
 
         
         const response = await GraphAPI.getAllGraphData();
@@ -108,12 +105,10 @@ export default function Home() {
         
         if (response.data) {
           setGraphData(response.data);
-          console.log('🎯 Sample data processed through complete pipeline:', response.data);
 
           
           await loadGroupingAnalysis();
 
-          console.log('✅ Complete sample data processing finished with full functionality support');
         } else {
           setError('No data received from server after sample data loading');
         }
@@ -150,7 +145,6 @@ export default function Home() {
   };
 
   const handleNodeSelect = (node: NodeData | null) => {
-    console.log('🔍 Node selected (single click):', node?.id);
     
     setSelectedNode(node);
     setSelectedRelationship(null);
@@ -158,21 +152,18 @@ export default function Home() {
   };
 
   const handleNodeDoubleClick = (node: NodeData) => {
-    console.log('🔍🔍 Node double-clicked:', node?.id, 'Opening panel');
     setSelectedNode(node);
     setSelectedRelationship(null);
     setIsPanelOpen(true);
   };
 
   const handleRelationshipSelect = (relationship: RelationshipData | null) => {
-    console.log('🔗 Relationship selected:', relationship?.id, 'Opening panel:', !!relationship);
     setSelectedRelationship(relationship);
     setSelectedNode(null);
     setIsPanelOpen(!!relationship);
   };
 
   const handleRelationshipDoubleClick = (relationship: RelationshipData) => {
-    console.log('🔗🔗 Relationship double-clicked:', relationship?.id, 'Opening panel');
     setSelectedRelationship(relationship);
     setSelectedNode(null);
     setIsPanelOpen(true);
@@ -205,7 +196,6 @@ export default function Home() {
           setIsPanelOpen(false);
         }
       } else if (selectedRelationship) {
-        console.log('Update relationship:', data);
         setIsPanelOpen(false);
       }
     } catch (err) {
@@ -348,7 +338,6 @@ export default function Home() {
 
   const handleTriggerKGOTSearch = (query: string, tab: 'solve' | 'retrieve') => {
     setActiveKGOTTab(tab);
-    console.log('Triggering KGOT search:', { query, tab });
   };
 
   const handleKGOTTabChange = (tab: 'solve' | 'retrieve') => {

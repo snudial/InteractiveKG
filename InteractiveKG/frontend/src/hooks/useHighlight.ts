@@ -120,7 +120,6 @@ export const useHighlight = () => {
 
   
   const highlightPhase = useCallback((phase: TestPhase) => {
-    console.log(`🎯 Highlight system: switching to phase ${phase}`);
 
     
     clearAllHighlights();
@@ -129,7 +128,6 @@ export const useHighlight = () => {
 
     if (!targetId) {
       
-      console.log(`🎯 Highlight system: phase ${phase} needs no highlight, clearing state`);
       setHighlightState({
         isHighlighted: false,
         targetId: null,
@@ -147,7 +145,6 @@ export const useHighlight = () => {
       ...phaseConfig
     };
 
-    console.log(`🎯 Highlight system: highlighting ${targetId}, config:`, config);
 
     setHighlightState({
       isHighlighted: true,
@@ -168,7 +165,6 @@ export const useHighlight = () => {
 
   
   const clearHighlight = useCallback(() => {
-    console.log(`🎯 Highlight system: clearing all highlights`);
 
     
     clearAllHighlights();
@@ -188,7 +184,6 @@ export const useHighlight = () => {
       return;
     }
 
-    console.log(`🎯 Highlight system: applying highlight to ${config.targetId}`);
 
     
     removeHighlightFromElement(config.targetId);
@@ -200,7 +195,6 @@ export const useHighlight = () => {
     
     element.classList.add(colorClassName);
 
-    console.log(`🎯 Highlight system: adding CSS class ${colorClassName} to ${config.targetId}`);
 
     
     element.scrollIntoView({
@@ -241,7 +235,6 @@ export const useHighlight = () => {
 
   
   const highlightElement = useCallback((targetId: string, config?: Partial<HighlightConfig>) => {
-    console.log(`🎯 Highlight system: manually highlighting ${targetId}`);
 
     
     clearAllHighlights();

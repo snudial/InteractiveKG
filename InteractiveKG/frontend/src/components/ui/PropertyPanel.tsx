@@ -133,11 +133,9 @@ export const PropertyPanel: React.FC<PropertyPanelProps> = ({
   };
 
   if (!isOpen || !selectedItem) {
-    console.log('🚫 PropertyPanel not rendering:', { isOpen, hasSelectedItem: !!selectedItem });
     return null;
   }
 
-  console.log('✅ PropertyPanel rendering:', { isOpen, selectedItem: selectedItem?.id });
 
   return (
     <div

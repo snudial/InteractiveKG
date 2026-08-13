@@ -1,4 +1,7 @@
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 from typing import Optional
 from dotenv import load_dotenv
 from ..services.llm_service import LLMConfig, LLMProvider
@@ -9,14 +12,14 @@ def get_llm_config() -> Optional[LLMConfig]:
 
     api_key = os.getenv("LLM_API_KEY")
     if not api_key:
-        print("Warning: LLM_API_KEY not set for OpenAI provider, disabling LLM")
+        logger.warning("LLM_API_KEY not set for OpenAI provider, disabling LLM")
         return None
 
     forced_model_name = "gpt-4o-mini-2024-07-18"
 
     env_model = os.getenv("LLM_MODEL_NAME")
     if env_model and env_model != forced_model_name:
-        print(f"Warning: model '{env_model}' from the environment is overridden with '{forced_model_name}'")
+        logger.warning(f"Model '{env_model}' from the environment is overridden with '{forced_model_name}'")
     return LLMConfig(
         provider=provider,
         api_key=api_key,

@@ -1251,7 +1251,7 @@ class GraphService:
                 graph_data, domain, abstraction_level
             )
         except Exception as e:
-            print(f"Error in enhanced abstraction analysis: {e}")
+            logger.error(f"Error in enhanced abstraction analysis: {e}")
             return {
                 "error": str(e),
                 "enhanced_method": "domain_aware_hierarchical_abstraction",
@@ -1272,7 +1272,7 @@ class GraphService:
                 graph_data, reasoning_query, domain
             )
         except Exception as e:
-            print(f"Error in reasoning validation: {e}")
+            logger.error(f"Error in reasoning validation: {e}")
             return {
                 "error": str(e),
                 "validation_method": "multi_path_validation",
