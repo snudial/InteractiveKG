@@ -617,7 +617,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow h-full flex flex-col">
+    <div className="h-full flex flex-col">
       {}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
@@ -715,7 +715,6 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
               ))}
             </div>
 
-            {"text-xs text-gray-500 mt-4 text-center bg-white/30 py-2 px-4 rounded-md"}
           </div>
         </div>
       )}

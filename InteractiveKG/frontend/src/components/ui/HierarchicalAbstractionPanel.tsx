@@ -205,7 +205,7 @@ export const HierarchicalAbstractionPanel: React.FC<HierarchicalAbstractionPanel
   return (
     <div
       id="hierarchical-abstraction-panel"
-      className="bg-white rounded-lg shadow p-6 space-y-4"
+      className="space-y-4"
     >
       {}
       {abstractionLevel > 0 && currentAnalysis?.community_view && (

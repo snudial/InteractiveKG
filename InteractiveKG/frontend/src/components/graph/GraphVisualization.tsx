@@ -1215,10 +1215,10 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
         style={{ minHeight: '500px' }}
       />
 
-      {"View Details"}
+      {/* Community expansion popover */}
       {clickedCommunityNode && (
         <div
-          className="absolute z-20 bg-white rounded-lg shadow-xl p-4 border-2 border-purple-500"
+          className="absolute z-20 bg-white rounded-lg shadow-xl p-4 border-2 border-blue-500"
           style={{
             left: `${clickedCommunityNode.position.x + 50}px`,
             top: `${clickedCommunityNode.position.y - 50}px`,
@@ -1231,7 +1231,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
           <div className="flex gap-2">
             <button
               onClick={() => handleViewCommunityDetails(clickedCommunityNode.id)}
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
             >
               View Details
             </button>
@@ -1246,7 +1246,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       )}
 
       {}
-      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 max-w-xs z-10">
+      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 max-w-xs z-10 max-h-[calc(100%-2rem)] overflow-y-auto">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-semibold text-gray-800">
             {abstractionLevel === 0 ? 'Node Groups' :
