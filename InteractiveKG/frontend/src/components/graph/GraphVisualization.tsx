@@ -1200,7 +1200,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     
     setTimeout(() => {
       if (cyRef.current) {
-        cyRef.current.fit();
+        cyRef.current.fit(undefined, 40);
       }
     }, 100);
 
@@ -1211,8 +1211,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       {}
       <div
         ref={containerRef}
-        className="w-full h-full bg-gray-50 rounded-lg border border-gray-200"
-        style={{ minHeight: '500px' }}
+        className="w-full h-full bg-gray-50/50"
       />
 
       {/* Community expansion popover */}
@@ -1246,7 +1245,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       )}
 
       {}
-      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 max-w-xs z-10 max-h-[calc(100%-2rem)] overflow-y-auto">
+      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 max-w-xs z-10 max-h-[calc(100%-2rem)] overflow-y-auto custom-scrollbar">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-semibold text-gray-800">
             {abstractionLevel === 0 ? 'Node Groups' :

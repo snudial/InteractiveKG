@@ -461,7 +461,7 @@ export default function Home() {
       <main className="max-w-full mx-auto px-4 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-6 lg:h-[calc(100vh-180px)]">
           {}
-          <div className="w-full lg:w-72 xl:w-80 flex flex-col space-y-4 lg:h-full">
+          <div className="w-full lg:w-72 xl:w-80 flex flex-col space-y-6 lg:h-full">
             {}
             <div id="hierarchical-abstraction-panel" className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 overflow-hidden flex-shrink-0">
               <div className="px-5 py-4 border-b border-gray-200/50 bg-gradient-to-r from-orange-50 to-red-50">
@@ -514,8 +514,8 @@ export default function Home() {
 
           {}
           <div className="flex-1 min-w-0">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-[60vh] lg:h-full overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-200/50 bg-gradient-to-r from-slate-50 to-gray-50">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-[60vh] lg:h-full overflow-hidden flex flex-col">
+              <div className="px-5 py-4 border-b border-gray-200/50 bg-gradient-to-r from-slate-50 to-gray-50">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-gray-900">Reasoning Graph</h2>
                   <div className="flex items-center space-x-4 text-sm text-gray-600">
@@ -526,7 +526,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="relative h-[calc(100%-80px)]">
+              <div className="relative flex-1 min-h-0">
                 <GraphVisualization
                   data={graphData}
                   groupingAnalysis={groupingAnalysis}
@@ -561,7 +561,7 @@ export default function Home() {
 
           {}
           <div className="w-full lg:w-72 xl:w-80">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-[70vh] lg:h-full overflow-hidden">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-[70vh] lg:h-full overflow-hidden flex flex-col">
               <div className="px-5 py-4 border-b border-gray-200/50 bg-purple-50">
                 <div className="flex items-center space-x-3">
                   <div className="h-8 w-8 bg-purple-500 rounded-lg flex items-center justify-center">
@@ -570,7 +570,7 @@ export default function Home() {
                   <h3 className="text-sm font-semibold text-gray-900">AI Assistant</h3>
                 </div>
               </div>
-              <div className="h-[calc(100%-80px)]">
+              <div className="flex-1 min-h-0">
                 <ChatbotPanel
                   onDataUpdate={loadGraphData}
                   onHighlightNodes={handleHighlightNodes}
