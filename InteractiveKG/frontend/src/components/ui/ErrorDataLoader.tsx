@@ -79,15 +79,15 @@ const ErrorDataLoader: React.FC<ErrorDataLoaderProps> = ({
     >
       <div className="flex items-center space-x-2 mb-4">
         <AlertTriangle className="h-5 w-5 text-orange-600" />
-        <h3 className="text-lg font-medium text-gray-900">错误数据加载器</h3>
+        <h3 className="text-lg font-medium text-gray-900">Error Data Loader</h3>
       </div>
 
       <div className="mb-4 p-3 bg-orange-50 rounded-md">
         <div className="flex items-start space-x-2">
           <Info className="h-4 w-4 text-orange-600 mt-0.5 flex-shrink-0" />
           <div className="text-sm text-orange-800">
-            <p className="font-medium mb-1">第二阶段：修正AI错误</p>
-            <p>为了模拟真实场景，我们将加载包含AI"幻觉"的知识图谱。这些错误混杂在正确信息中，需要您仔细识别和修正。</p>
+            <p className="font-medium mb-1">Stage 2: Correcting AI errors</p>
+            <p>To simulate a realistic setting, we load a knowledge graph containing AI hallucinations. These errors are mixed in with correct information, so identify and correct them carefully.</p>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@ const ErrorDataLoader: React.FC<ErrorDataLoaderProps> = ({
       {}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          选择错误数据集
+          Select an error dataset
         </label>
         <div className="space-y-2 max-h-40 overflow-y-auto dataset-selection-scrollbar smooth-scroll">
           {errorDataSets.map((dataset) => {
@@ -136,11 +136,11 @@ const ErrorDataLoader: React.FC<ErrorDataLoaderProps> = ({
                     <div className="flex items-center space-x-4 mt-2 ml-6 text-xs text-gray-500">
                       <span className="flex items-center space-x-1">
                         <Database className="h-3 w-3" />
-                        <span>{dataset.nodeCount} 节点</span>
+                        <span>{dataset.nodeCount} nodes</span>
                       </span>
                       <span className="flex items-center space-x-1">
                         <AlertTriangle className="h-3 w-3 text-orange-500" />
-                        <span>{dataset.errorNodeCount} 错误</span>
+                        <span>{dataset.errorNodeCount} errors</span>
                       </span>
                     </div>
                     
@@ -168,12 +168,12 @@ const ErrorDataLoader: React.FC<ErrorDataLoaderProps> = ({
         <div className="mb-4 p-3 bg-gray-50 rounded-md">
           <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
             <Eye className="h-4 w-4 mr-1" />
-            数据集预览
+            Dataset preview
           </h4>
           <div className="text-sm text-gray-600 space-y-1">
-            <p><strong>总节点数:</strong> {selectedDatasetInfo.nodeCount}</p>
-            <p><strong>错误节点数:</strong> {selectedDatasetInfo.errorNodeCount}</p>
-            <p><strong>错误率:</strong> {Math.round((selectedDatasetInfo.errorNodeCount / selectedDatasetInfo.nodeCount) * 100)}%</p>
+            <p><strong>Total nodes:</strong> {selectedDatasetInfo.nodeCount}</p>
+            <p><strong>Error nodes:</strong> {selectedDatasetInfo.errorNodeCount}</p>
+            <p><strong>Error rate:</strong> {Math.round((selectedDatasetInfo.errorNodeCount / selectedDatasetInfo.nodeCount) * 100)}%</p>
           </div>
         </div>
       )}
@@ -189,7 +189,7 @@ const ErrorDataLoader: React.FC<ErrorDataLoaderProps> = ({
         ) : (
           <Zap className="h-4 w-4 mr-2" />
         )}
-        {isLoading ? '加载中...' : '加载错误数据集'}
+        {isLoading ? 'Loading...' : 'Load error dataset'}
       </button>
 
       {}
@@ -198,7 +198,7 @@ const ErrorDataLoader: React.FC<ErrorDataLoaderProps> = ({
           <div className="flex items-center space-x-2">
             <CheckCircle className="h-4 w-4 text-green-600" />
             <span className="text-sm font-medium text-green-800">
-              已加载数据集
+              Loaded dataset
             </span>
           </div>
           <p className="text-sm text-green-700 mt-1">
@@ -212,12 +212,12 @@ const ErrorDataLoader: React.FC<ErrorDataLoaderProps> = ({
         <div className="flex items-start space-x-2">
           <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
           <div className="text-sm text-blue-800">
-            <p className="font-medium mb-1">使用提示</p>
+            <p className="font-medium mb-1">Tips</p>
             <ul className="text-xs space-y-1">
-              <li>• 加载后，使用层级抽象功能观察数据分布</li>
-              <li>• 寻找格格不入的节点或异常分组</li>
-              <li>• 使用"为什么？"功能分析可疑节点</li>
-              <li>• 通过CRUD操作修正或删除错误数据</li>
+              <li>• After loading, use hierarchical abstraction to inspect the data distribution</li>
+              <li>• Look for nodes that do not fit, or unusual groupings</li>
+              <li>• Use the &ldquo;Why?&rdquo; action to analyze suspicious nodes</li>
+              <li>• Correct or delete faulty data with the create/update/delete actions</li>
             </ul>
           </div>
         </div>

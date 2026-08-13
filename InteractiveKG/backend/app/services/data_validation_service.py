@@ -93,20 +93,20 @@ class DataValidationService:
             report.statistics['total_nodes'] = len(processed_nodes)
             report.statistics['total_relationships'] = len(processed_relationships)
 
-            logger.info(f"数据验证完成: {report.statistics}")
+            logger.info(f"Data validation finished: {report.statistics}")
 
             return processed_data, report
 
         except Exception as e:
-            logger.error(f"数据验证预处理失败: {str(e)}")
-            report.add_error(f"数据处理异常: {str(e)}")
+            logger.error(f"Data validation preprocessing failed: {str(e)}")
+            report.add_error(f"Data processing error: {str(e)}")
             return json_data, report
 
     def _validate_basic_structure(self, json_data: Any, report: DataValidationReport) -> Optional[Dict[str, Any]]:
 
 
         if isinstance(json_data, list):
-            logger.info("检测到 Neo4j 导出格式（数组格式），开始转换...")
+            logger.info("Neo4j export format (array form) detected; converting...")
             converted_data = self._convert_neo4j_export_format(json_data, report)
             if converted_data:
                 return converted_data
@@ -126,10 +126,10 @@ class DataValidationService:
                 nested_data = json_data[nested_key]
                 has_nested_nodes = any(key in nested_data for key in ['nodes', 'vertices', 'entities'])
                 if has_nested_nodes:
-                    logger.info(f"检测到嵌套结构: {nested_key}")
+                    logger.info(f"Nested structure detected: {nested_key}")
                     return nested_data
 
-        report.add_error("数据必须包含节点数组（nodes/vertices/entities），支持顶层或嵌套在 graph/data/kg 对象中，或使用 Neo4j 导出格式")
+        report.add_error("Data must contain a node array (nodes/vertices/entities), either top-level, nested under a graph/data/kg object, or in Neo4j export format")
         return None
 
         has_relationships = any(key in json_data for key in ['relationships', 'edges', 'links', 'relations'])
@@ -179,13 +179,13 @@ class DataValidationService:
                         })
 
             nodes_list = list(nodes_dict.values())
-            logger.info(f"Neo4j 格式转换完成: {len(nodes_list)} 个节点, {len(relationships_list)} 个关系")
+            logger.info(f"Neo4j format conversion finished: {len(nodes_list)} nodes, {len(relationships_list)} relationships")
             return {
                 'nodes': nodes_list,
                 'relationships': relationships_list
             }
         except Exception as e:
-            logger.error(f"Neo4j 格式转换失败: {str(e)}")
+            logger.error(f"Neo4j format conversion failed: {str(e)}")
             return None
 
     def _analyze_and_normalize_format(self, json_data: Dict[str, Any], report: DataValidationReport) -> Dict[str, str]:
@@ -258,7 +258,7 @@ class DataValidationService:
             elif 'relationship' in sample_rel:
                 format_mapping['rel_type_key'] = 'relationship'
 
-        logger.info(f"格式分析完成: {format_mapping}")
+        logger.info(f"Format analysis finished: {format_mapping}")
         return format_mapping
 
     def _process_nodes(self, nodes_data: List[Dict[str, Any]], format_mapping: Dict[str, str], report: DataValidationReport) -> List[Dict[str, Any]]:
@@ -274,8 +274,8 @@ class DataValidationService:
                     processed_nodes.append(processed_node)
 
             except Exception as e:
-                logger.error(f"处理节点 {i} 时出错: {str(e)}")
-                report.add_warning(f"节点 {i} 处理失败，已跳过: {str(e)}")
+                logger.error(f"Error while processing node {i}: {str(e)}")
+                report.add_warning(f"Node {i} failed to process and was skipped: {str(e)}")
 
         return processed_nodes
 
@@ -288,7 +288,7 @@ class DataValidationService:
         if not original_id:
 
             node_id = self.generate_unique_id('node')
-            report.add_fix(f"节点 {index} 缺少ID，已生成: {node_id}")
+            report.add_fix(f"Node {index} was missing an ID; generated: {node_id}")
             report.statistics['ids_generated'] += 1
         else:
             node_id = str(original_id)
@@ -297,7 +297,7 @@ class DataValidationService:
         if node_id in node_id_set:
 
             new_id = f"{node_id}_{uuid.uuid4().hex[:6]}"
-            report.add_warning(f"节点ID重复: {node_id}，已重命名为: {new_id}")
+            report.add_warning(f"Duplicate node ID {node_id}; renamed to {new_id}")
             node_id = new_id
 
         node_id_set.add(node_id)
@@ -306,14 +306,14 @@ class DataValidationService:
         labels = self._extract_node_labels(node_data, format_mapping, report)
         if not labels:
             labels = ['Entity']
-            report.add_fix(f"节点 {node_id} 缺少类型标签，已设置为: Entity")
+            report.add_fix(f"Node {node_id} was missing a type label; set to Entity")
             report.statistics['labels_added'] += 1
 
 
         properties = node_data.get('properties', {})
         if not isinstance(properties, dict):
             properties = {}
-            report.add_warning(f"节点 {node_id} 的properties不是字典格式，已重置")
+            report.add_warning(f"Properties of node {node_id} were not a dict; reset")
 
 
         properties_added = self._ensure_required_properties(node_id, properties, node_data, labels, report)
@@ -365,7 +365,7 @@ class DataValidationService:
                 name = f"{labels[0]}_{node_id.split('_')[-1]}" if labels else node_id
             properties['name'] = name
             properties_added += 1
-            report.add_fix(f"节点 {node_id} 缺少name属性，已设置为: {name}")
+            report.add_fix(f"Node {node_id} was missing a name property; set to {name}")
 
 
         return properties_added
@@ -403,8 +403,8 @@ class DataValidationService:
                 if processed_rel:
                     processed_relationships.append(processed_rel)
             except Exception as e:
-                logger.error(f"处理关系 {i} 时出错: {str(e)}")
-                report.add_warning(f"关系 {i} 处理失败，已跳过: {str(e)}")
+                logger.error(f"Error while processing relationship {i}: {str(e)}")
+                report.add_warning(f"Relationship {i} failed to process and was skipped: {str(e)}")
         return processed_relationships
     def _process_single_relationship(self, rel_data: Dict[str, Any], index: int,
                                     valid_node_ids: set, format_mapping: Dict[str, str],
@@ -433,17 +433,17 @@ class DataValidationService:
         rel_type = rel_data.get(format_mapping['rel_type_key'])
         if not rel_type:
             rel_type = 'RELATED'
-            report.add_fix(f"关系 {index} 缺少类型，已设置为: RELATED")
+            report.add_fix(f"Relationship {index} was missing a type; set to RELATED")
         rel_type = str(rel_type)
 
         properties = rel_data.get('properties', {})
         if not isinstance(properties, dict):
             properties = {}
-            report.add_warning(f"关系 {index} 的properties不是字典格式，已重置")
+            report.add_warning(f"Properties of relationship {index} were not a dict; reset")
 
         if '_internal_uid' not in properties:
             properties['_internal_uid'] = self.generate_internal_uid()
-            report.add_fix(f"关系 {index} 添加了内部UID")
+            report.add_fix(f"Added an internal UID to relationship {index}")
 
         rel_id = rel_data.get('id')
         if not rel_id:

@@ -10,32 +10,32 @@ from ..models.graph_models import GraphDataModel, NodeModel, RelationshipModel
 class EnhancedAbstractionService:
     def __init__(self):
         self.domain_configs = {
-            "医疗": {
-                "关键节点类型": ["Disease", "Drug", "Protein", "Gene", "Symptom"],
-                "复杂度权重": {"结构": 0.3, "语义": 0.4, "时间": 0.3},
-                "抽象策略": "生物学层次"
+            "medical": {
+                "key_node_types": ["Disease", "Drug", "Protein", "Gene", "Symptom"],
+                "complexity_weights": {"structural": 0.3, "semantic": 0.4, "temporal": 0.3},
+                "abstraction_strategy": "biological hierarchy"
             },
-            "金融": {
-                "关键节点类型": ["Account", "Transaction", "Entity", "Risk"],
-                "复杂度权重": {"结构": 0.5, "语义": 0.2, "时间": 0.3},
-                "抽象策略": "风险传播"
+            "finance": {
+                "key_node_types": ["Account", "Transaction", "Entity", "Risk"],
+                "complexity_weights": {"structural": 0.5, "semantic": 0.2, "temporal": 0.3},
+                "abstraction_strategy": "risk propagation"
             },
-            "学术": {
-                "关键节点类型": ["Publication", "Author", "Institution", "Topic"],
-                "复杂度权重": {"结构": 0.4, "语义": 0.4, "时间": 0.2},
-                "抽象策略": "知识演化"
+            "academic": {
+                "key_node_types": ["Publication", "Author", "Institution", "Topic"],
+                "complexity_weights": {"structural": 0.4, "semantic": 0.4, "temporal": 0.2},
+                "abstraction_strategy": "knowledge evolution"
             }
         }
 
     def analyze_domain_specific_hierarchy(self, graph_data: GraphDataModel,
-                                        domain: str = "通用",
+                                        domain: str = "general",
                                         abstraction_level: int = 3) -> Dict[str, Any]:
         if not graph_data.nodes:
             return self._empty_enhanced_analysis()
 
 
         detected_domain = self._detect_domain(graph_data)
-        active_domain = domain if domain != "通用" else detected_domain
+        active_domain = domain if domain != "general" else detected_domain
         config = self.domain_configs.get(active_domain, self._default_config())
 
 
@@ -75,9 +75,9 @@ class EnhancedAbstractionService:
 
 
         domain_keywords = {
-            "医疗": {"Disease", "Drug", "Protein", "Gene", "Symptom", "Patient", "Treatment"},
-            "金融": {"Account", "Transaction", "Risk", "Investment", "Bank", "Credit"},
-            "学术": {"Publication", "Author", "Institution", "Research", "Paper", "Journal"}
+            "medical": {"Disease", "Drug", "Protein", "Gene", "Symptom", "Patient", "Treatment"},
+            "finance": {"Account", "Transaction", "Risk", "Investment", "Bank", "Credit"},
+            "academic": {"Publication", "Author", "Institution", "Research", "Paper", "Journal"}
         }
 
         domain_scores = {}
@@ -87,7 +87,7 @@ class EnhancedAbstractionService:
 
         if max(domain_scores.values()) > 0.3:
             return max(domain_scores, key=domain_scores.get)
-        return "通用"
+        return "general"
 
     def _comprehensive_complexity_analysis(self, graph_data: GraphDataModel,
                                          config: Dict[str, Any]) -> Dict[str, Any]:
@@ -96,35 +96,35 @@ class EnhancedAbstractionService:
 
 
         structural_metrics = {
-            "节点数量": len(graph_data.nodes),
-            "边数量": len(graph_data.relationships),
-            "平均度": np.mean([d for n, d in G.degree()]) if G.nodes() else 0,
-            "聚类系数": nx.average_clustering(G) if G.nodes() else 0,
-            "直径": self._safe_diameter(G),
-            "模块度": self._calculate_modularity(G)
+            "node_count": len(graph_data.nodes),
+            "edge_count": len(graph_data.relationships),
+            "avg_degree": np.mean([d for n, d in G.degree()]) if G.nodes() else 0,
+            "clustering_coefficient": nx.average_clustering(G) if G.nodes() else 0,
+            "diameter": self._safe_diameter(G),
+            "modularity": self._calculate_modularity(G)
         }
 
 
         semantic_metrics = {
-            "节点类型多样性": len(set(label for node in graph_data.nodes for label in node.labels)),
-            "属性复杂度": np.mean([len(node.properties) for node in graph_data.nodes]),
-            "关系类型多样性": len(set(rel.type for rel in graph_data.relationships)),
-            "语义密度": self._calculate_semantic_density(graph_data)
+            "node_type_diversity": len(set(label for node in graph_data.nodes for label in node.labels)),
+            "property_complexity": np.mean([len(node.properties) for node in graph_data.nodes]),
+            "relation_type_diversity": len(set(rel.type for rel in graph_data.relationships)),
+            "semantic_density": self._calculate_semantic_density(graph_data)
         }
 
 
         cognitive_metrics = {
-            "信息熵": self._calculate_information_entropy(graph_data),
-            "推理路径长度": self._calculate_reasoning_path_complexity(G),
-            "多跳关系复杂度": self._calculate_multi_hop_complexity(G),
-            "隐式关系发现难度": self._calculate_implicit_relation_difficulty(graph_data)
+            "information_entropy": self._calculate_information_entropy(graph_data),
+            "reasoning_path_length": self._calculate_reasoning_path_complexity(G),
+            "multi_hop_complexity": self._calculate_multi_hop_complexity(G),
+            "implicit_relation_difficulty": self._calculate_implicit_relation_difficulty(graph_data)
         }
 
         return {
-            "结构复杂度": structural_metrics,
-            "语义复杂度": semantic_metrics,
-            "认知复杂度": cognitive_metrics,
-            "综合复杂度评分": self._calculate_comprehensive_score(
+            "structural_complexity": structural_metrics,
+            "semantic_complexity": semantic_metrics,
+            "cognitive_complexity": cognitive_metrics,
+            "overall_complexity_score": self._calculate_comprehensive_score(
                 structural_metrics, semantic_metrics, cognitive_metrics, config
             )
         }
@@ -157,31 +157,31 @@ class EnhancedAbstractionService:
 
 
         scale_limitations = {
-            "节点数量超限": len(graph_data.nodes) > 100,
-            "关系复杂度超限": len(graph_data.relationships) > 200,
-            "多跳推理困难": complexity_analysis["认知复杂度"]["多跳关系复杂度"] > 0.7
+            "node_count_exceeded": len(graph_data.nodes) > 100,
+            "relationship_complexity_exceeded": len(graph_data.relationships) > 200,
+            "multi_hop_reasoning_difficulty": complexity_analysis["cognitive_complexity"]["multi_hop_complexity"] > 0.7
         }
 
 
         reasoning_limitations = {
-            "隐式关系发现": complexity_analysis["认知复杂度"]["隐式关系发现难度"] > 0.6,
-            "动态网络分析": True,
-            "概率推理": True,
-            "因果关系识别": complexity_analysis["认知复杂度"]["推理路径长度"] > 0.8
+            "implicit_relation_discovery": complexity_analysis["cognitive_complexity"]["implicit_relation_difficulty"] > 0.6,
+            "dynamic_network_analysis": True,
+            "probabilistic_reasoning": True,
+            "causal_relation_identification": complexity_analysis["cognitive_complexity"]["reasoning_path_length"] > 0.8
         }
 
 
         domain_limitations = {
-            "专业术语理解": self._assess_terminology_complexity(graph_data),
-            "领域规则应用": self._assess_domain_rule_complexity(graph_data),
-            "实时更新需求": True
+            "terminology_comprehension": self._assess_terminology_complexity(graph_data),
+            "domain_rule_application": self._assess_domain_rule_complexity(graph_data),
+            "realtime_update_requirement": True
         }
 
         return {
-            "数据规模局限性": scale_limitations,
-            "推理能力局限性": reasoning_limitations,
-            "专业知识局限性": domain_limitations,
-            "总体局限性评分": self._calculate_limitation_score(
+            "data_scale_limitations": scale_limitations,
+            "reasoning_limitations": reasoning_limitations,
+            "domain_knowledge_limitations": domain_limitations,
+            "overall_limitation_score": self._calculate_limitation_score(
                 scale_limitations, reasoning_limitations, domain_limitations
             )
         }
@@ -191,10 +191,10 @@ class EnhancedAbstractionService:
 
 
 
-        complexity_factor = min(complexity_analysis["综合复杂度评分"] / 10.0, 1.0)
+        complexity_factor = min(complexity_analysis["overall_complexity_score"] / 10.0, 1.0)
 
 
-        limitation_factor = llm_limitation_analysis["总体局限性评分"]
+        limitation_factor = llm_limitation_analysis["overall_limitation_score"]
 
 
         domain_factor = 0.8
@@ -214,27 +214,27 @@ class EnhancedAbstractionService:
 
 
         insights = {
-            "LLM局限性证据": [],
-            "交互式可视化优势": [],
-            "研究贡献点": [],
-            "实际应用价值": []
+            "llm_limitation_evidence": [],
+            "interactive_visualization_advantages": [],
+            "research_contributions": [],
+            "practical_value": []
         }
 
 
-        if complexity_analysis["综合复杂度评分"] > 7:
-            insights["LLM局限性证据"].append("数据复杂度超出LLM单次处理能力")
+        if complexity_analysis["overall_complexity_score"] > 7:
+            insights["llm_limitation_evidence"].append("Data complexity exceeds what an LLM can process in one pass")
 
-        if llm_limitation_analysis.get("推理能力局限性", {}).get("多跳推理困难", False):
-            insights["LLM局限性证据"].append("多跳推理路径超出LLM推理深度限制")
+        if llm_limitation_analysis.get("reasoning_limitations", {}).get("multi_hop_reasoning_difficulty", False):
+            insights["llm_limitation_evidence"].append("Multi-hop reasoning paths exceed the LLM reasoning depth limit")
 
 
         if interaction_necessity_score > 80:
-            insights["交互式可视化优势"].append("支持动态探索和渐进式理解")
-            insights["交互式可视化优势"].append("提供多层级抽象视图")
+            insights["interactive_visualization_advantages"].append("Supports dynamic exploration and progressive understanding")
+            insights["interactive_visualization_advantages"].append("Provides multi-level abstraction views")
 
 
-        insights["研究贡献点"].append("证明了复杂专业领域数据需要交互式工具")
-        insights["研究贡献点"].append("提供了LLM能力边界的量化评估方法")
+        insights["research_contributions"].append("Shows that complex domain data requires interactive tooling")
+        insights["research_contributions"].append("Provides a quantitative way to assess LLM capability boundaries")
 
         return insights
 
@@ -284,17 +284,17 @@ class EnhancedAbstractionService:
     def _default_config(self) -> Dict[str, Any]:
 
         return {
-            "关键节点类型": [],
-            "复杂度权重": {"结构": 0.4, "语义": 0.3, "时间": 0.3},
-            "抽象策略": "通用层次"
+            "key_node_types": [],
+            "complexity_weights": {"structural": 0.4, "semantic": 0.3, "temporal": 0.3},
+            "abstraction_strategy": "generic hierarchy"
         }
 
     def _empty_enhanced_analysis(self) -> Dict[str, Any]:
 
         return {
             "enhanced_method": "none",
-            "detected_domain": "未知",
-            "active_domain": "通用",
+            "detected_domain": "unknown",
+            "active_domain": "general",
             "abstraction_levels": 0,
             "domain_hierarchy": {},
             "complexity_analysis": {},
@@ -308,35 +308,35 @@ class EnhancedAbstractionService:
                                      cognitive_metrics: Dict[str, Any],
                                      config: Dict[str, Any]) -> float:
 
-        weights = config.get("复杂度权重", {"结构": 0.4, "语义": 0.3, "时间": 0.3})
+        weights = config.get("complexity_weights", {"structural": 0.4, "semantic": 0.3, "temporal": 0.3})
 
         structural_score = min(
-            (structural_metrics["节点数量"] / 50 +
-             structural_metrics["边数量"] / 100 +
-             structural_metrics["平均度"] / 10 +
-             structural_metrics["聚类系数"] * 5 +
-             structural_metrics["直径"] / 10 +
-             structural_metrics["模块度"] * 5) / 6, 10.0
+            (structural_metrics["node_count"] / 50 +
+             structural_metrics["edge_count"] / 100 +
+             structural_metrics["avg_degree"] / 10 +
+             structural_metrics["clustering_coefficient"] * 5 +
+             structural_metrics["diameter"] / 10 +
+             structural_metrics["modularity"] * 5) / 6, 10.0
         )
 
         semantic_score = min(
-            (semantic_metrics["节点类型多样性"] / 5 +
-             semantic_metrics["属性复杂度"] / 5 +
-             semantic_metrics["关系类型多样性"] / 5 +
-             semantic_metrics["语义密度"] / 10) / 4 * 10, 10.0
+            (semantic_metrics["node_type_diversity"] / 5 +
+             semantic_metrics["property_complexity"] / 5 +
+             semantic_metrics["relation_type_diversity"] / 5 +
+             semantic_metrics["semantic_density"] / 10) / 4 * 10, 10.0
         )
 
         cognitive_score = min(
-            (cognitive_metrics["信息熵"] +
-             cognitive_metrics["推理路径长度"] * 10 +
-             cognitive_metrics["多跳关系复杂度"] * 10 +
-             cognitive_metrics["隐式关系发现难度"] * 10) / 4, 10.0
+            (cognitive_metrics["information_entropy"] +
+             cognitive_metrics["reasoning_path_length"] * 10 +
+             cognitive_metrics["multi_hop_complexity"] * 10 +
+             cognitive_metrics["implicit_relation_difficulty"] * 10) / 4, 10.0
         )
 
         comprehensive_score = (
-            structural_score * weights["结构"] +
-            semantic_score * weights["语义"] +
-            cognitive_score * weights["时间"]
+            structural_score * weights["structural"] +
+            semantic_score * weights["semantic"] +
+            cognitive_score * weights["temporal"]
         )
         return min(comprehensive_score, 10.0)
     def _calculate_information_entropy(self, graph_data: GraphDataModel) -> float:
@@ -397,15 +397,15 @@ class EnhancedAbstractionService:
                                    config: Dict[str, Any]) -> Dict[str, List[str]]:
 
         core_groups = defaultdict(list)
-        key_types = set(config.get("关键节点类型", []))
+        key_types = set(config.get("key_node_types", []))
         for node in graph_data.nodes:
             node_type = node.labels[0] if node.labels else "Unknown"
             if key_types and node_type in key_types:
 
-                core_groups[f"核心_{node_type}"].append(node.id)
+                core_groups[f"core_{node_type}"].append(node.id)
             else:
 
-                core_groups[f"辅助_{node_type}"].append(node.id)
+                core_groups[f"auxiliary_{node_type}"].append(node.id)
         return dict(core_groups)
     def _identify_functional_modules(self, graph_data: GraphDataModel,
                                    core_groups: Dict[str, List[str]]) -> Dict[str, List[str]]:
@@ -416,11 +416,11 @@ class EnhancedAbstractionService:
 
             attr_count = len(node.properties)
             if attr_count >= 5:
-                module_name = "高信息密度模块"
+                module_name = "high information density module"
             elif attr_count >= 2:
-                module_name = "中信息密度模块"
+                module_name = "medium information density module"
             else:
-                module_name = "低信息密度模块"
+                module_name = "low information density module"
             functional_modules[module_name].append(node.id)
         return dict(functional_modules)
     def _identify_specialized_groups(self, graph_data: GraphDataModel,
@@ -430,11 +430,11 @@ class EnhancedAbstractionService:
         for node in graph_data.nodes:
 
             if "name" in node.properties:
-                specialized_groups["命名实体"].append(node.id)
+                specialized_groups["named_entities"].append(node.id)
             elif "id" in node.properties:
-                specialized_groups["标识实体"].append(node.id)
+                specialized_groups["identified_entities"].append(node.id)
             else:
-                specialized_groups["匿名实体"].append(node.id)
+                specialized_groups["anonymous_entities"].append(node.id)
         return dict(specialized_groups)
     def _assess_terminology_complexity(self, graph_data: GraphDataModel) -> float:
 
@@ -474,12 +474,12 @@ class EnhancedAbstractionService:
                               active_domain: str) -> Dict[str, str]:
 
         color_schemes = {
-            "医疗": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7"],
-            "金融": ["#6C5CE7", "#A29BFE", "#FD79A8", "#FDCB6E", "#E17055"],
-            "学术": ["#0984E3", "#00B894", "#E84393", "#FDCB6E", "#6C5CE7"],
-            "通用": ["#3498DB", "#E74C3C", "#2ECC71", "#F39C12", "#9B59B6"]
+            "medical": ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7"],
+            "finance": ["#6C5CE7", "#A29BFE", "#FD79A8", "#FDCB6E", "#E17055"],
+            "academic": ["#0984E3", "#00B894", "#E84393", "#FDCB6E", "#6C5CE7"],
+            "general": ["#3498DB", "#E74C3C", "#2ECC71", "#F39C12", "#9B59B6"]
         }
-        colors = color_schemes.get(active_domain, color_schemes["通用"])
+        colors = color_schemes.get(active_domain, color_schemes["general"])
         color_mapping = {}
 
         color_index = 0

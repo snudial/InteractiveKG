@@ -306,13 +306,13 @@ async def get_community_detail(
         raise HTTPException(status_code=500, detail=f"Failed to get community detail: {str(e)}")
 @router.get("/enhanced-analysis")
 async def get_enhanced_analysis(
-    domain: str = "通用",
+    domain: str = "general",
     abstraction_level: int = 3
 ):
     try:
         if abstraction_level < 2 or abstraction_level > 5:
             raise HTTPException(status_code=400, detail="Abstraction level must be between 2 and 5")
-        valid_domains = ["医疗", "金融", "学术", "通用"]
+        valid_domains = ["medical", "finance", "academic", "general"]
         if domain not in valid_domains:
             raise HTTPException(status_code=400, detail=f"Domain must be one of: {valid_domains}")
         result = await graph_service.analyze_enhanced_abstraction(domain, abstraction_level)
@@ -341,7 +341,7 @@ async def load_sample_data(sample_data: dict):
 @router.post("/generate-display-names")
 async def generate_display_names():
     try:
-        logger.info("开始为所有节点生成语义化展示名称...")
+        logger.info("Generating semantic display names for all nodes...")
 
         with db_connection.get_session() as session:
             nodes_query = "MATCH (n) RETURN n.id as id, labels(n) as labels, properties(n) as properties"
@@ -357,7 +357,7 @@ async def generate_display_names():
                     'properties': record["properties"] or {}
                 })
         if not nodes_data:
-            return {"message": "没有找到需要处理的节点", "processed_count": 0}
+            return {"message": "No nodes need processing", "processed_count": 0}
 
         display_names = await node_display_name_service.generate_display_names_batch(nodes_data)
 
@@ -379,16 +379,16 @@ async def generate_display_names():
                 except Exception as e:
                     logger.error(f"Failed to update display_name for node {node_id}: {e}")
                     continue
-        logger.info(f"成功为 {updated_count} 个节点生成了语义化展示名称")
+        logger.info(f"Generated semantic display names for {updated_count} nodes")
         return {
-            "message": f"成功为 {updated_count} 个节点生成了语义化展示名称",
+            "message": f"Generated semantic display names for {updated_count} nodes",
             "total_nodes": len(nodes_data),
             "processed_count": updated_count,
             "success_rate": f"{(updated_count / len(nodes_data) * 100):.1f}%" if nodes_data else "0%"
         }
     except Exception as e:
         logger.error(f"Failed to generate display names: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"生成展示名称失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate display names: {str(e)}")
 @router.get("/display-name-status")
 async def get_display_name_status():
     try:
@@ -396,11 +396,11 @@ async def get_display_name_status():
         return {
             "status": "success",
             "processor_status": status,
-            "message": "自动化处理器状态获取成功"
+            "message": "Fetched automatic processor status"
         }
     except Exception as e:
         logger.error(f"Failed to get display name processor status: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"获取状态失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch status: {str(e)}")
 @router.post("/ensure-display-names")
 async def ensure_display_names(force_check: bool = False):
     try:
@@ -408,11 +408,11 @@ async def ensure_display_names(force_check: bool = False):
         return {
             "status": "success",
             "result": result,
-            "message": "自动化展示名称处理完成"
+            "message": "Automatic display-name processing finished"
         }
     except Exception as e:
         logger.error(f"Failed to ensure display names: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"自动化处理失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Automatic processing failed: {str(e)}")
 @router.post("/reset-display-name-processor")
 async def reset_display_name_processor():
     try:
@@ -422,7 +422,7 @@ async def reset_display_name_processor():
         }
     except Exception as e:
         logger.error(f"Failed to reset processor: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"重置处理器失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to reset processor: {str(e)}")
 @router.post("/process-data-change")
 async def process_data_change(node_ids: List[str] = None):
     try:
@@ -430,20 +430,20 @@ async def process_data_change(node_ids: List[str] = None):
         return {
             "status": "success",
             "result": result,
-            "message": "数据变化事件处理完成"
+            "message": "Data-change event processed"
         }
     except Exception as e:
         logger.error(f"Failed to process data change event: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"数据变化事件处理失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to process data-change event: {str(e)}")
 @router.post("/validate-reasoning")
 async def validate_reasoning(
     reasoning_query: str,
-    domain: str = "通用"
+    domain: str = "general"
 ):
     try:
         if not reasoning_query.strip():
             raise HTTPException(status_code=400, detail="Reasoning query cannot be empty")
-        valid_domains = ["医疗", "金融", "学术", "通用"]
+        valid_domains = ["medical", "finance", "academic", "general"]
         if domain not in valid_domains:
             raise HTTPException(status_code=400, detail=f"Domain must be one of: {valid_domains}")
         result = graph_service.validate_reasoning(reasoning_query, domain)
@@ -456,7 +456,7 @@ async def validate_reasoning(
 @router.post("/explain-node", response_model=NodeExplanationResponse)
 async def explain_node(request: NodeExplanationRequest):
     try:
-        logger.info(f"开始解释节点: {request.node_id}, 类型: {request.explanation_type}")
+        logger.info(f"Explaining node {request.node_id}, type: {request.explanation_type}")
         result = await node_explanation_service.explain_node(
             node_id=request.node_id,
             node_properties=request.node_properties,
@@ -465,7 +465,7 @@ async def explain_node(request: NodeExplanationRequest):
             abstraction_level=request.abstraction_level,
             abstraction_mode=request.abstraction_mode
         )
-        logger.info(f"节点解释完成: {request.node_id}")
+        logger.info(f"Node explanation finished: {request.node_id}")
         return result
     except HTTPException:
         raise

@@ -28,8 +28,8 @@ class TestPhase(str, Enum):
     CASE2_REQUERY_COMPARE = "case2_requery_compare"
 class ChatMessage(BaseModel):
 
-    role: ChatbotRole = Field(..., description="消息角色")
-    content: str = Field(..., description="消息内容")
+    role: ChatbotRole = Field(..., description="Message role")
+    content: str = Field(..., description="Message content")
     timestamp: Optional[str] = None
     metadata: Dict[str, Any] = Field(default_factory=dict)
 class ChatbotState(BaseModel):
@@ -46,8 +46,8 @@ class ChatbotState(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
 class ChatbotRequest(BaseModel):
 
-    session_id: str = Field(..., description="会话ID")
-    message: str = Field(..., description="用户消息")
+    session_id: str = Field(..., description="Session ID")
+    message: str = Field(..., description="User message")
     action: Optional[str] = None
 class ChatbotResponse(BaseModel):
 
@@ -56,8 +56,8 @@ class ChatbotResponse(BaseModel):
     current_phase: TestPhase
     current_scenario: Optional[TestScenario]
     ui_instructions: Dict[str, Any] = Field(default_factory=dict)
-    advance_button: Optional[Dict[str, Any]] = Field(None, description="阶段推进按钮配置")
-    data_source_selection_buttons: Optional[List[Dict[str, Any]]] = Field(None, description="数据源选择按钮")
+    advance_button: Optional[Dict[str, Any]] = Field(None, description="Phase-advance button config")
+    data_source_selection_buttons: Optional[List[Dict[str, Any]]] = Field(None, description="Data source selection buttons")
     success: bool = True
     error: Optional[str] = None
 class ScenarioLoadRequest(BaseModel):
@@ -90,9 +90,9 @@ class UserTestProgressResponse(BaseModel):
 class AbstractionExplorationRequest(BaseModel):
 
     session_id: str
-    abstraction_level: int = Field(..., ge=1, le=5, description="抽象级别 1-5")
-    abstraction_mode: Literal["semantic", "structural", "community"] = Field(..., description="抽象模式")
-    action: Literal["explore", "select", "compare"] = Field(..., description="探索动作")
+    abstraction_level: int = Field(..., ge=1, le=5, description="Abstraction level 1-5")
+    abstraction_mode: Literal["semantic", "structural", "community"] = Field(..., description="Abstraction mode")
+    action: Literal["explore", "select", "compare"] = Field(..., description="Exploration action")
 class AbstractionExplorationResponse(BaseModel):
 
     session_id: str

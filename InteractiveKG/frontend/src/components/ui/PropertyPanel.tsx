@@ -203,7 +203,7 @@ export const PropertyPanel: React.FC<PropertyPanelProps> = ({
           {editMode ? (
             <SimplePropertyEditor
               properties={formData.properties || {}}
-              onChange={(properties) => setFormData(prev => ({ ...prev, properties }))}
+              onChange={(properties) => setFormData((prev: typeof formData) => ({ ...prev, properties }))}
               isNode={isNode}
             />
           ) : (

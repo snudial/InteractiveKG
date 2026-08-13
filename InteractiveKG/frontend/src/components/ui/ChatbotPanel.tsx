@@ -20,6 +20,7 @@ import {
   DataSourceSelectionButton
 } from '@/types/chatbot';
 import { ChatbotAPI } from '@/lib/chatbot-api';
+import { apiUrl } from '@/lib/api';
 
 import { useHighlight } from '@/hooks/useHighlight';
 import '@/styles/scrollbar.css';
@@ -391,7 +392,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
       console.log(`🔄 Automatically loading error dataset: ${defaultDatasetId}`);
 
       
-      const response = await fetch('/api/kgot/load-error-data', {
+      const response = await fetch(apiUrl('/api/kgot/load-error-data'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -491,7 +492,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
 
       
       
-      const dataResponse = await fetch(`http://localhost:8000/api/chatbot/sample-data/${dataFileName}`);
+      const dataResponse = await fetch(apiUrl(`/api/chatbot/sample-data/${dataFileName}`));
 
       if (dataResponse.ok) {
         const sampleData = await dataResponse.json();
@@ -500,12 +501,12 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
         
         try {
           console.log('🔄 Clearing backend database...');
-          await fetch('http://localhost:8000/api/graph/data', {
+          await fetch(apiUrl('/api/graph/data'), {
             method: 'DELETE'
           });
 
           console.log('📤 Importing sample data to backend...');
-          const importResponse = await fetch('http://localhost:8000/api/graph/import', {
+          const importResponse = await fetch(apiUrl('/api/graph/import'), {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

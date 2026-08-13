@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Brain, Search, MessageCircle, Loader2, AlertCircle, Database, Clock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { kgotApi } from '@/lib/api';
 
 interface KGOTResult {
   answer: string;
@@ -94,25 +95,13 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/kgot/enhanced-solve', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          problem: problemText,
-          learn_from_solution: learnFromSolution,
-          use_hierarchical_view: useHierarchicalView,
-          abstraction_level: hierarchicalAbstractionLevel,
-          abstraction_mode: hierarchicalViewMode
-        }),
+      const data = await kgotApi.enhancedSolve<EnhancedSolveResult>({
+        problem: problemText,
+        learn_from_solution: learnFromSolution,
+        use_hierarchical_view: useHierarchicalView,
+        abstraction_level: hierarchicalAbstractionLevel,
+        abstraction_mode: hierarchicalViewMode
       });
-
-      if (!response.ok) {
-        throw new Error('Intelligent problem solving failed');
-      }
-
-      const data: EnhancedSolveResult = await response.json();
       setResult(data);
 
       
@@ -122,14 +111,14 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
         }, 1000); 
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : '未知错误');
+      setError(err instanceof Error ? err.message : 'Unknown error');
       const errorResult = {
         success: false,
         answer: '',
         execution_time: 0,
         iterations: 0,
         kg_updates: 0,
-        error: err instanceof Error ? err.message : '未知错误',
+        error: err instanceof Error ? err.message : 'Unknown error',
         reasoning_steps: []
       };
       setResult(errorResult);
@@ -146,24 +135,12 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/kgot/pure-internal-retrieve', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: queryText,
-          abstraction_level: hierarchicalAbstractionLevel,
-          abstraction_mode: hierarchicalViewMode,
-          view_mode: panelViewMode 
-        }),
+      const data = await kgotApi.pureInternalRetrieve<PureRetrieveResult>({
+        query: queryText,
+        abstraction_level: hierarchicalAbstractionLevel,
+        abstraction_mode: hierarchicalViewMode,
+        view_mode: panelViewMode
       });
-
-      if (!response.ok) {
-        throw new Error('Pure internal retrieval failed');
-      }
-
-      const data: PureRetrieveResult = await response.json();
       setResult(data);
       
       if (!data.success && data.error) {

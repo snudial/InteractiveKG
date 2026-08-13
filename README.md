@@ -39,9 +39,24 @@ Large Language Models (LLMs) are increasingly used to support complex reasoning 
 ### Step 1: Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd newchatbot/interactiveKG
+git clone git@github.com:snudial/InteractiveKG.git
+cd InteractiveKG/InteractiveKG
 ```
+
+### Step 1b: Clone Knowledge Graph of Thoughts (optional, for the KGOT reasoning modes)
+
+The Intelligent Solving / Internal Retrieval modes delegate to the external
+[Knowledge Graph of Thoughts](https://github.com/spcl/knowledge-graph-of-thoughts) project,
+which is not bundled with this repository. Clone it next to this repository (or anywhere,
+and point `KGOT_PROJECT_ROOT` at it):
+
+```bash
+git clone https://github.com/spcl/knowledge-graph-of-thoughts.git
+export KGOT_PROJECT_ROOT=/path/to/knowledge-graph-of-thoughts   # optional if cloned next to this repo
+```
+
+Without it, the rest of the system (graph editing, hierarchical abstraction, node
+explanations) still works; only the KGOT reasoning endpoints are disabled.
 
 ### Step 2: Set Up Neo4j Database
 
@@ -105,6 +120,9 @@ ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
 LLM_PROVIDER=openai_gpt4o_mini
 LLM_MODEL_NAME=gpt-4o-mini-2024-07-18
 LLM_API_KEY=your-api-key-here
+# Optional: path to your knowledge-graph-of-thoughts checkout
+# (defaults to a sibling directory of this repository)
+KGOT_PROJECT_ROOT=/path/to/knowledge-graph-of-thoughts
 ```
 
 ### Step 4: Set Up Frontend
@@ -117,6 +135,14 @@ cd ../frontend
 2. Install dependencies:
 ```bash
 npm install
+```
+
+3. Configure the backend URL (optional):
+
+The frontend talks to the backend at `http://localhost:8000` by default. To point it
+elsewhere, create `frontend/.env.local`:
+```env
+NEXT_PUBLIC_API_BASE_URL=http://your-backend-host:8000
 ```
 
 ## Running the Application
@@ -214,32 +240,53 @@ bash start_chatbot_system.sh
 ## Project Structure
 
 ```
-InteractiveKG/
-├── frontend/              # Next.js frontend application
-│   ├── src/
-│   │   ├── app/          # Next.js app router pages
-│   │   └── styles/        # Global styles
-│   ├── package.json
-│   └── next.config.mjs
-├── backend/               # FastAPI backend application
-│   ├── app/
-│   │   ├── api/           # API route handlers
-│   │   ├── database/     # Neo4j connection and queries
-│   │   └── routers/       # FastAPI routers
-│   ├── main.py           # Application entry point
-│   ├── requirements.txt   # Python dependencies
-│   └── .venv310/         # Python virtual environment (created during setup)
-├── docker-compose.yml     # Docker configuration for Neo4j
-├── start_chatbot_system.sh  # Startup script
+InteractiveKG/                 # Repository root
+└── InteractiveKG/             # Application
+    ├── frontend/              # Next.js frontend application
+    │   └── src/
+    │       ├── app/           # Next.js app router pages
+    │       ├── components/    # Graph, UI, and upload components
+    │       ├── hooks/         # React hooks (e.g. highlight system)
+    │       ├── lib/           # Backend API clients (api.ts, chatbot-api.ts)
+    │       ├── styles/        # Global styles
+    │       └── types/         # Shared TypeScript types
+    ├── backend/               # FastAPI backend application
+    │   ├── app/
+    │   │   ├── api/           # KGOT and chatbot route handlers
+    │   │   ├── config/        # LLM and cleanup configuration
+    │   │   ├── database/      # Neo4j connection
+    │   │   ├── models/        # Pydantic models
+    │   │   ├── routers/       # Graph CRUD/analysis routes
+    │   │   └── services/      # Graph, abstraction, KGOT, chatbot services
+    │   ├── sample_data/       # Bundled study datasets
+    │   ├── main.py            # Application entry point
+    │   └── requirements.txt   # Python dependencies
+    ├── docker-compose.yml     # Docker configuration for Neo4j
+    └── start_chatbot_system.sh  # Startup script
+
+knowledge-graph-of-thoughts/   # External dependency, cloned separately (see Step 1b)
 ```
 
 ## Citation
 
 If you use this system in your research, please cite:
 
-```
-Anonymous. InteractiveKG: Transparent and User-Controllable Knowledge Graph Reasoning. 
-Journal Title XX(X):1–16, 2016.
+> Kim, M., Zhao, Y., Ju, J., Seo, J., & Park, H. (2026). InteractiveKG: Transparent and
+> user-controllable knowledge graph reasoning. *Information Visualization*, 25(3), 310–332.
+> https://doi.org/10.1177/14738716261435574
+
+```bibtex
+@article{kim2026interactivekg,
+  title   = {InteractiveKG: Transparent and user-controllable knowledge graph reasoning},
+  author  = {Kim, Minchan and Zhao, Yanjie and Ju, Jaeseong and Seo, Jaeeun and Park, Hyunwoo},
+  journal = {Information Visualization},
+  volume  = {25},
+  number  = {3},
+  pages   = {310--332},
+  year    = {2026},
+  doi     = {10.1177/14738716261435574},
+  url     = {https://doi.org/10.1177/14738716261435574}
+}
 ```
 
 ## Contact and Support

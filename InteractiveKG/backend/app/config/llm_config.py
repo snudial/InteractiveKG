@@ -16,7 +16,7 @@ def get_llm_config() -> Optional[LLMConfig]:
 
     env_model = os.getenv("LLM_MODEL_NAME")
     if env_model and env_model != forced_model_name:
-        print(f"Warning: 环境变量中设置的模型 '{env_model}' 被强制覆盖为 '{forced_model_name}'")
+        print(f"Warning: model '{env_model}' from the environment is overridden with '{forced_model_name}'")
     return LLMConfig(
         provider=provider,
         api_key=api_key,

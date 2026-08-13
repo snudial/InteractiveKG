@@ -54,7 +54,7 @@ class AutoDisplayNameProcessor:
     async def process_data_change_event(self, node_ids: List[str] = None) -> Dict[str, Any]:
         async with self._processing_lock:
             try:
-                logger.info(f"处理数据变化事件，节点范围: {'指定节点' if node_ids else '全部节点'}")
+                logger.info(f"Handling data-change event, scope: {'specified nodes' if node_ids else 'all nodes'}")
 
                 if node_ids:
 
@@ -68,14 +68,14 @@ class AutoDisplayNameProcessor:
                     if node['id'] not in self._processed_nodes
                 ]
                 if not new_missing_nodes:
-                    logger.info("没有需要处理的新节点")
+                    logger.info("No new nodes to process")
                     return {
                         "action": "no_new_nodes",
                         "total_checked": len(missing_nodes),
                         "already_processed": len(missing_nodes) - len(new_missing_nodes),
                         "new_processed": 0
                     }
-                logger.info(f"发现 {len(new_missing_nodes)} 个新节点需要生成display_name")
+                logger.info(f"Found {len(new_missing_nodes)} new nodes needing a display_name")
 
                 display_names = await self._generate_display_names_with_priority(new_missing_nodes)
 
@@ -83,7 +83,7 @@ class AutoDisplayNameProcessor:
 
                 for node in new_missing_nodes:
                     self._processed_nodes.add(node['id'])
-                logger.info(f"数据变化事件处理完成: 更新了 {updated_count} 个节点的display_name")
+                logger.info(f"Data-change event handled: updated display_name on {updated_count} nodes")
                 return {
                     "action": "processed",
                     "total_checked": len(missing_nodes),
@@ -92,7 +92,7 @@ class AutoDisplayNameProcessor:
                     "generated_names": len(display_names)
                 }
             except Exception as e:
-                logger.error(f"数据变化事件处理失败: {e}")
+                logger.error(f"Failed to handle data-change event: {e}")
                 return {
                     "action": "error",
                     "error": str(e),
@@ -104,7 +104,7 @@ class AutoDisplayNameProcessor:
             return {"action": "no_nodes", "processed_count": 0}
 
         try:
-            logger.info(f"为 {len(node_ids)} 个新节点生成display_name...")
+            logger.info(f"Generating display_name for {len(node_ids)} new nodes...")
 
 
             nodes_data = await self._get_nodes_by_ids(node_ids)
@@ -122,7 +122,7 @@ class AutoDisplayNameProcessor:
 
             updated_count = await self._update_display_names_in_db(display_names)
 
-            logger.info(f"为新节点生成display_name完成: {updated_count} 个节点")
+            logger.info(f"display_name generation for new nodes finished: {updated_count} nodes")
 
             return {
                 "action": "processed",
@@ -132,13 +132,13 @@ class AutoDisplayNameProcessor:
             }
 
         except Exception as e:
-            logger.error(f"处理新节点display_name失败: {e}")
+            logger.error(f"Failed to process display_name for new nodes: {e}")
             return {"action": "error", "error": str(e)}
 
     def clear_processed_cache(self):
 
         self._processed_nodes.clear()
-        logger.info("已清空处理缓存")
+        logger.info("Processing cache cleared")
 
     async def _detect_missing_display_names(self) -> List[Dict[str, Any]]:
 
@@ -161,7 +161,7 @@ class AutoDisplayNameProcessor:
                         })
                 return missing_nodes
         except Exception as e:
-            logger.error(f"检测缺失display_name失败: {e}")
+            logger.error(f"Failed to detect missing display_name values: {e}")
             return []
     async def _detect_missing_display_names_for_nodes(self, node_ids: List[str]) -> List[Dict[str, Any]]:
 
@@ -185,7 +185,7 @@ class AutoDisplayNameProcessor:
                         })
                 return missing_nodes
         except Exception as e:
-            logger.error(f"检测指定节点缺失display_name失败: {e}")
+            logger.error(f"Failed to detect missing display_name on the specified nodes: {e}")
             return []
     async def _get_nodes_by_ids(self, node_ids: List[str]) -> List[Dict[str, Any]]:
 
@@ -212,7 +212,7 @@ class AutoDisplayNameProcessor:
                         })
                 return nodes_data
         except Exception as e:
-            logger.error(f"获取节点数据失败: {e}")
+            logger.error(f"Failed to fetch node data: {e}")
             return []
 
     async def _update_display_names_in_db(self, display_names: Dict[str, str]) -> int:
@@ -234,12 +234,12 @@ class AutoDisplayNameProcessor:
                         })
                         if result.single():
                             updated_count += 1
-                            logger.debug(f"成功更新节点 {node_uid} 的display_name: {display_name}")
+                            logger.debug(f"Updated display_name of node {node_uid}: {display_name}")
                     except Exception as e:
-                        logger.error(f"更新节点 {node_uid} 的display_name失败: {e}")
+                        logger.error(f"Failed to update display_name of node {node_uid}: {e}")
                         continue
         except Exception as e:
-            logger.error(f"批量更新display_name失败: {e}")
+            logger.error(f"Bulk display_name update failed: {e}")
         return updated_count
 
     async def _count_total_nodes(self) -> int:
@@ -250,18 +250,18 @@ class AutoDisplayNameProcessor:
                 record = result.single()
                 return record["total"] if record else 0
         except Exception as e:
-            logger.error(f"统计节点总数失败: {e}")
+            logger.error(f"Failed to count nodes: {e}")
             return 0
 
     def reset_processor(self):
 
         self._processed_nodes.clear()
         self._initialization_complete = False
-        logger.info("处理器状态已重置")
+        logger.info("Processor state reset")
     async def _generate_display_names_with_priority(self, nodes: List[Dict[str, Any]]) -> Dict[str, str]:
         display_names = {}
         nodes_for_llm = []
-        logger.info(f"开始处理 {len(nodes)} 个节点的display_name生成（优先级策略）")
+        logger.info(f"Generating display_name for {len(nodes)} nodes (priority strategy)")
 
         for node in nodes:
             node_id = node['id']
@@ -270,19 +270,19 @@ class AutoDisplayNameProcessor:
             if name_value:
 
                 display_names[node_id] = name_value
-                logger.debug(f"节点 {node_id} 使用name属性作为display_name: {name_value}")
+                logger.debug(f"Node {node_id} uses its name property as display_name: {name_value}")
             else:
 
                 nodes_for_llm.append(node)
 
         if nodes_for_llm:
-            logger.info(f"使用name属性: {len(display_names)} 个节点，需要LLM生成: {len(nodes_for_llm)} 个节点")
+            logger.info(f"Using the name property for {len(display_names)} nodes; {len(nodes_for_llm)} nodes need LLM generation")
             try:
                 llm_generated = await node_display_name_service.generate_display_names_batch(nodes_for_llm)
                 display_names.update(llm_generated)
-                logger.info(f"LLM生成完成: {len(llm_generated)} 个display_name")
+                logger.info(f"LLM generation finished: {len(llm_generated)} display_name values")
             except Exception as e:
-                logger.error(f"LLM生成display_name失败: {e}")
+                logger.error(f"LLM display_name generation failed: {e}")
 
                 for node in nodes_for_llm:
                     node_id = node['id']
@@ -291,8 +291,8 @@ class AutoDisplayNameProcessor:
                         labels = node.get('labels', ['Entity'])
                         display_names[node_id] = labels[0] if labels else 'Unknown'
         else:
-            logger.info(f"所有 {len(nodes)} 个节点都使用了name属性，无需LLM生成")
-        logger.info(f"优先级策略处理完成: 总共生成 {len(display_names)} 个display_name")
+            logger.info(f"All {len(nodes)} nodes used their name property; no LLM generation needed")
+        logger.info(f"Priority strategy finished: generated {len(display_names)} display_name values in total")
         return display_names
     def get_status(self) -> Dict[str, Any]:
 

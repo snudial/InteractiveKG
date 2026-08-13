@@ -121,7 +121,7 @@ export const useHighlight = () => {
 
   
   const highlightPhase = useCallback((phase: TestPhase) => {
-    console.log(`🎯 高亮系统: 切换到阶段 ${phase}`);
+    console.log(`🎯 Highlight system: switching to phase ${phase}`);
 
     
     clearAllHighlights();
@@ -130,7 +130,7 @@ export const useHighlight = () => {
 
     if (!targetId) {
       
-      console.log(`🎯 高亮系统: 阶段 ${phase} 无需高亮，清除状态`);
+      console.log(`🎯 Highlight system: phase ${phase} needs no highlight, clearing state`);
       setHighlightState({
         isHighlighted: false,
         targetId: null,
@@ -148,7 +148,7 @@ export const useHighlight = () => {
       ...phaseConfig
     };
 
-    console.log(`🎯 高亮系统: 高亮目标 ${targetId}，配置:`, config);
+    console.log(`🎯 Highlight system: highlighting ${targetId}, config:`, config);
 
     setHighlightState({
       isHighlighted: true,
@@ -169,7 +169,7 @@ export const useHighlight = () => {
 
   
   const clearHighlight = useCallback(() => {
-    console.log(`🎯 高亮系统: 清除所有高亮效果`);
+    console.log(`🎯 Highlight system: clearing all highlights`);
 
     
     clearAllHighlights();
@@ -185,11 +185,11 @@ export const useHighlight = () => {
   const applyHighlightToElement = (config: HighlightConfig) => {
     const element = document.getElementById(config.targetId);
     if (!element) {
-      console.warn(`🎯 高亮系统: 目标元素未找到 ${config.targetId}`);
+      console.warn(`🎯 Highlight system: target element not found ${config.targetId}`);
       return;
     }
 
-    console.log(`🎯 高亮系统: 应用高亮效果到 ${config.targetId}`);
+    console.log(`🎯 Highlight system: applying highlight to ${config.targetId}`);
 
     
     removeHighlightFromElement(config.targetId);
@@ -201,7 +201,7 @@ export const useHighlight = () => {
     
     element.classList.add(colorClassName);
 
-    console.log(`🎯 高亮系统: 添加CSS类 ${colorClassName} 到元素 ${config.targetId}`);
+    console.log(`🎯 Highlight system: adding CSS class ${colorClassName} to ${config.targetId}`);
 
     
     element.scrollIntoView({
@@ -242,7 +242,7 @@ export const useHighlight = () => {
 
   
   const highlightElement = useCallback((targetId: string, config?: Partial<HighlightConfig>) => {
-    console.log(`🎯 高亮系统: 手动高亮元素 ${targetId}`);
+    console.log(`🎯 Highlight system: manually highlighting ${targetId}`);
 
     
     clearAllHighlights();

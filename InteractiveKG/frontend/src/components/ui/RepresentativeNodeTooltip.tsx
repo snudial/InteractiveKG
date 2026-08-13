@@ -66,7 +66,7 @@ export const RepresentativeNodeTooltip: React.FC<RepresentativeNodeTooltipProps>
         {}
         {node.properties && Object.keys(node.properties).length > 0 && (
           <div className="border-t pt-2">
-            <div className="text-xs text-gray-500 font-medium mb-1">属性:</div>
+            <div className="text-xs text-gray-500 font-medium mb-1">Properties:</div>
             <div className="space-y-1">
               {Object.entries(node.properties)
                 .slice(0, 3) 
@@ -83,7 +83,7 @@ export const RepresentativeNodeTooltip: React.FC<RepresentativeNodeTooltipProps>
                 ))}
               {Object.keys(node.properties).length > 3 && (
                 <div className="text-xs text-gray-400">
-                  ... 还有 {Object.keys(node.properties).length - 3} 个属性
+                  ... and {Object.keys(node.properties).length - 3} more properties
                 </div>
               )}
             </div>
@@ -92,7 +92,7 @@ export const RepresentativeNodeTooltip: React.FC<RepresentativeNodeTooltipProps>
 
         {}
         <div className="border-t pt-2 text-xs text-gray-400">
-          💡 双击展开查看分组详细节点
+          💡 Double-click to expand this group
         </div>
       </div>
     </div>

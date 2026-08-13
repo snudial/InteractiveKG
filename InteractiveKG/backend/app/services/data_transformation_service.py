@@ -83,12 +83,12 @@ class DataTransformationService:
             }
 
         except Exception as e:
-            logger.error(f"KGOT数据转换失败: {e}")
+            logger.error(f"KGOT data transformation failed: {e}")
             return {'nodes': [], 'relationships': []}
 
     @classmethod
     def standard_to_neo4j(cls, standard_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
-        确保所有字段都符合Neo4j的要求
+        """Ensure every field meets Neo4j requirements."""
         try:
             nodes = []
             relationships = []
@@ -125,12 +125,12 @@ class DataTransformationService:
             }
 
         except Exception as e:
-            logger.error(f"Neo4j格式转换失败: {e}")
+            logger.error(f"Neo4j format conversion failed: {e}")
             return {'nodes': [], 'relationships': []}
 
     @classmethod
     def neo4j_to_frontend(cls, neo4j_data: Dict[str, List[Dict[str, Any]]]) -> Dict[str, List[Dict[str, Any]]]:
-        确保所有必需字段都存在
+        """Ensure every required field is present."""
         try:
             nodes = []
             relationships = []
@@ -161,7 +161,7 @@ class DataTransformationService:
             }
 
         except Exception as e:
-            logger.error(f"前端格式转换失败: {e}")
+            logger.error(f"Frontend format conversion failed: {e}")
             return {'nodes': [], 'relationships': []}
 
     @classmethod
@@ -173,7 +173,7 @@ class DataTransformationService:
             return GraphDataModel(nodes=nodes, relationships=relationships)
 
         except Exception as e:
-            logger.error(f"Pydantic模型转换失败: {e}")
+            logger.error(f"Pydantic model conversion failed: {e}")
             return GraphDataModel(nodes=[], relationships=[])
 
     @classmethod
@@ -184,7 +184,7 @@ class DataTransformationService:
                 'relationships': [rel.dict() for rel in graph_model.relationships]
             }
         except Exception as e:
-            logger.error(f"Pydantic模型解析失败: {e}")
+            logger.error(f"Pydantic model parsing failed: {e}")
             return {'nodes': [], 'relationships': []}
 
     @classmethod
@@ -235,7 +235,7 @@ class DataTransformationService:
             }
 
         except Exception as e:
-            logger.error(f"数据验证修复失败: {e}")
+            logger.error(f"Data validation repair failed: {e}")
             return {'nodes': [], 'relationships': []}
 
 data_transformer = DataTransformationService()

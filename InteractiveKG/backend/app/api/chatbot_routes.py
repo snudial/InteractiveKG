@@ -27,7 +27,7 @@ async def create_session():
             "success": True
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"创建会话失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to create session: {str(e)}")
 @router.post("/chat", response_model=ChatbotResponse)
 async def chat(request: ChatbotRequest):
 
@@ -35,14 +35,14 @@ async def chat(request: ChatbotRequest):
         response = await chatbot_service.process_message(request)
         return response
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"处理消息失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to process message: {str(e)}")
 @router.get("/session/{session_id}")
 async def get_session_info(session_id: str):
 
     try:
         session = chatbot_service.get_session(session_id)
         if not session:
-            raise HTTPException(status_code=404, detail="会话不存在")
+            raise HTTPException(status_code=404, detail="Session not found")
 
         advance_button = chatbot_service.get_phase_advance_button(session)
 
@@ -62,7 +62,7 @@ async def get_session_info(session_id: str):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"获取会话信息失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch session info: {str(e)}")
 @router.post("/load-scenario", response_model=ScenarioLoadResponse)
 async def load_scenario(request: ScenarioLoadRequest):
 
@@ -70,7 +70,7 @@ async def load_scenario(request: ScenarioLoadRequest):
 
         session = chatbot_service.get_session(request.session_id)
         if not session:
-            raise HTTPException(status_code=404, detail="会话不存在")
+            raise HTTPException(status_code=404, detail="Session not found")
 
 
         result = scenario_service.load_scenario_to_database(request.scenario)
@@ -96,20 +96,20 @@ async def load_scenario(request: ScenarioLoadRequest):
                 nodes_count=0,
                 relationships_count=0,
                 success=False,
-                error=result.get("error", "未知错误")
+                error=result.get("error", "Unknown error")
             )
 
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"加载场景失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to load scenario: {str(e)}")
 @router.post("/progress", response_model=UserTestProgressResponse)
 async def update_progress(request: UserTestProgressRequest):
 
     try:
         session = chatbot_service.get_session(request.session_id)
         if not session:
-            raise HTTPException(status_code=404, detail="会话不存在")
+            raise HTTPException(status_code=404, detail="Session not found")
 
         if request.action == "next_phase":
             success = chatbot_service.advance_phase(request.session_id, request.phase)
@@ -146,16 +146,16 @@ async def update_progress(request: UserTestProgressRequest):
                 current_phase=session.current_phase,
                 progress_percentage=progress,
                 phase_description=phase_desc,
-                next_instructions=f"当前阶段：{phase_desc}",
+                next_instructions=f"Current phase: {phase_desc}",
                 success=True
             )
         else:
-            raise HTTPException(status_code=400, detail="无效的进度更新操作")
+            raise HTTPException(status_code=400, detail="Invalid progress update action")
 
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"更新进度失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to update progress: {str(e)}")
 @router.get("/scenario/{scenario}/info")
 async def get_scenario_info(scenario: TestScenario):
 
@@ -163,7 +163,7 @@ async def get_scenario_info(scenario: TestScenario):
         info = scenario_service.get_scenario_info(scenario)
         return info
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"获取场景信息失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch scenario info: {str(e)}")
 @router.get("/scenario/{scenario}/target-question")
 async def get_target_question(scenario: TestScenario):
 
@@ -171,14 +171,14 @@ async def get_target_question(scenario: TestScenario):
         question = scenario_service.get_target_question(scenario)
         return {"target_question": question}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"获取目标问题失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch target question: {str(e)}")
 @router.post("/integration-action", response_model=IntegrationActionResponse)
 async def execute_integration_action(request: IntegrationActionRequest):
 
     try:
         session = chatbot_service.get_session(request.session_id)
         if not session:
-            raise HTTPException(status_code=404, detail="会话不存在")
+            raise HTTPException(status_code=404, detail="Session not found")
 
         result = {}
         executed = False
@@ -220,7 +220,7 @@ async def execute_integration_action(request: IntegrationActionRequest):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"执行集成动作失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to execute integration action: {str(e)}")
 @router.post("/scenario/{scenario}/correct-data")
 async def apply_data_correction(scenario: TestScenario, node_id: str, updates: Dict[str, Any]):
 
@@ -229,10 +229,10 @@ async def apply_data_correction(scenario: TestScenario, node_id: str, updates: D
         return {
             "success": success,
             "node_id": node_id,
-            "message": "数据修正成功" if success else "数据修正失败"
+            "message": "Data correction applied" if success else "Data correction failed"
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"应用数据修正失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to apply data correction: {str(e)}")
 @router.delete("/hallucination/node/{node_id}")
 async def remove_hallucination_node(node_id: str):
 
@@ -241,10 +241,10 @@ async def remove_hallucination_node(node_id: str):
         return {
             "success": success,
             "node_id": node_id,
-            "message": "幻觉节点删除成功" if success else "幻觉节点删除失败"
+            "message": "Hallucinated node deleted" if success else "Failed to delete hallucinated node"
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"删除幻觉节点失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete hallucinated node: {str(e)}")
 @router.delete("/hallucination/relationship")
 async def remove_hallucination_relationship(
     start_node_id: str,
@@ -259,10 +259,10 @@ async def remove_hallucination_relationship(
         return {
             "success": success,
             "relationship": f"{start_node_id}->{end_node_id} ({rel_type})",
-            "message": "幻觉关系删除成功" if success else "幻觉关系删除失败"
+            "message": "Hallucinated relationship deleted" if success else "Failed to delete hallucinated relationship"
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"删除幻觉关系失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete hallucinated relationship: {str(e)}")
 @router.get("/scenario/{scenario}/cleanup-status")
 async def get_cleanup_status(scenario: TestScenario):
 
@@ -270,7 +270,7 @@ async def get_cleanup_status(scenario: TestScenario):
         status = scenario_service.validate_cleanup_completion(scenario)
         return status
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"获取清理状态失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch cleanup status: {str(e)}")
 @router.post("/abstraction-exploration", response_model=AbstractionExplorationResponse)
 async def explore_abstraction(request: AbstractionExplorationRequest):
 
@@ -278,27 +278,27 @@ async def explore_abstraction(request: AbstractionExplorationRequest):
         response = await abstraction_exploration_service.explore_abstraction(request)
         return response
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"抽象探索失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Abstraction exploration failed: {str(e)}")
 @router.get("/abstraction-exploration/levels")
 async def get_abstraction_levels():
 
     try:
         return {
             "levels": {
-                0: "完整视图 - 显示所有原始节点和关系，按标签分组着色",
-                1: "具体层次 - 基于具体特征进行细粒度分组",
-                2: "功能层次 - 按功能角色进行中等粒度分组",
-                3: "概念层次 - 基于抽象概念进行高层次分组"
+                0: "Full view - every original node and relationship, coloured by label group",
+                1: "Concrete level - fine-grained grouping by concrete features",
+                2: "Functional level - medium-grained grouping by functional role",
+                3: "Conceptual level - high-level grouping by abstract concepts"
             },
             "modes": {
-                "semantic": "语义抽象 - 基于节点属性和语义相似性进行分组",
-                "structural": "结构抽象 - 基于图的拓扑结构和连接模式进行分组",
-                "community": "社区抽象 - 基于社区检测算法识别紧密连接的节点群"
+                "semantic": "Semantic abstraction - group by node properties and semantic similarity",
+                "structural": "Structural abstraction - group by graph topology and connection patterns",
+                "community": "Community abstraction - detect tightly connected node groups via community detection"
             },
             "success": True
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"获取抽象级别信息失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch abstraction level info: {str(e)}")
 @router.post("/advance-phase")
 async def advance_phase(request: Dict[str, Any]):
 
@@ -306,14 +306,14 @@ async def advance_phase(request: Dict[str, Any]):
         session_id = request.get("session_id")
         target_phase_str = request.get("target_phase")
         if not session_id:
-            raise HTTPException(status_code=400, detail="缺少session_id参数")
+            raise HTTPException(status_code=400, detail="Missing session_id parameter")
 
         target_phase = None
         if target_phase_str:
             try:
                 target_phase = TestPhase(target_phase_str)
             except ValueError:
-                raise HTTPException(status_code=400, detail=f"无效的目标阶段: {target_phase_str}")
+                raise HTTPException(status_code=400, detail=f"Invalid target phase: {target_phase_str}")
 
         success = chatbot_service.advance_phase(session_id, target_phase)
         if success:
@@ -328,15 +328,15 @@ async def advance_phase(request: Dict[str, Any]):
                 "current_phase": session.current_phase if session else None,
                 "advance_button": advance_button,
                 "data_source_selection_buttons": data_source_selection_buttons or [],
-                "message": "阶段推进成功"
+                "message": "Phase advanced"
             }
         else:
             return {
                 "success": False,
-                "message": "阶段推进失败"
+                "message": "Failed to advance phase"
             }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"阶段推进失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to advance phase: {str(e)}")
 @router.post("/upload-custom-data")
 async def upload_custom_data(
     file: UploadFile = File(...),

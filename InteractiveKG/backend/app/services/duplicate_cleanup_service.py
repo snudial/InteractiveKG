@@ -43,7 +43,7 @@ class DuplicateCleanupService:
             duplicate_groups = {k: v for k, v in relationship_groups.items() if len(v) > 1}
             return duplicate_groups
         except Exception as e:
-            logger.error(f"检测重复关系时发生错误: {str(e)}")
+            logger.error(f"Error while detecting duplicate relationships: {str(e)}")
             return {}
 
     def cleanup_duplicate_relationships(self, duplicate_groups: Dict[Tuple[str, str, str], List[Dict]],
@@ -56,34 +56,34 @@ class DuplicateCleanupService:
             for (start_id, end_id, rel_type), group in duplicate_groups.items():
 
                 if time.time() - start_time > timeout_seconds:
-                    logger.warning(f"重复关系清理超时，已处理 {deleted_count} 个关系")
+                    logger.warning(f"Duplicate relationship cleanup timed out after processing {deleted_count} relationships")
                     break
 
 
                 to_keep = group[0]
                 to_delete = group[1:]
 
-                logger.info(f"清理关系组: {start_id} -> {end_id} ({rel_type}), "
-                           f"保留 {to_keep['id']}, 删除 {len(to_delete)} 个重复")
+                logger.info(f"Cleaning relationship group: {start_id} -> {end_id} ({rel_type}), "
+                           f"keeping {to_keep['id']}, deleting {len(to_delete)} duplicates")
 
                 for rel in to_delete:
                     try:
                         success = self._delete_relationship_by_id(rel['id'])
                         if success:
                             deleted_count += 1
-                            logger.debug(f"成功删除重复关系: {rel['id']}")
+                            logger.debug(f"Deleted duplicate relationship: {rel['id']}")
                         else:
                             failed_count += 1
-                            logger.warning(f"删除关系失败: {rel['id']}")
+                            logger.warning(f"Failed to delete relationship: {rel['id']}")
                     except Exception as e:
                         failed_count += 1
-                        logger.error(f"删除关系 {rel['id']} 时发生异常: {str(e)}")
+                        logger.error(f"Exception while deleting relationship {rel['id']}: {str(e)}")
 
-            logger.info(f"重复关系清理完成: 成功删除 {deleted_count} 个, 失败 {failed_count} 个")
+            logger.info(f"Duplicate relationship cleanup finished: {deleted_count} deleted, {failed_count} failed")
             return deleted_count, failed_count
 
         except Exception as e:
-            logger.error(f"清理重复关系时发生错误: {str(e)}")
+            logger.error(f"Error while cleaning duplicate relationships: {str(e)}")
             return deleted_count, failed_count
 
     def _delete_relationship_by_id(self, rel_id: str) -> bool:
@@ -109,10 +109,10 @@ class DuplicateCleanupService:
                 result = self.db.execute_write_query(query, {"neo4j_rel_id": neo4j_rel_id})
             return result and result[0]["deleted_count"] > 0
         except (ValueError, TypeError) as e:
-            logger.error(f"无效的关系ID格式: {rel_id}, 错误: {str(e)}")
+            logger.error(f"Invalid relationship ID format: {rel_id}, error: {str(e)}")
             return False
         except Exception as e:
-            logger.error(f"删除关系时发生错误: {str(e)}")
+            logger.error(f"Error while deleting relationship: {str(e)}")
             return False
 
     def auto_cleanup_after_kgot(self, custom_config: Optional[Dict] = None) -> Optional[Dict]:
@@ -120,7 +120,7 @@ class DuplicateCleanupService:
         try:
 
             if not cleanup_config.is_auto_cleanup_enabled():
-                logger.info("自动清理功能已禁用，跳过清理")
+                logger.info("Auto-cleanup is disabled; skipping")
                 return None
 
             params = cleanup_config.get_cleanup_parameters()
@@ -128,20 +128,20 @@ class DuplicateCleanupService:
                 params.update(custom_config)
             log_config = cleanup_config.get_logging_config()
             if log_config["log_details"]:
-                logger.info("开始KGOT后自动重复关系检测...")
+                logger.info("Running post-KGOT duplicate relationship detection...")
 
             duplicate_groups = self.detect_duplicate_relationships()
             if not duplicate_groups:
                 if log_config["log_details"]:
-                    logger.info("未检测到重复关系，跳过清理")
+                    logger.info("No duplicate relationships detected; skipping cleanup")
                 return None
             total_duplicates = sum(len(group) - 1 for group in duplicate_groups.values())
             if total_duplicates < params["min_duplicates_threshold"]:
                 if log_config["log_details"]:
-                    logger.info(f"重复关系数量 ({total_duplicates}) 低于阈值 ({params['min_duplicates_threshold']})，跳过清理")
+                    logger.info(f"Duplicate count ({total_duplicates}) is below the threshold ({params['min_duplicates_threshold']}); skipping cleanup")
                 return None
             if log_config["log_details"]:
-                logger.info(f"检测到 {len(duplicate_groups)} 组重复关系，共 {total_duplicates} 个重复项")
+                logger.info(f"Detected {len(duplicate_groups)} duplicate relationship groups, {total_duplicates} duplicates in total")
 
             deleted_count, failed_count = 0, 0
             for retry in range(params.get("max_retries", 1) + 1):
@@ -153,7 +153,7 @@ class DuplicateCleanupService:
                     break
                 except Exception as e:
                     if retry < params.get("max_retries", 1):
-                        logger.warning(f"清理重试 {retry + 1}/{params.get('max_retries', 1)}: {str(e)}")
+                        logger.warning(f"Cleanup retry {retry + 1}/{params.get('max_retries', 1)}: {str(e)}")
                         time.sleep(1)
                     else:
                         raise e
@@ -170,12 +170,12 @@ class DuplicateCleanupService:
             }
             if log_config["log_statistics"]:
                 if cleanup_result['cleanup_success']:
-                    logger.info(f"自动重复关系清理成功完成: 删除 {deleted_count} 个重复关系")
+                    logger.info(f"Automatic duplicate cleanup finished: deleted {deleted_count} duplicate relationships")
                 else:
-                    logger.warning(f"自动清理完成但仍有 {len(remaining_duplicates)} 组重复关系")
+                    logger.warning(f"Auto-cleanup finished but {len(remaining_duplicates)} duplicate groups remain")
             return cleanup_result
         except Exception as e:
-            error_msg = f"自动重复关系清理过程中发生错误: {str(e)}"
+            error_msg = f"Error during automatic duplicate relationship cleanup: {str(e)}"
             logger.error(error_msg)
             if not cleanup_config.should_continue_on_error():
                 raise Exception(error_msg)
@@ -210,7 +210,7 @@ class DuplicateCleanupService:
                     }
 
         except Exception as e:
-            logger.error(f"获取关系统计信息时发生错误: {str(e)}")
+            logger.error(f"Error while fetching relationship statistics: {str(e)}")
             return {
                 'error': str(e),
                 'total_relationships': 0,

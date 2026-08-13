@@ -28,7 +28,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* 强制显示滚动条样式 - 始终显示 */
+/* Force scrollbars to always be visible */
 .force-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e0 #f7fafc;
@@ -57,12 +57,12 @@ body {
   background: #a0aec0;
 }
 
-/* 确保滚动条始终可见 */
+/* Keep scrollbars visible */
 .force-scrollbar::-webkit-scrollbar-corner {
   background: #f7fafc;
 }
 
-/* 强制显示滚动条的额外样式 */
+/* Extra rules for always-visible scrollbars */
 .always-show-scrollbar {
   overflow-y: scroll !important;
   scrollbar-width: thin !important;

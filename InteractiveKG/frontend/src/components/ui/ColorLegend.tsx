@@ -148,7 +148,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
             )}
           </div>
         ) : (
-          <span>分组依据: <span className="text-blue-600">{groupingAttribute}</span></span>
+          <span>Grouped by: <span className="text-blue-600">{groupingAttribute}</span></span>
         )}
       </div>
       <div className="space-y-1 max-h-48 overflow-y-auto">
@@ -171,7 +171,7 @@ export const ColorLegend: React.FC<ColorLegendProps> = ({
           ))
         ) : (
           <div className="text-gray-500 text-xs text-center py-2">
-            当前视图中没有可显示的分组
+            No groups to display in the current view
           </div>
         )}
       </div>

@@ -64,10 +64,10 @@ export const NodeTooltip: React.FC<NodeTooltipProps> = ({
                     onExplainClick(node);
                   }}
                   className="flex items-center gap-1 px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-                  title="AI解释：了解这个节点的含义和作用"
+                  title="AI explanation: what this node means and does"
                 >
                   <HelpCircle className="w-3 h-3" />
-                  为什么？
+                  Why?
                 </button>
               )}
             </div>

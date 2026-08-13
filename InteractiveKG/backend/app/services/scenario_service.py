@@ -23,21 +23,21 @@ class ScenarioService:
             if act1_file.exists():
                 with open(act1_file, 'r', encoding='utf-8') as f:
                     self.scenario_data[TestScenario.ACT_I] = json.load(f)
-                logger.info("Act I场景数据加载成功")
+                logger.info("Act I scenario data loaded")
             else:
-                logger.warning(f"Act I数据文件不存在: {act1_file}")
+                logger.warning(f"Act I data file not found: {act1_file}")
 
 
             act2_file = project_root / "chatbot_scenario_data_act2.json"
             if act2_file.exists():
                 with open(act2_file, 'r', encoding='utf-8') as f:
                     self.scenario_data[TestScenario.ACT_II] = json.load(f)
-                logger.info("Act II场景数据加载成功")
+                logger.info("Act II scenario data loaded")
             else:
-                logger.warning(f"Act II数据文件不存在: {act2_file}")
+                logger.warning(f"Act II data file not found: {act2_file}")
 
         except Exception as e:
-            logger.error(f"加载场景数据失败: {e}")
+            logger.error(f"Failed to load scenario data: {e}")
 
     def get_scenario_info(self, scenario: TestScenario) -> Dict[str, Any]:
 
@@ -54,7 +54,7 @@ class ScenarioService:
 
         try:
             if scenario not in self.scenario_data:
-                raise ValueError(f"场景数据不存在: {scenario}")
+                raise ValueError(f"Scenario data not found: {scenario}")
 
             data = self.scenario_data[scenario]
 
@@ -72,7 +72,7 @@ class ScenarioService:
 
             self.current_scenario = scenario
 
-            logger.info(f"场景 {scenario} 数据加载成功: {len(result.nodes)} 节点, {len(result.relationships)} 关系")
+            logger.info(f"Scenario {scenario} data loaded: {len(result.nodes)} nodes, {len(result.relationships)} relationships")
 
             return {
                 "scenario": scenario,
@@ -82,7 +82,7 @@ class ScenarioService:
             }
 
         except Exception as e:
-            logger.error(f"加载场景数据到数据库失败: {e}")
+            logger.error(f"Failed to load scenario data into the database: {e}")
             return {
                 "scenario": scenario,
                 "nodes_count": 0,
@@ -145,11 +145,11 @@ class ScenarioService:
 
             updated_node = graph_service.update_node(node_id, update_request)
 
-            logger.info(f"节点 {node_id} 数据修正成功")
+            logger.info(f"Data correction applied to node {node_id}")
             return updated_node is not None
 
         except Exception as e:
-            logger.error(f"应用数据修正失败: {e}")
+            logger.error(f"Failed to apply data correction: {e}")
             return False
 
     def remove_hallucination_node(self, node_id: str) -> bool:
@@ -161,19 +161,19 @@ class ScenarioService:
 
             hallucination_info = self.get_hallucination_info(TestScenario.ACT_II)
             if node_id not in hallucination_info.get("hallucination_nodes", []):
-                logger.warning(f"节点 {node_id} 不是幻觉节点")
+                logger.warning(f"Node {node_id} is not a hallucinated node")
                 return False
 
 
             success = graph_service.delete_node(node_id)
 
             if success:
-                logger.info(f"幻觉节点 {node_id} 删除成功")
+                logger.info(f"Hallucinated node {node_id} deleted")
 
             return success
 
         except Exception as e:
-            logger.error(f"删除幻觉节点失败: {e}")
+            logger.error(f"Failed to delete hallucinated node: {e}")
             return False
 
     def remove_hallucination_relationship(self, start_node_id: str, end_node_id: str, rel_type: str) -> bool:
@@ -194,7 +194,7 @@ class ScenarioService:
             )
 
             if not is_hallucination:
-                logger.warning(f"关系 {start_node_id}->{end_node_id} ({rel_type}) 不是幻觉关系")
+                logger.warning(f"Relationship {start_node_id}->{end_node_id} ({rel_type}) is not a hallucinated relationship")
                 return False
 
 
@@ -211,20 +211,20 @@ class ScenarioService:
             if target_rel:
                 success = graph_service.delete_relationship(target_rel.id)
                 if success:
-                    logger.info(f"幻觉关系 {start_node_id}->{end_node_id} ({rel_type}) 删除成功")
+                    logger.info(f"Hallucinated relationship {start_node_id}->{end_node_id} ({rel_type}) deleted")
                 return success
 
             return False
 
         except Exception as e:
-            logger.error(f"删除幻觉关系失败: {e}")
+            logger.error(f"Failed to delete hallucinated relationship: {e}")
             return False
 
     def validate_cleanup_completion(self, scenario: TestScenario) -> Dict[str, Any]:
 
         try:
             if scenario != TestScenario.ACT_II:
-                return {"completed": False, "error": "只适用于Act II"}
+                return {"completed": False, "error": "Only applicable to Act II"}
 
             hallucination_info = self.get_hallucination_info(scenario)
             current_data = graph_service.get_all_graph_data()
@@ -257,7 +257,7 @@ class ScenarioService:
             }
 
         except Exception as e:
-            logger.error(f"验证清理完成情况失败: {e}")
+            logger.error(f"Failed to verify cleanup completion: {e}")
             return {"completed": False, "error": str(e)}
 
 scenario_service = ScenarioService()

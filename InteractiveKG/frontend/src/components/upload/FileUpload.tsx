@@ -51,22 +51,22 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     
     if (!file.name.endsWith('.json')) {
       setUploadStatus('error');
-      setStatusMessage('请选择 JSON 格式的文件');
-      onUploadError('请选择 JSON 格式的文件');
+      setStatusMessage('Please choose a JSON file');
+      onUploadError('Please choose a JSON file');
       return;
     }
 
     
     if (file.size > 10 * 1024 * 1024) {
       setUploadStatus('error');
-      setStatusMessage('文件大小不能超过 10MB');
-      onUploadError('文件大小不能超过 10MB');
+      setStatusMessage('File size must not exceed 10MB');
+      onUploadError('File size must not exceed 10MB');
       return;
     }
 
     setIsUploading(true);
     setUploadStatus('idle');
-    setStatusMessage('正在上传文件...');
+    setStatusMessage('Uploading file...');
 
     try {
       const response = await GraphAPI.uploadJsonFile(file);
@@ -77,13 +77,13 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         onUploadError(response.error);
       } else if (response.data) {
         setUploadStatus('success');
-        setStatusMessage(`成功导入 ${response.data.nodes.length} 个节点和 ${response.data.relationships.length} 个关系`);
+        setStatusMessage(`Imported ${response.data.nodes.length} nodes and ${response.data.relationships.length} relationships`);
         onUploadSuccess(response.data);
       }
     } catch (error) {
       setUploadStatus('error');
-      setStatusMessage('上传失败，请重试');
-      onUploadError('上传失败，请重试');
+      setStatusMessage('Upload failed, please try again');
+      onUploadError('Upload failed, please try again');
     } finally {
       setIsUploading(false);
     }
@@ -127,13 +127,13 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           
           <div>
             <p className="text-lg font-medium text-gray-900">
-              {isUploading ? '正在上传...' : '上传 JSON 文件'}
+              {isUploading ? 'Uploading...' : 'Upload JSON file'}
             </p>
             <p className="text-sm text-gray-500 mt-1">
-              拖拽文件到此处或点击选择文件
+              Drag a file here, or click to choose one
             </p>
             <p className="text-xs text-gray-400 mt-1">
-              支持 JSON 格式，最大 10MB
+              JSON format, up to 10MB
             </p>
           </div>
         </div>

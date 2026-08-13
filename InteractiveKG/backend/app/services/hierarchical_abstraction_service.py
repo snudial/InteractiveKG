@@ -47,7 +47,7 @@ class HierarchicalAbstractionService:
             self.llm_service = LLMService(forced_config)
             logger.info(f"Initialized LLM service with provider: {LLMProvider.OPENAI_GPT4O_MINI}")
         else:
-            logger.error("无法获取LLM配置，层级抽象功能将不可用")
+            logger.error("Cannot load the LLM config; hierarchical abstraction will be unavailable")
 
     async def analyze_hierarchical_structure(self, graph_data: GraphDataModel,
                                            abstraction_level: int = 2,
@@ -469,7 +469,7 @@ Please respond in JSON format:
             logger.error(f"Error parsing semantic names: {e}")
             return {}
     def _fallback_static_analysis(self, graph_data: GraphDataModel, abstraction_level: int) -> Dict[str, Any]:
-        基于节点标签进行简单分组
+        """Simple grouping based on node labels."""
 
         if abstraction_level == 0:
             return self._create_full_view_result(graph_data)

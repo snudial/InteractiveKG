@@ -61,14 +61,14 @@ async def enhanced_problem_solving(request: EnhancedProblemSolveRequest):
                 graph_service = GraphService()
                 cleanup_result = graph_service.cleanup_service.auto_cleanup_after_kgot()
                 if cleanup_result and cleanup_result.get('cleanup_success'):
-                    logger.info(f"KGOT求解后自动清理成功: 删除了 {cleanup_result.get('successfully_deleted', 0)} 个重复关系")
+                    logger.info(f"Post-solve auto-cleanup succeeded: removed {cleanup_result.get('successfully_deleted', 0)} duplicate relationships")
                 elif cleanup_result:
-                    logger.warning(f"KGOT求解后自动清理部分成功: {cleanup_result}")
+                    logger.warning(f"Post-solve auto-cleanup partially succeeded: {cleanup_result}")
             except Exception as cleanup_error:
                 if cleanup_config.should_continue_on_error():
-                    logger.warning(f"KGOT求解后自动清理失败，但不影响主要功能: {str(cleanup_error)}")
+                    logger.warning(f"Post-solve auto-cleanup failed (main functionality unaffected): {str(cleanup_error)}")
                 else:
-                    logger.error(f"KGOT求解后自动清理失败: {str(cleanup_error)}")
+                    logger.error(f"Post-solve auto-cleanup failed: {str(cleanup_error)}")
                     raise cleanup_error
         return EnhancedProblemSolveResponse(
             answer=result.answer,
@@ -81,7 +81,7 @@ async def enhanced_problem_solving(request: EnhancedProblemSolveRequest):
             should_refresh_graph=result.kg_updates > 0
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"增强问题求解失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Enhanced problem solving failed: {str(e)}")
 @router.post("/pure-internal-retrieve", response_model=PureInternalRetrieveResponse)
 async def pure_internal_retrieval(request: PureInternalRetrieveRequest):
     try:
@@ -102,10 +102,10 @@ async def pure_internal_retrieval(request: PureInternalRetrieveRequest):
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"纯内部检索失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Pure internal retrieval failed: {str(e)}")
 @router.get("/status")
 async def get_enhanced_kgot_status():
-    获取增强KGOT服务状态
+    """Report the enhanced KGOT service status."""
     try:
 
         is_available = enhanced_kgot_service.llm_enabled
@@ -117,7 +117,7 @@ async def get_enhanced_kgot_status():
                 "enhanced_problem_solving": is_available,
                 "pure_internal_retrieval": is_available
             },
-            "message": "增强KGOT服务正常" if is_available else "LLM未启用，KGOT功能不可用"
+            "message": "Enhanced KGOT service is healthy" if is_available else "LLM not enabled; KGOT functionality unavailable"
         }
 
     except Exception as e:
@@ -128,7 +128,7 @@ async def get_enhanced_kgot_status():
                 "enhanced_problem_solving": False,
                 "pure_internal_retrieval": False
             },
-            "message": f"增强KGOT服务异常: {str(e)}"
+            "message": f"Enhanced KGOT service error: {str(e)}"
         }
 
 @router.post("/solve", response_model=EnhancedProblemSolveResponse)
@@ -148,13 +148,13 @@ async def get_backup_info():
         return {
             "success": True,
             "backup_info": backup_info,
-            "message": "备份信息获取成功" if backup_info else "暂无备份数据"
+            "message": "Backup info fetched" if backup_info else "No backup data yet"
         }
     except Exception as e:
         return {
             "success": False,
             "error": str(e),
-            "message": "获取备份信息失败"
+            "message": "Failed to fetch backup info"
         }
 @router.post("/backup/restore")
 async def restore_from_backup():
@@ -164,18 +164,18 @@ async def restore_from_backup():
         if success:
             return {
                 "success": True,
-                "message": "知识图谱数据恢复成功"
+                "message": "Knowledge graph data restored"
             }
         else:
             return {
                 "success": False,
-                "message": "知识图谱数据恢复失败，请检查备份数据"
+                "message": "Knowledge graph restore failed; check the backup data"
             }
     except Exception as e:
         return {
             "success": False,
             "error": str(e),
-            "message": "恢复操作异常"
+            "message": "Restore operation failed"
         }
 @router.post("/load-error-data", response_model=LoadErrorDataResponse)
 async def load_error_dataset(request: LoadErrorDataRequest):
@@ -188,7 +188,7 @@ async def load_error_dataset(request: LoadErrorDataRequest):
         dataset_file = f"{request.dataset_id}_dataset.json"
         dataset_path = Path(__file__).parent.parent.parent.parent / dataset_file
         if not dataset_path.exists():
-            raise HTTPException(status_code=404, detail=f"数据集文件不存在: {dataset_file}")
+            raise HTTPException(status_code=404, detail=f"Dataset file not found: {dataset_file}")
 
         with open(dataset_path, 'r', encoding='utf-8') as f:
             dataset = json.load(f)
@@ -220,7 +220,7 @@ async def load_error_dataset(request: LoadErrorDataRequest):
             dataset_id=request.dataset_id,
             nodes_loaded=nodes_loaded,
             error_nodes_count=error_nodes_count,
-            message=f"成功加载错误数据集 '{dataset['dataset_info']['name']}'，包含 {error_nodes_count} 个错误节点"
+            message=f"Loaded error dataset '{dataset['dataset_info']['name']}' with {error_nodes_count} error nodes"
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"加载错误数据集失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to load error dataset: {str(e)}")

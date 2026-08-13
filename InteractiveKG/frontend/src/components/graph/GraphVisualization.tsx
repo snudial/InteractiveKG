@@ -5,6 +5,7 @@ import cytoscape, { Core, NodeSingular, EdgeSingular } from 'cytoscape';
 import dagre from 'cytoscape-dagre';
 import coseBilkent from 'cytoscape-cose-bilkent';
 import { GraphData, NodeData, RelationshipData, CytoscapeData } from '@/types/graph';
+import { graphApi } from '@/lib/api';
 import { NodeTooltip } from '@/components/ui/NodeTooltip';
 import { RepresentativeNodeTooltip } from '@/components/ui/RepresentativeNodeTooltip';
 
@@ -338,16 +339,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     try {
       console.log(`Fetching community details for: ${communityId}, abstraction level: ${abstractionLevel}`);
 
-      const response = await fetch(
-        `http://localhost:8000/api/graph/community-detail?community_id=${encodeURIComponent(communityId)}&abstraction_level=${abstractionLevel}`
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ detail: response.statusText }));
-        throw new Error(errorData.detail || `Failed to fetch community details: ${response.statusText}`);
-      }
-
-      const communityDetail = await response.json();
+      const communityDetail = await graphApi.communityDetail<any>(communityId, abstractionLevel);
 
       
       const nodes: NodeData[] = communityDetail.nodes.map((node: any) => ({
@@ -464,7 +456,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
 
     
     let groupData: Record<string, string[]> = {};
-    let colorMapping: Record<string, string> = analysis.color_mapping || {};
+    const colorMapping: Record<string, string> = analysis.color_mapping || {};
 
     switch (mode) {
       case 'semantic':
@@ -719,6 +711,8 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
           },
         },
       ],
+      // cose-bilkent is a plugin layout, so its options are not covered by
+      // cytoscape's built-in BaseLayoutOptions type.
       layout: {
         name: 'cose-bilkent',
         animate: true,
@@ -738,7 +732,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
         gravityRangeCompound: 1.5,
         gravityCompound: 1.0,
         gravityRange: 3.8,
-      },
+      } as any,
       wheelSensitivity: 0.2,
       minZoom: 0.1,
       maxZoom: 3,
@@ -982,11 +976,11 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       
       if (!originalRel && edgeData.source && edgeData.target) {
         originalRel = data.relationships.find(r => {
-          const matchSource = r.start_node_id === edgeData.source || 
-                             r.source_id === edgeData.source ||
+          const matchSource = r.start_node_id === edgeData.source ||
+                             (r as any).source_id === edgeData.source ||
                              (r as any).source === edgeData.source;
-          const matchTarget = r.end_node_id === edgeData.target || 
-                             r.target_id === edgeData.target ||
+          const matchTarget = r.end_node_id === edgeData.target ||
+                             (r as any).target_id === edgeData.target ||
                              (r as any).target === edgeData.target;
           return matchSource && matchTarget;
         });

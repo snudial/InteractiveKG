@@ -28,10 +28,10 @@ class KGBackupService:
         self.db = db_connection
         self._current_backup: Optional[KGBackup] = None
 
-    async def create_backup(self, description: str = "自动备份") -> str:
+    async def create_backup(self, description: str = "automatic backup") -> str:
         try:
             backup_id = f"backup_{int(time.time())}"
-            logger.info(f"开始创建知识图谱备份: {backup_id}")
+            logger.info(f"Creating knowledge graph backup: {backup_id}")
 
             nodes_query = """
             MATCH (n)
@@ -65,16 +65,16 @@ class KGBackupService:
 
             self._current_backup = backup
 
-            logger.info(f"备份创建成功: {backup_id}, 节点数: {len(nodes)}, 关系数: {len(relationships)}")
+            logger.info(f"Backup created: {backup_id}, nodes: {len(nodes)}, relationships: {len(relationships)}")
             return backup_id
 
         except Exception as e:
-            logger.error(f"创建备份失败: {e}")
-            raise Exception(f"备份创建失败: {e}")
+            logger.error(f"Failed to create backup: {e}")
+            raise Exception(f"Backup creation failed: {e}")
 
     async def clear_database(self) -> bool:
         try:
-            logger.info("开始清空知识图谱数据库")
+            logger.info("Clearing the knowledge graph database")
 
 
             clear_query = "MATCH (n) DETACH DELETE n"
@@ -86,20 +86,20 @@ class KGBackupService:
             node_count = result[0]['count'] if result else 0
 
             if node_count == 0:
-                logger.info("数据库清空成功")
+                logger.info("Database cleared")
                 return True
             else:
-                logger.error(f"数据库清空失败，仍有 {node_count} 个节点")
+                logger.error(f"Database clear failed; {node_count} nodes remain")
                 return False
 
         except Exception as e:
-            logger.error(f"清空数据库失败: {e}")
+            logger.error(f"Failed to clear database: {e}")
             return False
 
     async def insert_new_data(self, nodes: List[Dict[str, Any]],
                             relationships: List[Dict[str, Any]]) -> bool:
         try:
-            logger.info(f"开始插入新数据: {len(nodes)} 个节点, {len(relationships)} 个关系")
+            logger.info(f"Inserting new data: {len(nodes)} nodes, {len(relationships)} relationships")
 
 
             for node in nodes:
@@ -130,7 +130,7 @@ class KGBackupService:
                     self.db.execute_query(create_query)
 
                 except Exception as e:
-                    logger.error(f"插入节点失败 {node.get('id', 'unknown')}: {e}")
+                    logger.error(f"Failed to insert node {node.get('id', 'unknown')}: {e}")
                     continue
 
 
@@ -143,7 +143,7 @@ class KGBackupService:
                     properties = rel.get('properties', {})
 
                     if not source_id or not target_id:
-                        logger.warning(f"跳过无效关系: source={source_id}, target={target_id}")
+                        logger.warning(f"Skipping invalid relationship: source={source_id}, target={target_id}")
                         continue
 
 
@@ -168,50 +168,50 @@ class KGBackupService:
                     self.db.execute_query(create_query)
 
                 except Exception as e:
-                    logger.error(f"插入关系失败 {rel.get('source', 'unknown')}->{rel.get('target', 'unknown')}: {e}")
+                    logger.error(f"Failed to insert relationship {rel.get('source', 'unknown')}->{rel.get('target', 'unknown')}: {e}")
                     continue
 
-            logger.info("新数据插入完成")
+            logger.info("New data inserted")
             return True
 
         except Exception as e:
-            logger.error(f"插入新数据失败: {e}")
+            logger.error(f"Failed to insert new data: {e}")
             return False
 
     async def restore_from_backup(self, backup_id: Optional[str] = None) -> bool:
 
         try:
             if not self._current_backup:
-                logger.error("没有可用的备份数据")
+                logger.error("No backup data available")
                 return False
 
             backup = self._current_backup
-            logger.info(f"开始从备份恢复数据: {backup.metadata.backup_id}")
+            logger.info(f"Restoring data from backup: {backup.metadata.backup_id}")
 
 
             if not await self.clear_database():
-                logger.error("清空数据库失败，无法恢复")
+                logger.error("Failed to clear database; cannot restore")
                 return False
 
 
             success = await self.insert_new_data(backup.nodes, backup.relationships)
 
             if success:
-                logger.info(f"数据恢复成功: {len(backup.nodes)} 个节点, {len(backup.relationships)} 个关系")
+                logger.info(f"Data restored: {len(backup.nodes)} nodes, {len(backup.relationships)} relationships")
             else:
-                logger.error("数据恢复失败")
+                logger.error("Data restore failed")
 
             return success
 
         except Exception as e:
-            logger.error(f"恢复数据失败: {e}")
+            logger.error(f"Failed to restore data: {e}")
             return False
 
     async def safe_update_with_new_data(self, new_nodes: List[Dict[str, Any]],
                                       new_relationships: List[Dict[str, Any]],
-                                      description: str = "智能求解更新") -> Dict[str, Any]:
+                                      description: str = "intelligent-solving update") -> Dict[str, Any]:
         try:
-            logger.info("开始安全更新知识图谱数据")
+            logger.info("Starting a safe knowledge graph update")
 
             validated_data = data_transformer.validate_and_fix_data({
                 'nodes': new_nodes,
@@ -224,32 +224,32 @@ class KGBackupService:
 
 
             if not await self.clear_database():
-                raise Exception("清空数据库失败")
+                raise Exception("Failed to clear database")
 
 
             if not await self.insert_new_data(new_nodes, new_relationships):
 
-                logger.error("插入新数据失败，尝试恢复备份")
+                logger.error("Failed to insert new data; attempting backup restore")
                 await self.restore_from_backup(backup_id)
-                raise Exception("插入新数据失败，已恢复原始数据")
+                raise Exception("Failed to insert new data; original data restored")
 
             result = {
                 'success': True,
                 'backup_id': backup_id,
                 'nodes_inserted': len(new_nodes),
                 'relationships_inserted': len(new_relationships),
-                'message': '知识图谱安全更新成功'
+                'message': 'Knowledge graph safely updated'
             }
 
-            logger.info(f"安全更新完成: {result}")
+            logger.info(f"Safe update finished: {result}")
             return result
 
         except Exception as e:
-            logger.error(f"安全更新失败: {e}")
+            logger.error(f"Safe update failed: {e}")
             return {
                 'success': False,
                 'error': str(e),
-                'message': '知识图谱安全更新失败'
+                'message': 'Knowledge graph safe update failed'
             }
 
     def get_current_backup_info(self) -> Optional[Dict[str, Any]]:

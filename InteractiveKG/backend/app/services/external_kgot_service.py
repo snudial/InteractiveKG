@@ -37,21 +37,55 @@ class ExternalKGOTService:
         self._llm_config = None
         self._llm_enabled = None
 
-        current_file_dir = os.path.dirname(__file__)
-        backend_dir = os.path.dirname(os.path.dirname(current_file_dir))
-        nokgot_dir = os.path.dirname(backend_dir)
-        workspace_root = os.path.dirname(nokgot_dir)
-        self.kgot_project_root = os.path.join(workspace_root, "knowledge-graph-of-thoughts")
+        self.kgot_project_root = self._resolve_kgot_project_root()
+        self.available = os.path.isdir(self.kgot_project_root)
+
+        if not self.available:
+            # Knowledge Graph of Thoughts is an external dependency that the user clones
+            # separately. Without it the KGOT endpoints are disabled, but the rest of the
+            # API (graph editing, abstraction, explanations) must still start and serve.
+            logger.warning(
+                "KGOT project not found at %s - KGOT reasoning endpoints are disabled. "
+                "Clone https://github.com/spcl/knowledge-graph-of-thoughts and set "
+                "KGOT_PROJECT_ROOT to its path to enable them.",
+                self.kgot_project_root,
+            )
+            return
 
         self._setup_kgot_environment()
 
         if self.kgot_project_root not in sys.path:
             sys.path.insert(0, self.kgot_project_root)
 
-        if not os.path.exists(self.kgot_project_root):
-            raise FileNotFoundError(f"外部 KGOT 项目路径不存在: {self.kgot_project_root}")
-        logger.info(f"外部 KGOT 项目路径: {self.kgot_project_root}")
-        logger.info(f"已配置外部 KGOT 项目使用数据库: {self.db.uri} (用户: {self.db.username})")
+        logger.info("External KGOT project root: %s", self.kgot_project_root)
+        logger.info(
+            "External KGOT project configured to use database %s (user: %s)",
+            self.db.uri,
+            self.db.username,
+        )
+
+    @staticmethod
+    def _resolve_kgot_project_root() -> str:
+        """Locate the external KGOT checkout.
+
+        Honours KGOT_PROJECT_ROOT when set; otherwise falls back to a
+        `knowledge-graph-of-thoughts` directory sitting next to this repository.
+        """
+        configured = os.getenv("KGOT_PROJECT_ROOT")
+        if configured:
+            return os.path.abspath(os.path.expanduser(configured))
+
+        backend_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        repo_root = os.path.dirname(os.path.dirname(backend_dir))
+        return os.path.join(repo_root, "knowledge-graph-of-thoughts")
+
+    def _unavailable_message(self) -> str:
+        """Explain how to install the external KGOT dependency."""
+        return (
+            f"KGOT project not available at {self.kgot_project_root}. Clone "
+            "https://github.com/spcl/knowledge-graph-of-thoughts and set "
+            "KGOT_PROJECT_ROOT to its path."
+        )
     def _setup_kgot_environment(self):
         os.environ['NEO4J_URI'] = self.db.uri
         os.environ['NEO4J_USER'] = self.db.username
@@ -59,7 +93,7 @@ class ExternalKGOTService:
 
         os.environ['PYTHON_EXECUTOR_URI'] = "http://localhost:16000/run"
 
-        logger.info(f"设置外部 KGOT 环境变量:")
+        logger.info("Setting external KGOT environment variables:")
         logger.info(f"  NEO4J_URI: {os.environ['NEO4J_URI']}")
         logger.info(f"  NEO4J_USER: {os.environ['NEO4J_USER']}")
         logger.info(f"  NEO4J_PASSWORD: {'*' * len(os.environ['NEO4J_PASSWORD'])}")
@@ -80,9 +114,9 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
 """
             with open(kgot_env_file, 'w') as f:
                 f.write(env_content)
-            logger.info(f"已更新外部 KGOT 项目的 .env 文件: {kgot_env_file}")
+            logger.info(f"Updated the external KGOT project .env file: {kgot_env_file}")
         except Exception as e:
-            logger.warning(f"更新外部 KGOT 项目 .env 文件失败: {e}")
+            logger.warning(f"Failed to update the external KGOT project .env file: {e}")
 
     def _get_llm_config(self):
 
@@ -93,9 +127,9 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
             self._llm_config = get_llm_config()
             self._llm_enabled = is_llm_enabled()
             if self._llm_config:
-                logger.info(f"LLM配置已加载: {self._llm_config.provider}, 模型: {self._llm_config.model_name}")
+                logger.info(f"LLM config loaded: {self._llm_config.provider}, model: {self._llm_config.model_name}")
             else:
-                logger.warning("LLM配置未找到或已禁用")
+                logger.warning("LLM config missing or disabled")
         return self._llm_config
     def _is_llm_enabled(self):
 
@@ -109,7 +143,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
 
         llm_config = self._get_llm_config()
         if not llm_config:
-            raise ValueError("LLM 配置未找到")
+            raise ValueError("LLM config not found")
 
 
         config_data = {
@@ -127,14 +161,14 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
         json.dump(config_data, temp_file, indent=2)
         temp_file.close()
 
-        logger.info(f"创建临时 LLM 配置文件: {temp_file.name}")
+        logger.info(f"Created temporary LLM config file: {temp_file.name}")
         return temp_file.name
     def _create_statistics_file(self) -> str:
 
         temp_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
         temp_file.write('{}')
         temp_file.close()
-        logger.info(f"创建临时统计文件: {temp_file.name}")
+        logger.info(f"Created temporary statistics file: {temp_file.name}")
         return temp_file.name
     def _create_tools_config_file(self) -> str:
 
@@ -169,8 +203,8 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
         os.makedirs(os.path.dirname(additional_config_file_path), exist_ok=True)
         with open(additional_config_file_path, 'w') as f:
             json.dump(additional_config_data, f, indent=2)
-        logger.info(f"创建工具配置文件: {config_file_path}")
-        logger.info(f"创建附加工具配置文件: {additional_config_file_path}")
+        logger.info(f"Created tool config file: {config_file_path}")
+        logger.info(f"Created additional tool config file: {additional_config_file_path}")
         return config_file_path
     def _cleanup_temp_files(self, *file_paths):
 
@@ -178,19 +212,27 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
             try:
                 if os.path.exists(file_path):
                     os.unlink(file_path)
-                    logger.debug(f"清理临时文件: {file_path}")
+                    logger.debug(f"Cleaned up temporary file: {file_path}")
             except Exception as e:
-                logger.warning(f"清理临时文件失败 {file_path}: {e}")
+                logger.warning(f"Failed to clean up temporary file {file_path}: {e}")
     async def enhanced_problem_solving(self, problem: str, learn_from_solution: bool = True,
                                      abstraction_level: int = None, abstraction_mode: str = "semantic") -> KGOTSolveResult:
         start_time = time.time()
+
+        if not self.available:
+            return KGOTSolveResult(
+                answer="",
+                execution_time=time.time() - start_time,
+                success=False,
+                error=self._unavailable_message(),
+            )
 
         if not self.llm_enabled:
             return KGOTSolveResult(
                 answer="",
                 execution_time=time.time() - start_time,
                 success=False,
-                error="LLM 未启用，无法使用智能求解功能"
+                error="LLM is not enabled; intelligent solving is unavailable"
             )
 
         llm_config_file = None
@@ -212,7 +254,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                 if not self.db.driver:
                     self.db.connect()
 
-                logger.info(f"使用数据库连接: {self.db.uri} (用户: {self.db.username})")
+                logger.info(f"Using database connection: {self.db.uri} (user: {self.db.username})")
 
                 controller = Controller(
                     neo4j_uri=self.db.uri,
@@ -227,7 +269,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                     config_llm_path=llm_config_file,
                     max_iterations=5
                 )
-                logger.info("外部 KGOT queryRetrieve 控制器初始化成功")
+                logger.info("External KGOT queryRetrieve controller initialized")
             finally:
 
                 os.chdir(original_cwd)
@@ -273,6 +315,14 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                                     abstraction_mode: str = "semantic", view_mode: str = "detailed") -> KGOTRetrieveResult:
         start_time = time.time()
 
+        if not self.available:
+            return KGOTRetrieveResult(
+                answer="",
+                execution_time=time.time() - start_time,
+                success=False,
+                error=self._unavailable_message(),
+            )
+
         if not self.llm_enabled:
             return KGOTRetrieveResult(
                 answer="",
@@ -301,14 +351,14 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                 if not self.db.driver:
                     self.db.connect()
 
-                logger.info(f"使用数据库连接: {self.db.uri} (用户: {self.db.username})")
+                logger.info(f"Using database connection: {self.db.uri} (user: {self.db.username})")
 
-                logger.info(f"预先初始化LLM配置: {llm_config_file}")
+                logger.info(f"Pre-initialized LLM config: {llm_config_file}")
                 init_llm_utils(llm_config_file, 1)
 
 
                 try:
-                    logger.info(f"正在初始化 directRetrieve 控制器（纯内部检索模式，禁用所有外部工具）...")
+                    logger.info("Initializing the directRetrieve controller (pure internal retrieval, all external tools disabled)...")
                     logger.info(f"  - Neo4j URI: {self.db.uri}")
                     logger.info(f"  - Python Executor URI: http://localhost:16000/run")
                     logger.info(f"  - LLM Config: {llm_config_file}")
@@ -337,22 +387,22 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                         controller.llm_execution_temperature,
                         controller.config_llm_path
                     )
-                    logger.info("✅ directRetrieve 控制器初始化成功（所有外部工具已禁用）")
+                    logger.info("✅ directRetrieve controller initialized (all external tools disabled)")
                 except SystemExit as e:
 
-                    logger.error(f"❌ Controller 初始化失败，SystemExit 被触发: {e}")
-                    logger.error("这通常是因为 Python Docker 容器连接测试失败")
-                    logger.error("请检查:")
-                    logger.error("  1. Docker 容器是否在运行: docker ps | grep python")
-                    logger.error("  2. 端口 16000 是否可访问: curl -X POST http://localhost:16000/run")
-                    logger.error("  3. 容器日志: docker logs python")
+                    logger.error(f"❌ Controller initialization failed, SystemExit raised: {e}")
+                    logger.error("This usually means the Python Docker container connectivity test failed")
+                    logger.error("Please check:")
+                    logger.error("  1. Is the Docker container running: docker ps | grep python")
+                    logger.error("  2. Is port 16000 reachable: curl -X POST http://localhost:16000/run")
+                    logger.error("  3. Container logs: docker logs python")
                     raise Exception(f"Failed to initialize KGOT Controller. Docker connection test failed. Please ensure Docker container is running on port 16000. SystemExit code: {e.code}")
-                logger.info("外部 KGOT directRetrieve 控制器初始化成功")
+                logger.info("External KGOT directRetrieve controller initialized")
             finally:
 
                 os.chdir(original_cwd)
 
-            logger.info(f"开始纯内部检索: {query}")
+            logger.info(f"Starting pure internal retrieval: {query}")
 
             def pure_retrieve_logic():
                 import re
@@ -361,25 +411,25 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
 
 
                     all_entities_and_relationships = controller.graph.get_current_graph_state()
-                    logger.info(f"原始数据库状态（包含最新编辑）: {all_entities_and_relationships[:200]}...")
+                    logger.info(f"Raw database state (including latest edits): {all_entities_and_relationships[:200]}...")
 
 
                     if view_mode == "community" and abstraction_level is not None and abstraction_level > 0:
 
 
-                        logger.info(f"🔍 社群视图 - 过滤数据以匹配抽象层级 {abstraction_level} - 返回 Community 内部的原始节点")
+                        logger.info(f"🔍 Community view - filtering data to abstraction level {abstraction_level} - returning the original nodes inside each community")
                         existing_entities_and_relationships = self._filter_for_community_members(
                             all_entities_and_relationships, abstraction_level
                         )
-                        logger.info(f"✅ 过滤后的社群成员数据: {existing_entities_and_relationships[:300]}...")
+                        logger.info(f"✅ Filtered community member data: {existing_entities_and_relationships[:300]}...")
                     else:
 
 
-                        logger.info(f"🔍 {'详细视图' if view_mode == 'detailed' else 'Level 0'} - 使用原始数据（排除 Community 节点）")
+                        logger.info(f"🔍 {'Detailed view' if view_mode == 'detailed' else 'Level 0'} - using raw data (excluding Community nodes)")
                         existing_entities_and_relationships = self._filter_exclude_communities(
                             all_entities_and_relationships
                         )
-                        logger.info(f"✅ 过滤后的原始数据: {existing_entities_and_relationships[:300]}...")
+                        logger.info(f"✅ Filtered raw data: {existing_entities_and_relationships[:300]}...")
 
 
 
@@ -397,7 +447,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                         is_empty = True
 
                     if is_empty:
-                        logger.warning(f"数据库为空或过滤后无数据，返回空结果")
+                        logger.warning("Database empty or no data left after filtering; returning an empty result")
                         return "No relevant information found in the database", 1
 
                     from kgot.controller.neo4j.directRetrieve.llm_invocation_handle import define_retrieve_query
@@ -408,7 +458,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                         "",
                         controller.usage_statistics
                     )
-                    logger.info(f"生成的检索查询: {retrieve_query}")
+                    logger.info(f"Generated retrieval query: {retrieve_query}")
 
 
                     solutions = controller._perform_retrieve_branch(
@@ -416,7 +466,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                         existing_entities_and_relationships,
                         retrieve_query
                     )
-                    logger.info(f"检索到的解决方案: {solutions}")
+                    logger.info(f"Retrieved solutions: {solutions}")
 
 
 
@@ -459,7 +509,7 @@ RDF4J_WRITE_URI=http://localhost:8080/rdf4j-server/repositories/kgot/statements
                                 controller.llm_planning, query, str(solutions), array_parsed_solutions, controller.usage_statistics
                             )
 
-                    logger.info(f"✅ 纯内部检索完成，答案基于用户编辑后的最新图谱数据")
+                    logger.info("✅ Pure internal retrieval finished; the answer reflects the latest user-edited graph data")
                     return solution, 1
                 except Exception as e:
                     logger.error(f"Error during pure internal retrieval: {e}")

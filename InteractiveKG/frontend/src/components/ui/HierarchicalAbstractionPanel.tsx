@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { graphApi } from '@/lib/api';
 
 interface HierarchicalAnalysis {
   abstraction_method: string;
@@ -121,11 +122,7 @@ export const HierarchicalAbstractionPanel: React.FC<HierarchicalAbstractionPanel
         use_llm: 'true' 
       });
 
-      const response = await fetch(`http://localhost:8000/api/graph/hierarchical-analysis?${params}`);
-      if (!response.ok) {
-        throw new Error('Displaying original data');
-      }
-      const analysisData: HierarchicalAnalysis = await response.json();
+      const analysisData = await graphApi.hierarchicalAnalysis<HierarchicalAnalysis>(params);
 
       
       setPendingAnalysis(analysisData);

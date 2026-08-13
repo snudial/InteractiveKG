@@ -340,7 +340,7 @@ class GraphService:
                 )
 
                 if 'display_name' in update_request.properties:
-                    logger.info(f"用户手动更新节点 {node_id} 的display_name为: {update_request.properties['display_name']}")
+                    logger.info(f"User manually set display_name of node {node_id} to: {update_request.properties['display_name']}")
                 else:
 
                     asyncio.create_task(auto_display_name_processor.process_data_change_event([internal_uid]))
@@ -809,22 +809,22 @@ class GraphService:
         abstraction_levels_data = json_data.get('abstraction_levels', {}) if has_abstraction_levels else None
 
         if 'original_graph' in json_data:
-            logger.info("检测到示例数据格式，提取 original_graph...")
+            logger.info("Sample-data format detected; extracting original_graph...")
             graph_data = json_data['original_graph']
         else:
             graph_data = json_data
 
-        logger.info("开始验证和预处理上传的数据...")
+        logger.info("Validating and preprocessing uploaded data...")
         validated_data, validation_report = data_validation_service.validate_and_preprocess(graph_data)
 
-        logger.info(f"数据验证完成: {validation_report.statistics}")
+        logger.info(f"Data validation finished: {validation_report.statistics}")
         if validation_report.errors:
-            logger.error(f"验证错误: {validation_report.errors}")
-            raise ValueError(f"数据验证失败: {'; '.join(validation_report.errors)}")
+            logger.error(f"Validation errors: {validation_report.errors}")
+            raise ValueError(f"Data validation failed: {'; '.join(validation_report.errors)}")
         if validation_report.warnings:
-            logger.warning(f"验证警告: {validation_report.warnings}")
+            logger.warning(f"Validation warnings: {validation_report.warnings}")
         if validation_report.fixes_applied:
-            logger.info(f"应用的修复: {len(validation_report.fixes_applied)} 项")
+            logger.info(f"Fixes applied: {len(validation_report.fixes_applied)}")
 
         self.clear_all_data()
 
@@ -833,7 +833,7 @@ class GraphService:
 
         created_nodes = []
         id_mapping = {}
-        logger.info(f"开始创建 {len(nodes_data)} 个节点...")
+        logger.info(f"Creating {len(nodes_data)} nodes...")
         for i, node_data in enumerate(nodes_data):
 
             labels = node_data.get('labels', ['Entity'])
@@ -851,10 +851,10 @@ class GraphService:
             if "name" in properties:
                 name_key = f"{properties['name'].lower()}_id"
                 id_mapping[name_key] = created_node.id
-        logger.info(f"成功创建 {len(created_nodes)} 个节点")
+        logger.info(f"Created {len(created_nodes)} nodes")
 
         created_relationships = []
-        logger.info(f"开始创建 {len(relationships_data)} 个关系...")
+        logger.info(f"Creating {len(relationships_data)} relationships...")
         for rel_data in relationships_data:
 
             start_id = rel_data.get('start_node_id')
@@ -874,19 +874,19 @@ class GraphService:
                 created_rel = self.create_relationship(rel_request)
                 created_relationships.append(created_rel)
             except Exception as e:
-                logger.error(f"创建关系失败 ({start_id} -> {end_id}): {str(e)}")
+                logger.error(f"Failed to create relationship ({start_id} -> {end_id}): {str(e)}")
                 continue
-        logger.info(f"成功创建 {len(created_relationships)} 个关系")
+        logger.info(f"Created {len(created_relationships)} relationships")
 
         if created_nodes:
             node_ids = [node.id for node in created_nodes]
             asyncio.create_task(auto_display_name_processor.process_data_change_event(node_ids))
-            logger.info(f"批量导入完成，已触发 {len(node_ids)} 个节点的display_name生成")
+            logger.info(f"Bulk import finished; display_name generation triggered for {len(node_ids)} nodes")
 
         if abstraction_levels_data:
-            logger.info("开始导入预定义的抽象层级数据...")
+            logger.info("Importing predefined abstraction-level data...")
             await self._import_abstraction_levels(abstraction_levels_data, id_mapping)
-            logger.info("预定义抽象层级数据导入完成")
+            logger.info("Predefined abstraction-level data imported")
         return GraphDataModel(nodes=created_nodes, relationships=created_relationships)
     async def _import_abstraction_levels(self, abstraction_levels: Dict[str, Any], id_mapping: Dict[str, str]):
         with self.db.get_session() as session:
@@ -897,7 +897,7 @@ class GraphService:
                 level_num = int(level_key.split('_')[1])
                 communities = level_data.get('communities', [])
                 relationships = level_data.get('relationships', [])
-                logger.info(f"导入 {level_key}: {len(communities)} 个社群, {len(relationships)} 个关系")
+                logger.info(f"Importing {level_key}: {len(communities)} communities, {len(relationships)} relationships")
 
                 for community in communities:
                     community_id = community['id']
@@ -981,7 +981,7 @@ class GraphService:
                                rel_type=rel_type,
                                weight=weight,
                                level=level_num)
-                logger.info(f"{level_key} 导入完成")
+                logger.info(f"{level_key} imported")
     async def _get_predefined_abstraction(self, abstraction_level: int) -> Optional[Dict[str, Any]]:
         if abstraction_level == 0:
 
@@ -1368,10 +1368,10 @@ class GraphService:
 
         predefined_result = await self._get_predefined_abstraction(abstraction_level)
         if predefined_result:
-            logger.info(f"使用预定义的抽象层级数据 (level {abstraction_level})")
+            logger.info(f"Using predefined abstraction-level data (level {abstraction_level})")
             return predefined_result
 
-        logger.info(f"未找到预定义数据，使用 Leiden 算法动态计算 (level {abstraction_level})")
+        logger.info(f"No predefined data found; computing dynamically with the Leiden algorithm (level {abstraction_level})")
         graph_data = await self.get_all_graph_data()
 
         if use_llm and self.llm_enabled:
@@ -1387,7 +1387,7 @@ class GraphService:
             return await self.hierarchical_service.analyze_hierarchical_structure(
                 graph_data, abstraction_level, mode, query_context
             )
-    async def analyze_enhanced_abstraction(self, domain: str = "通用", abstraction_level: int = 3) -> Dict[str, Any]:
+    async def analyze_enhanced_abstraction(self, domain: str = "general", abstraction_level: int = 3) -> Dict[str, Any]:
         try:
             graph_data = await self.get_all_graph_data()
             return self.enhanced_service.analyze_domain_specific_hierarchy(
@@ -1398,7 +1398,7 @@ class GraphService:
             return {
                 "error": str(e),
                 "enhanced_method": "domain_aware_hierarchical_abstraction",
-                "detected_domain": "未知",
+                "detected_domain": "unknown",
                 "active_domain": domain,
                 "abstraction_levels": abstraction_level,
                 "domain_hierarchy": {},
@@ -1408,7 +1408,7 @@ class GraphService:
                 "color_mapping": {},
                 "research_insights": {}
             }
-    def validate_reasoning(self, reasoning_query: str, domain: str = "通用") -> Dict[str, Any]:
+    def validate_reasoning(self, reasoning_query: str, domain: str = "general") -> Dict[str, Any]:
         try:
             graph_data = self.get_all_graph_data()
             return self.reasoning_service.validate_reasoning_process(
@@ -1418,16 +1418,16 @@ class GraphService:
             print(f"Error in reasoning validation: {e}")
             return {
                 "error": str(e),
-                "推理验证方法": "multi_path_validation",
-                "查询": reasoning_query,
-                "领域": domain,
-                "推理路径": [],
-                "路径验证结果": {},
-                "一致性检查": {},
-                "可信度评分": {"综合可信度": 0.0, "是否可信": False},
-                "错误分析": {"严重程度": "未知"},
-                "修正建议": [],
-                "验证总结": "验证过程出现错误"
+                "validation_method": "multi_path_validation",
+                "query": reasoning_query,
+                "domain": domain,
+                "reasoning_paths": [],
+                "path_validations": {},
+                "consistency_check": {},
+                "credibility_score": {"overall_credibility": 0.0, "is_credible": False},
+                "error_analysis": {"severity": "unknown"},
+                "correction_suggestions": [],
+                "validation_summary": "Validation failed with an error"
             }
     async def analyze_property_schema(self) -> Dict[str, Any]:
 

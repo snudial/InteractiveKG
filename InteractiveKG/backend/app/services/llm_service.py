@@ -32,7 +32,7 @@ class LLMService:
         if self.config.provider == LLMProvider.OPENAI_GPT4O_MINI:
 
             if self.config.model_name and "gpt-4o-mini" not in self.config.model_name:
-                logger.warning(f"强制覆盖模型 '{self.config.model_name}' 为 'gpt-4o-mini-2024-07-18'")
+                logger.warning(f"Overriding model '{self.config.model_name}' with 'gpt-4o-mini-2024-07-18'")
                 self.config.model_name = "gpt-4o-mini-2024-07-18"
             self.client = httpx.AsyncClient(
                 base_url="https://api.openai.com/v1",
@@ -41,7 +41,7 @@ class LLMService:
             )
         else:
 
-            raise ValueError(f"不支持的LLM提供商: {self.config.provider}. 只允许使用 GPT-4o-mini")
+            raise ValueError(f"Unsupported LLM provider: {self.config.provider}. Only GPT-4o-mini is allowed")
 
     def _generate_cache_key(self, data: str, abstraction_level: int, mode: str) -> str:
 
