@@ -22,6 +22,22 @@
   }
 }
 
+/* Presentation scaling: all sizing is rem-based, so raising the root font
+   size on large displays grows the whole UI (panels, spacing, and type)
+   proportionally. This keeps full-screen captures legible - important for a
+   paper artifact where a single screenshot must convey the system. */
+@media (min-width: 1800px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 2300px) {
+  html {
+    font-size: 21px;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

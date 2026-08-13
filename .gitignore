@@ -42,3 +42,6 @@ Thumbs.db
 
 # Paper drafts/PDFs must never be committed
 *.pdf
+
+# Raw screenshots dropped at the repo root stay local (curated copies live in docs/images)
+/Screenshot*.png

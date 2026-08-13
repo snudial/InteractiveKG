@@ -8,6 +8,8 @@
 
 [Paper](https://doi.org/10.1177/14738716261435574) · [Citation](#citation)
 
+![The InteractiveKG interface: hierarchical analysis (left), the reasoning graph canvas (center), and the study guide assistant (right)](docs/images/interactivekg-ui.png)
+
 ## Overview
 
 Large Language Models (LLMs) are increasingly used to support complex reasoning tasks, yet their fluent textual explanations often obscure underlying assumptions and intermediate reasoning steps, making it difficult for users to verify correctness or confidently rely on the results. InteractiveKG addresses this gap by externalizing LLM-generated reasoning as persistent, editable knowledge graphs, enabling users to inspect, correct, and iteratively refine reasoning by directly manipulating nodes and edges, adjusting abstraction levels, and accessing contextual explanations within a unified human-in-the-loop workflow.
@@ -18,6 +20,7 @@ Large Language Models (LLMs) are increasingly used to support complex reasoning 
 - Transforms LLM-generated reasoning into interactive knowledge graphs
 - Presents entities, relations, and inferred connections as node-link diagrams
 - Enables users to examine the structure of reasoning processes beyond linear text
+
 
 ### 2. Interactive Graph Refinement
 - Direct manipulation of nodes and edges for correction and refinement
@@ -32,6 +35,7 @@ Large Language Models (LLMs) are increasingly used to support complex reasoning 
 - Four fixed abstraction levels for transitioning from detailed to global views
 - Community View and Detailed View for complementary exploration
 
+
 ### 4. Context-Aware Node Explanation
 - On-demand semantic and reasoning explanations for individual nodes
 - Contextual interpretations based on local graph structure
@@ -44,6 +48,7 @@ only in their write policy:
   extracted entities and relations back to the shared graph state
 - **Internal Retrieval Mode**: read-only — generates responses based solely on the
   existing knowledge graph, so every claim can be traced back to a user-inspected structure
+
 
 ## Installation and Setup
 
