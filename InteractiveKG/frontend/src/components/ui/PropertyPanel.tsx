@@ -196,7 +196,7 @@ export const PropertyPanel: React.FC<PropertyPanelProps> = ({
       {}
       <div className="p-4 space-y-8">
         {}
-        <div className="bg-blue-50 p-4 rounded-lg">
+        <div className="bg-blue-50 p-4 rounded-xl">
           <h3 className="text-base font-semibold text-gray-900 mb-4">Property Information</h3>
           {editMode ? (
             <SimplePropertyEditor
@@ -206,7 +206,14 @@ export const PropertyPanel: React.FC<PropertyPanelProps> = ({
             />
           ) : (
             <div className="space-y-3">
-              {Object.entries(formData.properties || {}).map(([key, value]) => (
+              {Object.entries(formData.properties || {})
+                .filter(([key, value]) =>
+                  key !== '_internal_uid' &&
+                  // display_name is a system-generated label; only show it when
+                  // it actually differs from the source name property
+                  !(key === 'display_name' && value === (formData.properties || {}).name)
+                )
+                .map(([key, value]) => (
                 <div key={key} className="bg-white p-3 rounded border border-blue-200">
                   <div className="flex flex-col space-y-1">
                     <span className="text-sm font-semibold text-gray-800 capitalize">
@@ -232,7 +239,6 @@ export const PropertyPanel: React.FC<PropertyPanelProps> = ({
               <NodeExplanationPanel
                 node={selectedNode}
                 connectedNodes={getConnectedNodes(selectedNode.id)}
-                className="border-t border-gray-200 pt-4"
               />
             </div>
           )}

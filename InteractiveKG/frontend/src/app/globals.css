@@ -28,13 +28,13 @@
    paper artifact where a single screenshot must convey the system. */
 @media (min-width: 1800px) {
   html {
-    font-size: 18px;
+    font-size: 20px;
   }
 }
 
 @media (min-width: 2300px) {
   html {
-    font-size: 21px;
+    font-size: 24px;
   }
 }
 

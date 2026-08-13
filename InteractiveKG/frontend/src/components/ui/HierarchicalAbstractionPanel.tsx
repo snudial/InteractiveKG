@@ -88,7 +88,7 @@ export const HierarchicalAbstractionPanel: React.FC<HierarchicalAbstractionPanel
   detectionMode = false,
   refreshTrigger = 0
 }) => {
-  const [abstractionLevel, setAbstractionLevel] = useState(0); 
+  const [abstractionLevel, setAbstractionLevel] = useState(1); 
   const [showFullView, setShowFullView] = useState(false);
   const [viewMode, setViewMode] = useState<'community' | 'detailed'>('detailed'); 
   const [isAnalyzing, setIsAnalyzing] = useState(false);

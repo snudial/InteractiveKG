@@ -564,9 +564,14 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    
+
     const currentData = getCurrentViewData();
     const cytoscapeData = convertToCytoscapeData(currentData);
+
+    // Cytoscape draws in raw pixels, so it ignores the root-font presentation
+    // scaling from globals.css; mirror that scale here so node/edge labels grow
+    // with the rest of the UI on large displays.
+    const uiScale = (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16) / 16;
 
     cyRef.current = cytoscape({
       container: containerRef.current,
@@ -583,14 +588,14 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
             'text-valign': 'center',
             'text-halign': 'center',
             'color': '#FFFFFF',
-            'font-size': '12px',
+            'font-size': `${Math.round(12 * uiScale)}px`,
             'font-weight': 'bold',
-            'width': '60px',
-            'height': '60px',
+            'width': `${Math.round(60 * uiScale)}px`,
+            'height': `${Math.round(60 * uiScale)}px`,
             'border-width': '2px',
             'border-color': 'data(color)',
             'text-wrap': 'wrap',
-            'text-max-width': '80px',
+            'text-max-width': `${Math.round(80 * uiScale)}px`,
             'text-outline-width': '2px',
             'text-outline-color': '#000000',
           },
@@ -633,10 +638,10 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
 
               return label || '';
             },
-            'font-size': '10px',
+            'font-size': `${Math.round(10 * uiScale)}px`,
             'color': '#374151',
             'text-rotation': 'autorotate',
-            'text-margin-y': -10,
+            'text-margin-y': -10 * uiScale,
             'opacity': (ele: any) => {
               return getEdgeOpacity(ele);
             },
@@ -677,6 +682,11 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       wheelSensitivity: 0.2,
       minZoom: 0.1,
       maxZoom: 3,
+    });
+
+    // Same fit-after-settle for the initial layout run.
+    cyRef.current.one('layoutstop', () => {
+      cyRef.current?.fit(undefined, 40);
     });
 
     
@@ -1062,7 +1072,7 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     ]);
 
     
-    cyRef.current.layout({
+    const relayout = cyRef.current.layout({
       name: 'cose-bilkent',
       animate: true,
       animationDuration: 800,
@@ -1070,14 +1080,14 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       randomize: false,
       idealEdgeLength: 120,
       nodeRepulsion: 5000,
-    } as any).run();
+    } as any);
 
-    
-    setTimeout(() => {
-      if (cyRef.current) {
-        cyRef.current.fit(undefined, 40);
-      }
-    }, 100);
+    // Fit only after the animated layout has settled - fitting on a timer
+    // captured mid-animation positions and left the graph huddled in a corner.
+    relayout.one('layoutstop', () => {
+      cyRef.current?.fit(undefined, 40);
+    });
+    relayout.run();
 
   }, [viewState, selectedCommunityId, analysisVersion, supportsTwoStageView, singleCommunityData, data, hierarchicalAnalysis, abstractionLevel]);
 

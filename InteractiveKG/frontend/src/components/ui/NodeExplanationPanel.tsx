@@ -76,7 +76,7 @@ const NodeExplanationPanel: React.FC<NodeExplanationPanelProps> = ({
   return (
     <div
       id="node-explanation-panel"
-      className={`${modalMode ? '' : 'bg-white border border-gray-200 rounded-lg shadow-sm'} ${className}`}
+      className={`${modalMode ? '' : 'bg-white border border-gray-200 rounded-xl overflow-hidden'} ${className}`}
     >
       {}
       {!modalMode && (
@@ -119,11 +119,11 @@ const NodeExplanationPanel: React.FC<NodeExplanationPanelProps> = ({
 
       {}
       <div className="p-4 space-y-3">
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <button
             onClick={() => handleExplain('semantic')}
             disabled={isLoading}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center justify-center gap-2 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading && explanationType === 'semantic' ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -136,7 +136,7 @@ const NodeExplanationPanel: React.FC<NodeExplanationPanelProps> = ({
           <button
             onClick={() => handleExplain('reasoning')}
             disabled={isLoading}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center justify-center gap-2 px-3 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading && explanationType === 'reasoning' ? (
               <Loader2 className="w-4 h-4 animate-spin" />

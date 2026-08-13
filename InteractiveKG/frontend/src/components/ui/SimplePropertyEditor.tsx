@@ -19,7 +19,11 @@ export const SimplePropertyEditor: React.FC<SimplePropertyEditorProps> = ({
 
   
   const getAvailableProperties = () => {
-    return Object.keys(properties).filter(key => key !== 'id');
+    return Object.keys(properties).filter(key =>
+      key !== 'id' &&
+      key !== '_internal_uid' &&
+      !(key === 'display_name' && properties[key] === properties['name'])
+    );
   };
 
   

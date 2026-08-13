@@ -27,7 +27,7 @@ export default function Home() {
   const [isHierarchicalAnalyzing, setIsHierarchicalAnalyzing] = useState(false); 
   const [useHierarchicalView, setUseHierarchicalView] = useState(false);
   const [hierarchicalViewMode] = useState<'unified'>('unified');
-  const [hierarchicalAbstractionLevel, setHierarchicalAbstractionLevel] = useState(0);
+  const [hierarchicalAbstractionLevel, setHierarchicalAbstractionLevel] = useState(1);
   const [showFullView, setShowFullView] = useState(false);
   const [hierarchicalRefreshTrigger, setHierarchicalRefreshTrigger] = useState(0); 
   const [visibleNodeIds, setVisibleNodeIds] = useState<string[]>([]);
@@ -458,7 +458,7 @@ export default function Home() {
                   <div className="h-8 w-8 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
                     <BarChart3 className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900">Hierarchical Analysis</h3>
+                  <h3 className="text-base font-semibold text-gray-900">Hierarchical Analysis</h3>
                 </div>
               </div>
               <div className="p-5">
@@ -484,7 +484,7 @@ export default function Home() {
                   <div className="h-8 w-8 bg-yellow-500 rounded-lg flex items-center justify-center">
                     <Settings className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900">Knowledge Reasoning</h3>
+                  <h3 className="text-base font-semibold text-gray-900">Knowledge Reasoning</h3>
                 </div>
               </div>
               <div className="p-5 lg:flex-1 lg:min-h-0 lg:overflow-y-auto custom-scrollbar">
@@ -506,7 +506,7 @@ export default function Home() {
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 h-[60vh] lg:h-full overflow-hidden flex flex-col">
               <div className="px-5 py-4 border-b border-gray-200/50 bg-gradient-to-r from-slate-50 to-gray-50">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900">Reasoning Graph</h2>
+                  <h2 className="text-xl font-semibold text-gray-900">Knowledge Graph Visualization of LLM Responses</h2>
                   <div className="flex items-center space-x-4 text-sm text-gray-600">
                     <span>Visible Nodes: {showFullView ? graphData.nodes.length : calculateVisibleNodes()}</span>
                     <span className="text-gray-400">|</span>
@@ -556,7 +556,7 @@ export default function Home() {
                   <div className="h-8 w-8 bg-purple-500 rounded-lg flex items-center justify-center">
                     <MessageSquare className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900">Guide Assistant</h3>
+                  <h3 className="text-base font-semibold text-gray-900">Guide Assistant</h3>
                 </div>
               </div>
               <div className="flex-1 min-h-0">
