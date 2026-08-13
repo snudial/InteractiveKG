@@ -27,8 +27,9 @@ Large Language Models (LLMs) are increasingly used to support complex reasoning 
 
 ### 3. Hierarchical Abstraction
 - Scalable abstraction mechanisms for graph sensemaking
-- Community-based hierarchical abstraction using Leiden algorithm
-- Multiple abstraction levels for transitioning from detailed to global views
+- Community-based hierarchical abstraction using the Leiden algorithm, with
+  LLM-generated semantic names for each community
+- Four fixed abstraction levels for transitioning from detailed to global views
 - Community View and Detailed View for complementary exploration
 
 ### 4. Context-Aware Node Explanation
@@ -37,8 +38,12 @@ Large Language Models (LLMs) are increasingly used to support complex reasoning 
 - Integration with graph editing workflows for informed modifications
 
 ### 5. Dual Reasoning Modes
-- **Intelligent Solving Mode**: Dynamically constructs knowledge graphs from user queries
-- **Internal Retrieval Mode**: Generates responses based solely on existing knowledge graphs
+Both modes ground every LLM call in the current, user-inspected graph state; they differ
+only in their write policy:
+- **Intelligent Solving Mode**: uses the existing graph as context and may write newly
+  extracted entities and relations back to the shared graph state
+- **Internal Retrieval Mode**: read-only — generates responses based solely on the
+  existing knowledge graph, so every claim can be traced back to a user-inspected structure
 
 ## Installation and Setup
 

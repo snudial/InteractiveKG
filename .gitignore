@@ -39,3 +39,6 @@ Thumbs.db
 
 # External dependency: clone separately (see README)
 /knowledge-graph-of-thoughts/
+
+# Paper drafts/PDFs must never be committed
+*.pdf

@@ -70,7 +70,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
       case TestPhase.CASE1_IDENTIFY_ERRORS:
         return {
           title: 'Identifying Unexpected Nodes / Relationships',
-          description: 'When you don\'t understand why a node is in a certain position or how to interpret the information it represents, you can use the "node explaination" feature to get a better understanding.',
+          description: 'When you don\'t understand why a node is in a certain position or how to interpret the information it represents, you can use the "node explanation" feature to get a better understanding.',
           panelHint: ' Double click on a node to activate the explanation feature'
         };
       case TestPhase.CASE1_EDIT_CORRECT:
@@ -83,7 +83,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
         return {
           title: 'Re-query and Compare',
           description: 'Query with the corrected knowledge graph and compare results',
-          panelHint: 'Use the "Internal Retrieve" function to query with the updated graph'
+          panelHint: 'Use the "Internal Retrieval" mode to query with the updated graph'
         };
 
       
@@ -108,7 +108,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
       case TestPhase.CASE2_IDENTIFY_ERRORS:
         return {
           title: 'Identifying Unexpected Nodes / Relationships',
-          description: 'When you don\'t understand why a node is in a certain position or how to interpret the information it represents, you can use the "node explaination" feature to get a better understanding.',
+          description: 'When you don\'t understand why a node is in a certain position or how to interpret the information it represents, you can use the "node explanation" feature to get a better understanding.',
           panelHint: ' Double click on a node to activate the explanation feature'
         };
       case TestPhase.CASE2_EDIT_CORRECT:
@@ -121,7 +121,7 @@ const ChatbotPanel: React.FC<ChatbotPanelProps> = ({
         return {
           title: 'Re-query and Compare',
           description: 'Query with the corrected knowledge graph and compare results',
-          panelHint: 'Use the "Internal Retrieve" function to query with the updated graph'
+          panelHint: 'Use the "Internal Retrieval" mode to query with the updated graph'
         };
 
       default:

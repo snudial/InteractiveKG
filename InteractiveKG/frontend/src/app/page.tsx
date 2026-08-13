@@ -567,7 +567,7 @@ export default function Home() {
                   <div className="h-8 w-8 bg-purple-500 rounded-lg flex items-center justify-center">
                     <MessageSquare className="h-4 w-4 text-white" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900">AI Assistant</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">Guide Assistant</h3>
                 </div>
               </div>
               <div className="flex-1 min-h-0">

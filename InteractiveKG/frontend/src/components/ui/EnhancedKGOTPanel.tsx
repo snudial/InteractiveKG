@@ -301,7 +301,7 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
           </div>
           <p className="mt-4 text-xs text-gray-400 leading-relaxed">
             {activeTab === 'solve'
-              ? 'Intelligent Solving reasons about your problem and writes new knowledge into the graph.'
+              ? 'Intelligent Solving grounds the LLM in the current graph and may write newly extracted knowledge back into it.'
               : 'Internal Retrieval answers using only what is currently in the graph - edits you make change the answer.'}
           </p>
         </div>
