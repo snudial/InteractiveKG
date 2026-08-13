@@ -160,27 +160,27 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
   return (
     <div className={`${modalMode ? '' : ''}`}>
       {showTabSwitcher && (
-        <div className="flex space-x-1 mb-4">
+        <div className="grid grid-cols-2 gap-1 mb-4 bg-gray-100 rounded-lg p-1">
           <button
             onClick={() => handleTabChange('solve')}
-            className={`px-3 py-2 text-sm font-medium rounded-md ${
+            className={`flex items-center justify-center px-2 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-colors ${
               activeTab === 'solve'
-                ? 'bg-blue-50 text-blue-700'
+                ? 'bg-white text-blue-700 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <MessageCircle className="h-4 w-4 inline mr-1" />
+            <MessageCircle className="h-3.5 w-3.5 mr-1 flex-shrink-0" />
             Intelligent Solving
           </button>
           <button
             onClick={() => handleTabChange('retrieve')}
-            className={`px-3 py-2 text-sm font-medium rounded-md ${
+            className={`flex items-center justify-center px-2 py-1.5 text-xs font-medium rounded-md whitespace-nowrap transition-colors ${
               activeTab === 'retrieve'
-                ? 'bg-blue-50 text-blue-700'
+                ? 'bg-white text-blue-700 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            <Search className="h-4 w-4 inline mr-1" />
+            <Search className="h-3.5 w-3.5 mr-1 flex-shrink-0" />
             Internal Retrieval
           </button>
         </div>
@@ -271,7 +271,7 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
 
 
       {result && (
-        <div className="mt-6 space-y-4 max-h-64 always-show-scrollbar" style={{minHeight: '200px'}}>
+        <div className="mt-6 space-y-4 max-h-64 overflow-y-auto">
           <div className="border-t border-gray-200 pt-4">
             <h3 className="text-lg font-medium text-gray-900 mb-3">
               {activeTab === 'solve' ? 'Intelligent Solving Results' : '🔍 Knowledge Extraction Results'}
@@ -290,11 +290,11 @@ const EnhancedKGOTPanel: React.FC<EnhancedKGOTPanelProps> = ({
               <h4 className="text-sm font-medium text-gray-700 mb-2">
                 {result.success ? 'Analysis Results' : 'Information'}
               </h4>
-              <div className={`p-3 rounded-md border h-48 always-show-scrollbar ${
+              <div className={`p-3 rounded-md border max-h-48 overflow-y-auto ${
                 result.success
                   ? 'bg-yellow-50 border-yellow-200'
                   : 'bg-orange-50 border-orange-200'
-              }`} style={{minHeight: '192px'}}>
+              }`}>
                 <div className={`text-sm prose prose-sm max-w-none ${
                   result.success
                     ? 'prose-headings:text-yellow-900 prose-strong:text-yellow-900 prose-p:text-yellow-800 prose-li:text-yellow-800'
